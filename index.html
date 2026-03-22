@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jett Iverson</title>
+  <meta name="description" content="Jett Iverson — Marketer, husband, and AI strategist based in Utah. Performance marketing, SEO, GEO, and AI systems." />
+  <meta property="og:title" content="Jett Iverson" />
+  <meta property="og:description" content="Performance marketing, technical SEO, and AI systems. Based in Utah." />
+  <meta property="og:type" content="website" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="Jett%20Logo.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: '#141c14',
+            surface: '#141c14',
+            'surface-dim': '#1a1c19',
+            'surface-bright': '#373a36',
+            'surface-container-lowest': '#0f140f',
+            'surface-container-low': '#1b231b',
+            'surface-container': '#212621',
+            'surface-container-high': '#282b27',
+            'surface-container-highest': '#323631',
+            'surface-variant': '#434842',
+            primary: '#c9dbc3',
+            'primary-soft': '#b7cdb2',
+            'primary-fixed': '#dbead6',
+            'primary-container': '#314331',
+            secondary: '#d5cbb5',
+            'secondary-container': '#4d4839',
+            accent: '#90a68a',
+            outline: '#8d9289',
+            'outline-variant': '#434842',
+            'on-background': '#e7e9e4',
+            'on-surface': '#e7e9e4',
+            'on-surface-variant': '#c7ccc3',
+            'on-primary': '#172417',
+            'on-primary-container': '#dbead6',
+            'on-secondary': '#241f15',
+            'on-secondary-container': '#e7dfcc',
+          },
+          fontFamily: {
+            headline: ['Newsreader', 'serif'],
+            body: ['Manrope', 'sans-serif'],
+            label: ['Manrope', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 18px 50px rgba(0,0,0,0.22)',
+            premium: '0 30px 80px rgba(0,0,0,0.32)',
+          },
+          letterSpacing: {
+            luxe: '0.18em',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family: 'Manrope', sans-serif; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 24;
+    }
+    html { scroll-behavior: smooth; }
+
+    /* Grain texture overlay */
+    .grain::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.035) 0.6px, transparent 0.6px);
+      background-size: 10px 10px;
+      pointer-events: none;
+      opacity: 0.32;
+    }
+
+    /* Scroll fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary selection:text-on-primary">
+  <a href="#about" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:rounded-md focus:font-label focus:text-sm focus:uppercase focus:tracking-luxe">
+    Skip to content
+  </a>
+  <nav aria-label="Main" class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-2xl border-b border-white/5">
+    <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+      <!-- Logo + Name -->
+      <a href="#" class="flex items-center gap-3">
+        <img src="Logo%20wo%20Background.png" alt="Jett logo" class="h-12 w-auto" style="filter: invert(1) brightness(0.85);" />
+        <span class="font-headline italic text-xl text-primary tracking-tight">Jett Iverson</span>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-10">
+        <a href="#about"    class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">About</a>
+        <a href="#impact"   class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Impact</a>
+        <a href="#content"  class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Content</a>
+        <a href="#projects" class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Projects</a>
+        <a href="#contact"  class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Contact</a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="menu-btn" class="md:hidden material-symbols-outlined text-primary" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">menu</button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-menu" class="hidden px-8 pb-6 flex-col gap-4 bg-background/95 border-t border-white/5">
+      <a href="#about"    class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">About</a>
+      <a href="#impact"   class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Impact</a>
+      <a href="#content"  class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Content</a>
+      <a href="#projects" class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Projects</a>
+      <a href="#contact"  class="font-headline italic text-lg text-on-surface/60 hover:text-primary transition-colors">Contact</a>
+    </div>
+  </nav>
+
+  <main class="pt-24">
+    <!-- Hero -->
+    <section class="relative px-8 pt-10 pb-16 overflow-hidden min-h-[940px] flex items-center grain bg-background">
+      <!-- Background image -->
+      <div class="absolute inset-0 opacity-30">
+        <img src="IMG_1120.JPEG" alt="" aria-hidden="true"
+             class="w-full h-full object-cover" style="object-position: 30% center;" />
+        <div class="absolute inset-0 bg-gradient-to-b from-background/15 via-background/70 to-background"></div>
+      </div>
+
+      <div class="max-w-screen-2xl mx-auto grid grid-cols-12 gap-8 items-center relative z-10 w-full">
+        <!-- Left: copy -->
+        <div class="col-span-12 md:col-span-7 fade-in">
+          <h1 class="font-headline italic text-7xl md:text-[8.5rem] text-primary leading-[0.88] tracking-tight mb-3">
+            Hey, I'm<br />Jett.
+          </h1>
+          <span class="inline-block font-label text-sm uppercase tracking-luxe text-secondary mb-6">AKA Airplane</span>
+          <p class="text-on-surface-variant font-headline italic mb-8 leading-snug whitespace-nowrap" style="font-size: clamp(0.75rem, 3.5vw, 1.5rem);">
+            Marketer. Husband. Driven by curiosity.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#projects"
+               class="bg-primary text-on-primary px-8 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 flex items-center justify-center gap-3 shadow-soft hover:shadow-premium hover:scale-[1.03] active:scale-[0.97]">
+              View Projects
+              <span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+            </a>
+            <a href="#contact"
+               class="group border border-primary/40 text-primary px-8 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 text-center hover:bg-primary hover:text-on-primary hover:scale-[1.03] active:scale-[0.97] hover:border-primary">
+              Contact Me
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: portrait -->
+        <div class="col-span-12 md:col-span-5 relative mt-12 md:mt-0 fade-in" style="transition-delay: 0.15s;">
+          <div class="relative w-full aspect-[4/5] rounded-[1.25rem] overflow-hidden shadow-premium border border-white/10 bg-surface-container-high">
+            <img src="wedding.jpg.JPEG" alt="Jett Iverson on his wedding day"
+                 fetchpriority="high"
+                 class="w-full h-full object-cover object-top" />
+            <div class="absolute inset-0 bg-gradient-to-t from-background/25 to-transparent"></div>
+          </div>
+          <!-- Quote card -->
+          <div class="absolute -bottom-8 -left-4 md:-left-10 w-60 bg-secondary-container text-on-secondary-container p-6 rounded-[1rem] shadow-soft border border-white/5">
+            <p class="font-headline italic text-2xl mb-2">"Figure it out"</p>
+            <p class="font-label text-[10px] uppercase tracking-luxe text-on-secondary-container/60">Philosophy Statement</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Me -->
+    <section id="about" class="py-32 px-8 bg-surface-container-low">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-20 items-start">
+          <!-- Sticky label column -->
+          <div class="w-full md:w-1/3 md:sticky md:top-32 fade-in">
+            <h2 class="font-headline text-5xl italic text-primary mb-8">About Me</h2>
+            <p class="text-lg text-on-surface-variant mb-6 leading-relaxed">I build systems for work, but I measure life by time with family, rounds of golf, and getting out into the mountains.
+              
+            </p>
+            <div class="h-px w-20 bg-primary/30 mb-6"></div>
+            <p class="font-label text-xs uppercase tracking-luxe text-outline">Personal &amp; Professional Synopsis</p>
+          </div>
+
+          <!-- Content columns -->
+          <div class="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Left image + label -->
+            <div class="space-y-6 fade-in" style="transition-delay: 0.1s;">
+              <div class="aspect-[3/4] overflow-hidden rounded-[1.25rem] bg-surface-container-highest shadow-soft">
+                <img src="IMG_0304.JPEG" alt="Jett snowmobiling in the mountains"
+                     loading="lazy"
+                     class="w-full h-full object-cover object-center grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-700" />
+              </div>
+              <h3 class="font-headline italic text-3xl text-primary">Married my best friend</h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                In 2025 I married my best friend and everyday since has been amazing! She makes me better and incredibly happy.
+              </p>
+            </div>
+
+            <!-- Right image + label (offset) -->
+            <div class="space-y-6 md:mt-20 fade-in" style="transition-delay: 0.2s;">
+              <div class="aspect-[3/4] overflow-hidden rounded-[1.25rem] bg-surface-container-highest shadow-soft">
+                <img src="IMG_0085.JPG" alt="Jett with family in Utah mountains"
+                     loading="lazy"
+                     class="w-full h-full object-cover object-top grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-700" />
+              </div>
+              <h3 class="font-headline italic text-3xl text-primary">Family</h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                My family is a very important part of my life. I love them (especially my dog... and neices and nephews).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio copy -->
+        <div class="mt-24 max-w-3xl mx-auto space-y-6 text-lg text-on-surface-variant leading-relaxed fade-in" style="transition-delay: 0.3s;">
+          <p>
+            I grew up in Utah, and most of my favorite things still revolve around being outside — golf, fishing, and anything that gets me into the mountains. A lot of my time is spent with family, whether that's getting out on the course, finding a quiet place to fish, or just being around the people that matter most.
+          </p>
+          <p>
+            I also have a strong curiosity for how things work — especially when it comes to technology. Lately that's turned into a deep interest in AI and automations, and I spend a lot of time learning how to use them to make life simpler and more efficient.
+          </p>
+          <p>
+            In 2025 I married my best friend. She supports every random idea I come up with, keeps me grounded, and is easily the best part of my life.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  <!-- Professional Overview -->
+  <section id="impact" class="py-32 px-8 bg-background">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="mb-16 text-center fade-in">
+        <span class="font-label text-xs uppercase tracking-luxe text-outline">Career</span>
+        <h2 class="font-headline italic text-6xl text-primary mt-4 mb-10">Professional Overview</h2>
+        <div class="max-w-3xl mx-auto space-y-5 text-lg text-on-surface-variant leading-relaxed text-left">
+          <p>
+            At The Insurance Center of Utah, I led the development and execution of SEO and GEO strategies while overseeing the research, evaluation, and implementation of emerging AI tools to keep the organization at the forefront of marketing technology.
+          </p>
+          <p>
+            I focused on ensuring the brand appeared where it matters most — across both traditional search engines and AI-generated results — by aligning search optimization with generative engine optimization.
+          </p>
+          <p>
+            Every initiative was driven by data. I analyzed traffic trends, keyword performance, lead flow, and revenue impact to translate insights into measurable growth. This work supported brand awareness, lead generation, and the development of scalable marketing systems that improved overall efficiency and performance.
+          </p>
+        </div>
+
+        <!-- Education & Certifications -->
+        <div class="max-w-3xl mx-auto mt-14 grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+          <div class="bg-surface-container-high border border-white/5 rounded-[1.25rem] p-8 fade-in">
+            <span class="material-symbols-outlined text-primary text-3xl mb-4">school</span>
+            <p class="font-label text-[10px] uppercase tracking-luxe text-outline mb-2">Utah State University</p>
+            <h3 class="font-headline italic text-xl text-primary mb-1">B.S. Marketing</h3>
+            <p class="text-on-surface-variant text-sm mb-3">Jon M. Huntsman School of Business · Dec 2026</p>
+            <p class="text-on-surface-variant text-sm">GPA 3.74 · Academic Scholarship · ProSales Member · Proficiency in SQL, Marketing &amp; Finance</p>
+          </div>
+          <div class="bg-surface-container-high border border-white/5 rounded-[1.25rem] p-8 fade-in">
+            <span class="material-symbols-outlined text-primary text-3xl mb-4">verified</span>
+            <p class="font-label text-[10px] uppercase tracking-luxe text-outline mb-2">Certifications</p>
+            <h3 class="font-headline italic text-xl text-primary mb-4">Credentials</h3>
+            <ul class="space-y-2 text-on-surface-variant text-sm">
+              <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">check_circle</span>Google Ads Certified</li>
+              <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">check_circle</span>Meta Business Suite Certified</li>
+              <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">check_circle</span>Licensed Insurance Agent</li>
+              <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-primary">check_circle</span>Fluent in Portuguese</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <a href="Assets/resume.pdf" download class="border border-primary/40 text-primary px-8 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 inline-flex items-center gap-3 hover:bg-primary hover:text-on-primary hover:scale-[1.03] active:scale-[0.97] hover:border-primary">
+            Download Resume
+            <span class="material-symbols-outlined text-sm">download</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Capability cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+        <div class="group bg-surface-container-high p-12 rounded-[1.25rem] transition-all duration-500 hover:bg-surface-container-highest hover:-translate-y-2 border border-white/5 shadow-soft fade-in" style="transition-delay: 0.05s;">
+          <span class="material-symbols-outlined text-4xl text-primary mb-8">query_stats</span>
+          <h3 class="font-headline italic text-3xl mb-4 text-primary">SEO &amp; GEO Leadership</h3>
+          <p class="text-on-surface-variant mb-8 leading-relaxed">Search strategy designed for both traditional discovery and AI-mediated answer environments.</p>
+        </div>
+
+        <div class="group bg-primary-container text-on-primary-container p-12 rounded-[1.25rem] transition-all duration-500 hover:-translate-y-2 border border-white/5 shadow-soft fade-in" style="transition-delay: 0.1s;">
+          <span class="material-symbols-outlined text-4xl text-primary mb-8" style="font-variation-settings:'FILL' 1">cognition</span>
+          <h3 class="font-headline italic text-3xl mb-4">AI Tool Integration</h3>
+          <p class="text-on-primary-container/80 mb-8 leading-relaxed">Custom systems for research, technical audits, reporting, and content workflows that actually save time.</p>
+        </div>
+
+        <div class="group bg-secondary-container text-on-secondary-container p-12 rounded-[1.25rem] transition-all duration-500 hover:-translate-y-2 border border-white/5 shadow-soft fade-in" style="transition-delay: 0.15s;">
+          <span class="material-symbols-outlined text-4xl text-secondary mb-8">ads_click</span>
+          <h3 class="font-headline italic text-3xl mb-4">Performance Marketing</h3>
+          <p class="text-on-secondary-container/80 mb-8 leading-relaxed">Measurement-first campaigns and funnel systems built to improve efficiency, conversion, and revenue quality.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-28 px-8 bg-surface-container-low">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 fade-in">
+        <div>
+          <span class="font-label text-xs uppercase tracking-luxe text-outline">Selected Work</span>
+          <h2 class="font-headline italic text-5xl text-primary mt-3">Projects</h2>
+        </div>
+        <p class="text-on-surface-variant max-w-xl leading-relaxed">
+          Systems, experiments, and execution-heavy builds.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <!-- Project 1 -->
+        <article class="group bg-surface-container-high rounded-[1.5rem] overflow-hidden border border-white/5 shadow-soft hover:-translate-y-1 transition-all duration-300 fade-in" style="transition-delay: 0.05s;">
+          <div class="h-72 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+                 alt="Insurance analytics dashboard"
+                 class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-background/55 via-transparent to-transparent"></div>
+            <div class="absolute top-5 right-5 flex gap-2">
+              <span class="bg-background/80 backdrop-blur-md text-white px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-[0.14em]">React</span>
+              <span class="bg-background/80 backdrop-blur-md text-white px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-[0.14em]">Python</span>
+            </div>
+          </div>
+          <div class="p-8 md:p-10">
+            <p class="font-label text-[11px] uppercase tracking-luxe text-primary/70 mb-4">System Design · Analytics</p>
+            <h3 class="font-headline italic text-3xl text-primary mb-4">Insurance Center Analytics Dashboard</h3>
+            <p class="text-on-surface-variant mb-8 leading-relaxed">
+              Set up a custom dashboard that surfaces what's actually driving results so marketing decisions come from real numbers instead of gut feelings.
+            </p>
+            <a href="https://github.com/AirplaneMode2955/tic-marketing-dashboard" target="_blank" rel="noopener noreferrer" class="text-primary font-label text-sm uppercase tracking-[0.16em] flex items-center gap-2 hover:gap-4 transition-all">
+              View on GitHub <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="group bg-secondary-container rounded-[1.5rem] overflow-hidden border border-white/5 shadow-soft hover:-translate-y-1 transition-all duration-300 text-on-secondary-container fade-in" style="transition-delay: 0.1s;">
+          <div class="h-72 relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80"
+                 alt="AI thumbnail generation interface"
+                 class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#2e2a20]/45 via-transparent to-transparent"></div>
+            <div class="absolute top-5 right-5 flex gap-2">
+              <span class="bg-[#2a2418]/80 backdrop-blur-md text-white px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-[0.14em]">OpenAI API</span>
+            </div>
+          </div>
+          <div class="p-8 md:p-10">
+            <p class="font-label text-[11px] uppercase tracking-luxe text-on-secondary-container/60 mb-4">Creative Automation</p>
+            <h3 class="font-headline italic text-3xl mb-4">YouTube Thumbnail Generator</h3>
+            <p class="text-on-secondary-container/80 mb-8 leading-relaxed">
+              AI-powered scripts that generate YouTube thumbnails automatically — built to remove the bottleneck of manually designing one for every video.
+            </p>
+            <a href="https://github.com/AirplaneMode2955/youtube-thumbnail-generator" target="_blank" rel="noopener noreferrer" class="text-secondary font-label text-sm uppercase tracking-[0.16em] flex items-center gap-2 hover:gap-4 transition-all">
+              View on GitHub <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="flex justify-center fade-in">
+        <a href="https://github.com/AirplaneMode2955" target="_blank" rel="noopener noreferrer"
+           class="px-8 py-3 border border-primary/40 text-primary rounded-lg transition-all duration-200 uppercase text-sm font-bold tracking-[0.16em] inline-flex items-center gap-3 hover:bg-primary hover:text-on-primary hover:scale-[1.03] active:scale-[0.97] hover:border-primary">
+          Other Projects
+          <span class="material-symbols-outlined text-sm">open_in_new</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section id="content" class="py-28 px-8 bg-surface-container-lowest">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="mb-16 fade-in">
+        <span class="font-label text-xs uppercase tracking-luxe text-outline">Writing</span>
+        <h2 class="font-headline italic text-5xl text-primary mt-3">Content</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1: live article -->
+        <article class="group bg-surface-container-high rounded-[1.5rem] p-8 border border-white/5 shadow-soft hover:-translate-y-1 transition-all duration-300 flex flex-col fade-in" style="transition-delay: 0.05s;">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="font-label text-[10px] uppercase tracking-luxe text-primary/70 bg-primary-container px-3 py-1 rounded-full">LinkedIn Pulse</span>
+            <span class="font-label text-[10px] uppercase tracking-luxe text-outline">4 min read</span>
+          </div>
+          <h3 class="font-headline italic text-2xl text-primary mb-4 leading-snug">
+            AI Isn't Replacing Insurance Brokers, It's Making the Best Ones Better
+          </h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-1">
+            How integrating AI into the workflow enhances broker efficiency — spending less time on admin and more time providing meaningful guidance on coverage gaps and risk.
+          </p>
+          <a href="https://www.linkedin.com/pulse/ai-isnt-replacing-insurance-brokers-its-making-best-lmkhc/"
+             target="_blank" rel="noopener noreferrer"
+             class="text-primary font-label text-sm uppercase tracking-[0.16em] flex items-center gap-2 hover:gap-4 transition-all mt-auto">
+            Read on LinkedIn <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </article>
+
+        <!-- Card 2: placeholder -->
+        <article class="group bg-surface-container-high rounded-[1.5rem] p-8 border border-white/5 shadow-soft hover:-translate-y-1 transition-all duration-300 flex flex-col fade-in" style="transition-delay: 0.1s;">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="font-label text-[10px] uppercase tracking-luxe text-outline/50 bg-surface-container-highest px-3 py-1 rounded-full">Coming Soon</span>
+          </div>
+          <h3 class="font-headline italic text-2xl text-primary mb-4 leading-snug">
+            The New Rules of Visibility in an AI-First World
+          </h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-1">
+            Coming soon.
+          </p>
+          <span class="text-outline font-label text-sm uppercase tracking-[0.16em] flex items-center gap-2 mt-auto cursor-default">
+            Coming Soon <span class="material-symbols-outlined text-sm">schedule</span>
+          </span>
+        </article>
+
+        <!-- Card 3: placeholder -->
+        <article class="group bg-surface-container-high rounded-[1.5rem] p-8 border border-white/5 shadow-soft hover:-translate-y-1 transition-all duration-300 flex flex-col fade-in" style="transition-delay: 0.15s;">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="font-label text-[10px] uppercase tracking-luxe text-outline/50 bg-surface-container-highest px-3 py-1 rounded-full">Coming Soon</span>
+          </div>
+          <h3 class="font-headline italic text-2xl text-primary mb-4 leading-snug">
+            If you are not Optimizing with AI - You Are Behind
+          </h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-1">
+            Coming soon.
+          </p>
+          <span class="text-outline font-label text-sm uppercase tracking-[0.16em] flex items-center gap-2 mt-auto cursor-default">
+            Coming Soon <span class="material-symbols-outlined text-sm">schedule</span>
+          </span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Life in Balance -->
+  <section id="life" class="py-32 px-8 bg-background">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="mb-6 fade-in">
+        <h2 class="font-headline italic text-6xl text-primary text-right">A Life in Balance</h2>
+        <p class="text-on-surface-variant text-right mt-3 text-lg">The small things that spark the big ideas.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-12">
+        <div class="aspect-square overflow-hidden rounded-[1.25rem] shadow-soft fade-in" style="transition-delay: 0.05s;">
+          <img src="Assets/IMG_9184.JPEG"
+               alt="Jett and his wife at sunset"
+               loading="lazy"
+               class="w-full h-full object-cover object-top opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700" />
+        </div>
+        <div class="aspect-square overflow-hidden rounded-[1.25rem] shadow-soft fade-in" style="transition-delay: 0.1s;">
+          <img src="Assets/123_1%203.JPEG"
+               alt="Double rainbow over a mountain lake"
+               loading="lazy"
+               class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700" />
+        </div>
+        <div class="aspect-square overflow-hidden rounded-[1.25rem] shadow-soft fade-in" style="transition-delay: 0.15s;">
+          <img src="Assets/IMG_3561.JPEG"
+               alt="Jett on the golf course in Hawaii"
+               loading="lazy"
+               class="w-full h-full object-cover object-top opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700" />
+        </div>
+        <div class="aspect-square overflow-hidden rounded-[1.25rem] shadow-soft fade-in" style="transition-delay: 0.2s;">
+          <img src="Assets/Mountain%202.0.JPEG"
+               alt="Snow-capped mountain peak at dusk"
+               loading="lazy"
+               class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700" />
+        </div>
+        <div class="aspect-square overflow-hidden rounded-[1.25rem] shadow-soft fade-in" style="transition-delay: 0.25s;">
+          <img src="Assets/IMG_4027.JPEG"
+               alt="Fly fishing on a mountain river"
+               loading="lazy"
+               class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700" />
+        </div>
+        <div class="aspect-square overflow-hidden rounded-[1.25rem] shadow-soft fade-in" style="transition-delay: 0.3s;">
+          <img src="Assets/IMG_0638.JPEG"
+               alt="Standing creekside in the mountains"
+               loading="lazy"
+               class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-700" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-28 px-8 bg-surface-container-low rounded-t-[2.25rem] border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      <!-- CTA block -->
+      <div class="text-center mb-16 fade-in">
+        <span class="font-label text-xs uppercase tracking-luxe text-outline">Correspondence</span>
+        <h2 class="font-headline italic text-5xl text-primary mt-3 mb-4">Let's build something<br />worth talking about.</h2>
+        <p class="text-on-surface-variant max-w-2xl mx-auto leading-relaxed mb-8">
+          Always open to ambitious projects that blend technical precision with creative strategy.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="mailto:jett@insurancecenterut.com"
+             class="bg-primary text-on-primary px-8 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 flex items-center justify-center gap-3 shadow-soft hover:shadow-premium hover:scale-[1.03] active:scale-[0.97]">
+            Email Me
+            <span class="material-symbols-outlined text-sm">mail</span>
+          </a>
+          <a href="Assets/resume.pdf" download
+             class="border border-primary/40 text-primary px-8 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 inline-flex items-center justify-center gap-3 hover:bg-primary hover:text-on-primary hover:scale-[1.03] active:scale-[0.97] hover:border-primary">
+            Download Resume
+            <span class="material-symbols-outlined text-sm">download</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="https://www.linkedin.com/in/jettiverson" target="_blank" rel="noopener noreferrer"
+           class="bg-primary-container p-8 rounded-[1.25rem] hover:-translate-y-1 transition-transform block shadow-soft border border-white/5 fade-in" style="transition-delay: 0.05s;">
+          <span class="material-symbols-outlined text-primary text-4xl mb-4">account_circle</span>
+          <h3 class="text-on-primary-container font-bold mb-1">LinkedIn</h3>
+          <p class="text-on-primary-container/60 text-sm">linkedin.com/in/jettiverson</p>
+        </a>
+
+        <a href="mailto:jett@insurancecenterut.com"
+           class="bg-surface-container-high p-8 rounded-[1.25rem] hover:-translate-y-1 transition-transform block shadow-soft border border-white/5 fade-in" style="transition-delay: 0.1s;">
+          <span class="material-symbols-outlined text-primary text-4xl mb-4">mail</span>
+          <h3 class="text-on-surface font-bold mb-1">Email</h3>
+          <p class="text-on-surface/60 text-sm">jett@insurancecenterut.com</p>
+        </a>
+
+        <a href="https://www.instagram.com/jett_iverson/" target="_blank" rel="noopener noreferrer"
+           class="bg-secondary-container p-8 rounded-[1.25rem] hover:-translate-y-1 transition-transform block shadow-soft border border-white/5 fade-in" style="transition-delay: 0.15s;">
+          <svg class="w-10 h-10 mb-4 text-secondary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          <h3 class="text-on-secondary-container font-bold mb-1">Instagram</h3>
+          <p class="text-on-secondary-container/60 text-sm">@jett_iverson</p>
+        </a>
+
+        <a href="https://github.com/AirplaneMode2955" target="_blank" rel="noopener noreferrer"
+           class="bg-surface-container-highest p-8 rounded-[1.25rem] hover:-translate-y-1 transition-transform block shadow-soft border border-white/5 fade-in" style="transition-delay: 0.2s;">
+          <span class="material-symbols-outlined text-primary text-4xl mb-4">code</span>
+          <h3 class="text-on-surface font-bold mb-1">GitHub</h3>
+          <p class="text-on-surface/60 text-sm">AirplaneMode2955</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-surface-container-lowest border-t border-white/5">
+  <div class="max-w-screen-2xl mx-auto px-12 py-16 flex flex-col md:flex-row justify-between items-center gap-8">
+    <a href="#" class="flex items-center gap-3">
+      <img src="Logo%20wo%20Background.png" alt="Jett logo" class="h-7 w-auto" style="filter: invert(1) brightness(0.85);" />
+      <span class="font-headline italic text-xl text-primary">Jett Iverson</span>
+    </a>
+    <div class="flex gap-8 flex-wrap justify-center">
+      <a href="#about"    class="font-label text-sm uppercase tracking-[0.16em] text-on-surface/50 hover:text-primary transition-all">About</a>
+      <a href="#impact"   class="font-label text-sm uppercase tracking-[0.16em] text-on-surface/50 hover:text-primary transition-all">Impact</a>
+      <a href="#content"  class="font-label text-sm uppercase tracking-[0.16em] text-on-surface/50 hover:text-primary transition-all">Content</a>
+      <a href="#projects" class="font-label text-sm uppercase tracking-[0.16em] text-on-surface/50 hover:text-primary transition-all">Projects</a>
+      <a href="#contact"  class="font-label text-sm uppercase tracking-[0.16em] text-on-surface/50 hover:text-primary transition-all">Contact</a>
+    </div>
+    <div class="font-label text-sm uppercase tracking-[0.16em] text-on-surface/40 text-center md:text-right">
+      © 2026 Jett Iverson. Built with curiosity and a lot of trial and error.
+    </div>
+  </div>
+</footer>
+
+  <script>
+    // Scroll fade-in — fires once per element
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+    // NOTE: This querySelectorAll is static — runs once at load time.
+    // All .fade-in elements must exist in the DOM before this script tag executes.
+
+    // Active nav highlight on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    function setActiveNav(id) {
+      navLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${id}`;
+        link.classList.toggle('text-primary', isActive);
+        link.classList.toggle('border-b', isActive);
+        link.classList.toggle('border-primary/80', isActive);
+        link.classList.toggle('pb-1', isActive);
+        link.classList.toggle('text-on-surface/60', !isActive);
+      });
+    }
+
+    // rootMargin fires when section crosses the middle band of the viewport
+    const navObserver = new IntersectionObserver((entries) => {
+      entries
+        .filter(e => e.isIntersecting)
+        .forEach(e => setActiveNav(e.target.id));
+    }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+
+    sections.forEach(s => navObserver.observe(s));
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('flex', !isHidden);
+      menuBtn.setAttribute('aria-expanded', String(!isHidden));
+      menuBtn.setAttribute('aria-label', isHidden ? 'Open navigation menu' : 'Close navigation menu');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.setAttribute('aria-label', 'Open navigation menu');
+      }
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.setAttribute('aria-label', 'Open navigation menu');
+      });
+    });
+  </script>
+</body>
+</html>
