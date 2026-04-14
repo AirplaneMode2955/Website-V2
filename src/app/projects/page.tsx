@@ -17,10 +17,23 @@ type Project = {
   image: string;
   imageAlt: string;
   github?: string;
+  link?: string;
   status: 'live' | 'in-progress' | 'completed';
 };
 
 const projects: Project[] = [
+  {
+    title: 'The Insurance Center: Company Website',
+    description:
+      'Led the full design, build, and ongoing management of theinsurancecenter.com, the agency\'s primary digital presence and lead generation engine.',
+    longDescription:
+      'Took the website from concept to launch and have managed it since, handling everything from information architecture and design direction to SEO optimization and content strategy. The site serves as the agency\'s storefront, referral hub, and a key driver of inbound leads. Includes individual agent pages, a full blog, and structured data for local search.',
+    tags: ['Web Design', 'SEO', 'CMS', 'Content Strategy'],
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+    imageAlt: 'Website design on a laptop screen',
+    link: 'https://www.theinsurancecenter.com',
+    status: 'live',
+  },
   {
     title: 'Insurance Center Analytics Dashboard',
     description:
@@ -173,17 +186,30 @@ export default function ProjectsPage() {
                       </p>
                     </div>
 
-                    {project.github && (
-                      <div className="mt-6">
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
-                        >
-                          View on GitHub
-                          <span className="material-symbols-outlined text-sm">open_in_new</span>
-                        </a>
+                    {(project.link || project.github) && (
+                      <div className="mt-6 flex flex-wrap gap-3">
+                        {project.link && (
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
+                          >
+                            Visit Site
+                            <span className="material-symbols-outlined text-sm">open_in_new</span>
+                          </a>
+                        )}
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
+                          >
+                            View on GitHub
+                            <span className="material-symbols-outlined text-sm">open_in_new</span>
+                          </a>
+                        )}
                       </div>
                     )}
                   </div>
