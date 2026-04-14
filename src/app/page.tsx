@@ -62,7 +62,7 @@ export default function Home() {
               <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
                 Studying Marketing at Utah State University&apos;s Huntsman School of Business —
                 graduating December 2026 with a 3.74 GPA while working full time. Head of
-                Marketing at The Insurance Center of Utah, where I lead SEO, GEO, and AI
+                Marketing at The Insurance Center, where I lead SEO, GEO, and AI
                 innovation across the company&apos;s entire marketing operation.
               </p>
               <Link
