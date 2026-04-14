@@ -89,7 +89,7 @@ export default function Home() {
       <section className="py-20 px-8 bg-background border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto">
           <FadeIn>
-            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-8 block">
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
               Background
             </span>
           </FadeIn>
@@ -98,7 +98,7 @@ export default function Home() {
             {/* Work */}
             <FadeIn delay={0.05}>
               <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
-                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block">work</span>
+                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block" aria-hidden="true">work</span>
                 <p className="font-label text-xs uppercase tracking-luxe text-outline mb-2">
                   The Insurance Center
                 </p>
@@ -115,7 +115,7 @@ export default function Home() {
                     '50%+ brand exposure growth',
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-on-surface-variant text-sm">
-                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0">task_alt</span>
+                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0" aria-hidden="true">task_alt</span>
                       {item}
                     </li>
                   ))}
@@ -126,7 +126,7 @@ export default function Home() {
             {/* Education */}
             <FadeIn delay={0.1}>
               <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
-                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block">school</span>
+                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block" aria-hidden="true">school</span>
                 <p className="font-label text-xs uppercase tracking-luxe text-outline mb-2">
                   Utah State University
                 </p>
@@ -144,7 +144,7 @@ export default function Home() {
                     'Meta Business Suite Certified',
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-on-surface-variant text-sm">
-                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0">task_alt</span>
+                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0" aria-hidden="true">task_alt</span>
                       {item}
                     </li>
                   ))}
@@ -161,10 +161,10 @@ export default function Home() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full border border-primary/40 text-primary px-6 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+                className="flex items-center justify-center gap-2 w-full border border-primary/40 text-primary px-6 py-4 rounded-md font-label uppercase tracking-luxe text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
               >
                 Download Resume
-                <span className="material-symbols-outlined text-sm">download</span>
+                <span className="material-symbols-outlined text-sm" aria-hidden="true">download</span>
               </a>
             </div>
           </FadeIn>
