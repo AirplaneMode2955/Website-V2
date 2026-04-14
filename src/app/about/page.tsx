@@ -369,7 +369,7 @@ export default function AboutPage() {
                 like and why it matters.
               </p>
               <p>
-                I came home in 2024 and started working at The Insurance Center of Utah — first as
+                I came home in 2024 and started working at The Insurance Center — first as
                 a receptionist, then as a licensed agent, and now as Head of Marketing. At the same
                 time, I enrolled at Utah State University to finish my bachelor&apos;s degree, which
                 I&apos;m on track to complete in December 2026.
