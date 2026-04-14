@@ -5,7 +5,7 @@ import TimelineLine from '@/components/TimelineLine';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'The story of Jett Iverson — from Plain City, Utah to marketing and AI strategy.',
+  description: 'The story of Jett Iverson. From Plain City, Utah to marketing and AI strategy.',
 };
 
 type TimelineEvent = {
@@ -30,7 +30,7 @@ const timelineEvents: TimelineEvent[] = [
     date: '2009 – 2019',
     title: 'Plain City Elementary & Wahlquist Junior High',
     description:
-      'Grew up in Plain City — a small, tight-knit community where most of life happened outside. School, sports, and figuring out how things worked. Junior high in North Ogden is where I started competing more seriously in golf and discovered I was competitive about ideas as much as athletics.',
+      'Grew up in Plain City, a small, tight-knit community where most of life happened outside. School, sports, and figuring out how things worked. Junior high in North Ogden is where I started competing more seriously in golf and discovered I was competitive about ideas as much as athletics.',
     category: 'education',
     image: '/Elementary Age Jett.JPEG',
   },
@@ -44,7 +44,7 @@ const timelineEvents: TimelineEvent[] = [
   },
   {
     date: 'Fall 2022',
-    title: 'LDS Mission — Brazil',
+    title: 'LDS Mission: Brazil',
     description:
       'Left on a two-year mission for The Church of Jesus Christ of Latter-day Saints. Two years completely immersed in Brazilian culture and language. Came back with a completely different perspective on hard work, discipline, and what really matters.',
     category: 'personal',
@@ -101,7 +101,7 @@ const timelineEvents: TimelineEvent[] = [
     date: 'December 2025',
     title: 'Head of Marketing',
     description:
-      "Promoted to Head of Marketing at The Insurance Center. Leading SEO, GEO, and AI integration strategy — building systems that make the brand show up wherever it matters most.",
+      "Promoted to Head of Marketing at The Insurance Center. Leading SEO, GEO, and AI integration strategy, building systems that make the brand show up wherever it matters most.",
     category: 'career',
     image: '/Head of Marketing.JPEG',
   },
@@ -242,7 +242,7 @@ export default function AboutPage() {
                       </div>
                     </div>
 
-                    {/* Desktop layout — alternating */}
+                    {/* Desktop layout: alternating */}
                     <div className="hidden md:grid md:grid-cols-2 md:gap-8 pb-7">
                       {isRight ? (
                         <>
@@ -353,34 +353,34 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <FadeIn className="md:col-span-2 space-y-6 text-on-surface-variant leading-relaxed text-lg">
               <p>
-                I grew up in Plain City, Utah — a small town just west of Ogden where most days
-                involved being outside. Golf, fishing, snowmobiling in the winter — if it was in
+                I grew up in Plain City, Utah, a small town just west of Ogden where most days
+                involved being outside. Golf, fishing, snowmobiling in the winter. If it was in
                 the mountains or near water, I was interested. That part hasn&apos;t changed.
               </p>
               <p>
                 I went to school at Plain City Elementary, then Wahlquist Junior High, then Fremont
                 High School where I graduated in 2022. High school was where I first realized I was
-                competitive about more than just sports — I was competitive about ideas too.
+                competitive about more than just sports. I was competitive about ideas too.
               </p>
               <p>
                 After graduating, I left on a two-year LDS mission to Brazil. It was a significant
-                chapter — completely immersed in a new culture, language, and way of seeing the
-                world. I came back with a different perspective on what hard work actually looks
+                chapter. Completely immersed in a new culture, language, and way of seeing the
+                world, I came back with a different perspective on what hard work actually looks
                 like and why it matters.
               </p>
               <p>
-                I came home in 2024 and started working at The Insurance Center — first as
+                I came home in 2024 and started working at The Insurance Center. First as
                 a receptionist, then as a licensed agent, and now as Head of Marketing. At the same
                 time, I enrolled at Utah State University to finish my bachelor&apos;s degree, which
                 I&apos;m on track to complete in December 2026.
               </p>
               <p>
                 In October 2024 I met my wife. We got engaged in April 2025 and were married August
-                12, 2025 in Taylorsville, Utah. She&apos;s the best part of my life — patient,
+                12, 2025 in Taylorsville, Utah. She&apos;s the best part of my life. Patient,
                 brilliant, and somehow okay with every random AI project I want to build at 11pm.
               </p>
               <p>
-                I&apos;m driven by curiosity — specifically by the gap between what&apos;s possible
+                I&apos;m driven by curiosity. Specifically by the gap between what&apos;s possible
                 and what most people think is possible. Right now, that curiosity is focused on AI,
                 marketing systems, and building things that make complicated work simple.
               </p>
@@ -395,8 +395,8 @@ export default function AboutPage() {
                   {[
                     { icon: 'location_on', text: 'Plain City, Utah' },
                     { icon: 'school', text: 'Utah State University' },
-                    { icon: 'work', text: 'Head of Marketing — TICU' },
-                    { icon: 'favorite', text: 'Married — August 2025' },
+                    { icon: 'work', text: 'Head of Marketing, TICU' },
+                    { icon: 'favorite', text: 'Married, August 2025' },
                     { icon: 'golf_course', text: 'Golf & fishing' },
                     { icon: 'smart_toy', text: 'AI & automation nerd' },
                   ].map(({ icon, text }) => (

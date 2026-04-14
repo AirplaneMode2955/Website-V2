@@ -5,7 +5,7 @@ import AnimatedSkills from '@/components/AnimatedSkills';
 export const metadata: Metadata = {
   title: 'Resume',
   description:
-    'Resume of Jett Iverson — Head of Marketing, Insurance Agent, and AI strategist based in Utah.',
+    'Resume of Jett Iverson. Head of Marketing, Insurance Agent, and AI strategist based in Utah.',
 };
 
 const experience = [
@@ -15,13 +15,13 @@ const experience = [
     location: 'Farr West, UT',
     period: 'Jun 2024 – Present',
     bullets: [
-      'Took ownership of the full marketing function — from strategy to execution — building the agency\'s digital presence from the ground up',
+      'Took ownership of the full marketing function, from strategy to execution, building the agency\'s digital presence from the ground up',
       'Grew brand exposure by over 50% through targeted social media campaigns and a disciplined content strategy',
       'Drove sales velocity to 16.8%, surpassing both the industry average (12.7%) and the top-quartile benchmark (15.8%)',
       'Maintained organic growth at 10.7%, in line with the industry median, while scaling new business velocity significantly above it',
       'Manages 100+ client accounts, ensuring prompt policy renewals and proactive coverage guidance',
       'Conducts ongoing market research to identify emerging trends and adjust the agency\'s offerings accordingly',
-      'Leading SEO, GEO, and AI integration strategy — building automation systems for content publishing, review generation, and analytics reporting',
+      'Leading SEO, GEO, and AI integration strategy. Building automation systems for content publishing, review generation, and analytics reporting',
     ],
   },
   {
@@ -31,7 +31,7 @@ const experience = [
     period: 'Feb 2018 – Present',
     bullets: [
       'Officiated competitive youth matches across Northern Utah, making high-stakes decisions in fast-paced, high-pressure environments',
-      'Mediated disputes between players, coaches, and officials — developing communication and conflict-resolution skills that translate directly to client and team relationships',
+      'Mediated disputes between players, coaches, and officials. Developing communication and conflict-resolution skills that translate directly to client and team relationships',
       'Coordinated with fellow officials and coaching staff to maintain fair, consistent gameplay across large tournaments',
     ],
   },
@@ -66,7 +66,7 @@ const education = [
 const credentials = [
   {
     name: 'Insurance License',
-    detail: 'Property & Casualty — State of Utah',
+    detail: 'Property & Casualty, State of Utah',
     period: 'Jul 2024',
   },
 ];
@@ -78,7 +78,7 @@ const serviceLeadership = [
     location: 'Logan, UT',
     period: 'Jan 2025 – Present',
     bullets: [
-      'Manages the account relationship with a corporate partner on behalf of the club — communicating updates and identifying annual recruitment needs',
+      'Manages the account relationship with a corporate partner on behalf of the club. Communicating updates and identifying annual recruitment needs',
       'Builds and maintains long-term professional relationships that bridge the university and the business community',
     ],
   },
@@ -88,9 +88,9 @@ const serviceLeadership = [
     location: 'Porto Alegre, Brazil',
     period: 'Jul 2022 – Jun 2024',
     bullets: [
-      'Led a team of 10–20 volunteers — coaching performance, setting goals, and developing the people around me as much as the mission itself',
+      'Led a team of 10–20 volunteers. Coaching performance, setting goals, and developing the people around me as much as the mission itself',
       'Developed and executed outreach strategies that measurably expanded community reach across the Porto Alegre mission area',
-      'Delivered presentations and training sessions in Portuguese to large groups — now fluent in the language',
+      'Delivered presentations and training sessions in Portuguese to large groups. Now fluent in the language',
     ],
   },
 ];
@@ -172,7 +172,7 @@ export default function ResumePage() {
                       </span>
                     </div>
                     <p className="text-on-surface-variant text-sm mb-3">
-                      {role.company} &mdash; {role.location}
+                      {role.company}, {role.location}
                     </p>
                     <ul className="space-y-1.5">
                       {role.bullets.map((b) => (
@@ -214,7 +214,7 @@ export default function ResumePage() {
                       </span>
                     </div>
                     <p className="text-on-surface-variant text-sm mt-1">
-                      {edu.degree} &mdash; {edu.location}
+                      {edu.degree}, {edu.location}
                     </p>
                     {edu.bullets.length > 0 && (
                       <ul className="mt-3 space-y-1.5">
@@ -263,7 +263,7 @@ export default function ResumePage() {
                       </span>
                     </div>
                     <p className="text-on-surface-variant text-sm mb-3">
-                      {item.org} &mdash; {item.location}
+                      {item.org}, {item.location}
                     </p>
                     <ul className="space-y-1.5">
                       {item.bullets.map((b) => (
