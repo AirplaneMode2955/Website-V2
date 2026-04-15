@@ -353,36 +353,22 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <FadeIn className="md:col-span-2 space-y-6 text-on-surface-variant leading-relaxed text-lg">
               <p>
-                I grew up in Plain City, Utah, a small town just west of Ogden where most days
-                involved being outside. Golf, fishing, snowmobiling in the winter. If it was in
-                the mountains or near water, I was interested. That part hasn&apos;t changed.
+                I grew up in Plain City, Utah. Small town, mountains out the back door, and not
+                much traffic in either sense of the word. Golf, fishing, snowmobiling. If it was
+                outside, I was there. That part hasn&apos;t changed.
               </p>
               <p>
-                I went to school at Plain City Elementary, then Wahlquist Junior High, then Fremont
-                High School where I graduated in 2022. High school was where I first realized I was
-                competitive about more than just sports. I was competitive about ideas too.
+                After high school I spent two years in Brazil on an LDS mission. It reset my
+                baseline for hard work and gave me a different lens on how people think,
+                communicate, and make decisions. I came back with fluent Portuguese and a clearer
+                sense of what I actually want to build.
               </p>
               <p>
-                After graduating, I left on a two-year LDS mission to Brazil. It was a significant
-                chapter. Completely immersed in a new culture, language, and way of seeing the
-                world, I came back with a different perspective on what hard work actually looks
-                like and why it matters.
-              </p>
-              <p>
-                I came home in 2024 and started working at The Insurance Center. First as
-                a receptionist, then as a licensed agent, and now as Head of Marketing. At the same
-                time, I enrolled at Utah State University to finish my bachelor&apos;s degree, which
-                I&apos;m on track to complete in December 2026.
-              </p>
-              <p>
-                In October 2024 I met my wife. We got engaged in April 2025 and were married August
-                12, 2025 in Taylorsville, Utah. She&apos;s the best part of my life. Patient,
-                brilliant, and somehow okay with every random AI project I want to build at 11pm.
-              </p>
-              <p>
-                I&apos;m driven by curiosity. Specifically by the gap between what&apos;s possible
-                and what most people think is possible. Right now, that curiosity is focused on AI,
-                marketing systems, and building things that make complicated work simple.
+                Now I&apos;m balancing a marketing degree at Utah State, running the full marketing
+                operation at The Insurance Center, and building AI systems that make repetitive work
+                disappear. I married my best friend in August 2025. I&apos;m driven by the gap
+                between what&apos;s possible and what most people think is possible, and I&apos;m
+                not close to done figuring that out.
               </p>
             </FadeIn>
 
