@@ -39,7 +39,7 @@ const projects: Project[] = [
     description:
       'A custom dashboard that surfaces what\'s actually driving results. Marketing decisions come from real numbers instead of gut feelings.',
     longDescription:
-      'Built to solve a real problem: marketing decisions at The Insurance Center were being made without reliable data. This dashboard aggregates SEO performance, lead flow, keyword rankings, and revenue attribution into one place. The goal was to make it easy to answer "what\'s working?" in under 60 seconds. Built with React on the frontend and Python for data pipelines and API integrations.',
+      'Aggregates SEO performance, lead flow, keyword rankings, and revenue attribution into one place. The goal was to make it easy to answer "what\'s working?" in under 60 seconds. Built with React on the frontend and Python for data pipelines and API integrations.',
     tags: ['React', 'Python', 'Data Visualization', 'SEO Analytics'],
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
     imageAlt: 'Analytics dashboard showing charts and KPIs',
@@ -50,7 +50,7 @@ const projects: Project[] = [
     description:
       'AI-powered scripts that generate YouTube thumbnails automatically. Built to remove the bottleneck of manually designing one for every video.',
     longDescription:
-      'Thumbnail design was a consistent bottleneck in video production. This tool takes a video title and key topics as input, then uses the OpenAI API to generate thumbnail concepts and images automatically. It removes a task that previously took 30–60 minutes down to under 2 minutes, without sacrificing quality. The output can be dropped directly into Canva for any final touches.',
+      'Takes a video title and key topics as input, then uses the OpenAI API to generate thumbnail concepts and images automatically. Cuts a task that previously took 30–60 minutes down to under 2 minutes without sacrificing quality. The output drops directly into Canva for any final touches.',
     tags: ['OpenAI API', 'Python', 'Automation'],
     image: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80',
     imageAlt: 'AI generation interface with prompts and image output',
@@ -61,7 +61,7 @@ const projects: Project[] = [
     description:
       'An automated tool that formats, optimizes, and cross-publishes blog content from a single source. Removing the manual work of posting to multiple platforms.',
     longDescription:
-      'Writing a blog post is one thing. Formatting it for WordPress, optimizing the meta data, creating social snippets, and posting across platforms is another. This tool takes a raw draft, runs it through an AI pipeline for SEO optimization and formatting, then publishes it to the configured destinations automatically. One input, multiple outputs. Built to remove friction from content publishing entirely.',
+      'Writing a blog post is one thing. Formatting it for WordPress, optimizing the meta data, creating social snippets, and posting across platforms is another. This tool takes a raw draft, runs it through an AI pipeline for SEO optimization and formatting, then publishes it to the configured destinations automatically.',
     tags: ['Python', 'OpenAI API', 'Automation', 'CMS Integration'],
     image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80',
     imageAlt: 'Laptop with content writing interface open',
