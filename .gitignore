@@ -1,2 +1,27 @@
+# Next.js
+.next/
+out/
+node_modules/
+npm-debug.log*
+
+# Build
+dist/
+
+# Env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# System
+.DS_Store
+Thumbs.db
+
+# Claude / docs
 .claude/
 docs/superpowers/
+.superpowers/
+
+# Build artifacts
+tsconfig.tsbuildinfo
