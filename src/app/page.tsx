@@ -431,18 +431,18 @@ export default function Home() {
           </FadeIn>
           <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
             {[
+              { src: '/IMG_6716.JPEG', alt: 'Jett and his wife at Lake Como, Italy' },
               { src: '/Wedding.JPEG', alt: 'Wedding day' },
+              { src: '/IMG_7344.JPEG', alt: 'Jett and his wife at an Argentina soccer match' },
               { src: '/Fishing Wind Rivers.JPEG', alt: 'Fishing in the Wind Rivers' },
+              { src: '/IMG_0208.JPEG', alt: 'Cooking class in Rome' },
               { src: '/Golf.JPEG', alt: 'On the golf course' },
               { src: '/Mountain 2.0.JPEG', alt: 'Mountain adventure' },
-              { src: '/Fishing w leo.JPEG', alt: 'Fishing with Leo' },
               { src: '/Snow Time with Wife.JPEG', alt: 'Snow day with wife' },
               { src: '/Double Rainbow.JPEG', alt: 'Double rainbow' },
-              { src: '/High School Golf.JPEG', alt: 'High school golf' },
-              { src: '/Baby Jett.JPEG', alt: 'Baby Jett' },
-              { src: '/Mission.JPEG', alt: 'Mission' },
+              { src: '/Mission.JPEG', alt: 'LDS Mission in Brazil' },
               { src: '/Fishing sitting down.jpeg', alt: 'Fishing' },
-              { src: '/Elementary Age Jett.JPEG', alt: 'Elementary school days' },
+              { src: '/Baby Jett.JPEG', alt: 'Baby Jett' },
             ].map((photo) => (
               <FadeIn key={photo.src} className="break-inside-avoid">
                 <div className="relative overflow-hidden rounded-[0.75rem]">

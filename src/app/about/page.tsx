@@ -139,18 +139,18 @@ const categoryStyles = {
 };
 
 const lifePhotos = [
-  { src: '/Mountain 2.0.JPEG', alt: 'Utah mountain landscape' },
-  { src: '/IMG_0304.JPEG', alt: 'Jett on a snowmobile in the Utah mountains' },
   { src: '/IMG_9655.JPEG', alt: 'Jett and his wife' },
-  { src: '/IMG_3561.JPEG', alt: 'Outdoors in Utah' },
-  { src: '/IMG_0085.JPG', alt: 'Family in the mountains' },
-  { src: '/IMG_0638.JPEG', alt: 'Utah outdoors' },
-  { src: '/IMG_0089.JPEG', alt: 'Skiing in the Utah mountains' },
+  { src: '/IMG_0304.JPEG', alt: 'Snowmobiling in the Utah mountains' },
+  { src: '/IMG_6716.JPEG', alt: 'Jett and his wife at Lake Como, Italy' },
   { src: '/IMG_4027.JPEG', alt: 'Fishing on the river' },
+  { src: '/IMG_0089.JPEG', alt: 'Skiing in the Utah mountains' },
+  { src: '/IMG_0208.JPEG', alt: 'Cooking class in Rome' },
   { src: '/123_1 3.JPEG', alt: 'Mountain lake with rainbow' },
-  { src: '/IMG_9226.JPEG', alt: 'Dinner out' },
+  { src: '/Fishing Wind Rivers.JPEG', alt: 'Fishing in the Wind Rivers' },
+  { src: '/IMG_7344.JPEG', alt: 'Argentina soccer match' },
   { src: '/IMG_0478.jpeg', alt: 'On a cliff overlook above the river' },
   { src: '/IMG_3219.jpeg', alt: 'Holding a fish at sunset' },
+  { src: '/High School Golf.JPEG', alt: 'High school golf' },
 ];
 
 export default function AboutPage() {
