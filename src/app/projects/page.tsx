@@ -136,6 +136,40 @@ export default function ProjectsPage() {
         </div>
       </section>
 
+      {/* ── Tools & Stack ── */}
+      <section className="py-16 px-8 bg-background border-b border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-8 block">
+              Tools &amp; Stack
+            </span>
+          </FadeIn>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { category: 'Languages', items: ['Python', 'TypeScript', 'SQL'] },
+              { category: 'Frameworks', items: ['React', 'Next.js'] },
+              { category: 'AI & APIs', items: ['OpenAI API', 'Google AI', 'Perplexity'] },
+              { category: 'Marketing', items: ['SEO', 'GEO', 'Google Ads', 'Meta Business Suite'] },
+            ].map(({ category, items }, i) => (
+              <FadeIn key={category} delay={i * 0.05}>
+                <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 h-full">
+                  <p className="font-label text-[10px] uppercase tracking-luxe text-outline mb-3">
+                    {category}
+                  </p>
+                  <ul className="space-y-2">
+                    {items.map((item) => (
+                      <li key={item} className="text-on-surface-variant text-sm">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Projects Grid ── */}
       <section className="py-24 px-8 bg-surface-container-low">
         <div className="max-w-screen-2xl mx-auto space-y-12">

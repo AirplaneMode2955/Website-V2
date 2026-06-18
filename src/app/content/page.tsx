@@ -102,6 +102,37 @@ export default function ContentPage() {
         </div>
       </section>
 
+      {/* ── Topics ── */}
+      <section className="py-16 px-8 bg-background border-b border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-6 block">
+              Topics
+            </span>
+            <div className="flex flex-wrap gap-3">
+              {[
+                'AI & Automation',
+                'SEO',
+                'GEO',
+                'AI-Mediated Search',
+                'Marketing Strategy',
+                'Insurance Industry',
+                'Workflow Design',
+                'Content Strategy',
+                'Local SEO',
+              ].map((topic) => (
+                <span
+                  key={topic}
+                  className="font-label text-xs uppercase tracking-luxe px-4 py-2 bg-surface-container-highest border border-white/[0.08] text-on-surface-variant rounded-full"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
       {/* ── Published Articles ── */}
       <section className="py-24 px-8 bg-surface-container-low">
         <div className="max-w-screen-2xl mx-auto">

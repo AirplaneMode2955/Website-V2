@@ -412,6 +412,55 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── What I'm Building ── */}
+      <section className="py-24 px-8 bg-background border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              Right now
+            </span>
+            <h2 className="font-headline italic text-5xl text-primary mb-12">
+              What I&apos;m Building
+            </h2>
+          </FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: 'search',
+                title: 'GEO Strategy',
+                description:
+                  'Building the systems and playbooks that help brands show up in AI-generated search results — where traditional SEO doesn\'t reach.',
+              },
+              {
+                icon: 'smart_toy',
+                title: 'AI Workflows',
+                description:
+                  'Automating the repetitive parts of marketing — content publishing, review generation, thumbnail creation — so the interesting work can happen faster.',
+              },
+              {
+                icon: 'school',
+                title: 'Marketing Degree',
+                description:
+                  'Finishing a B.S. in Marketing at Utah State\'s Huntsman School of Business. Graduating December 2026 with a 3.74 GPA.',
+              },
+            ].map(({ icon, title, description }, i) => (
+              <FadeIn key={title} delay={i * 0.08}>
+                <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
+                  <span
+                    className="material-symbols-outlined text-primary/60 text-2xl mb-4 block"
+                    aria-hidden="true"
+                  >
+                    {icon}
+                  </span>
+                  <h3 className="font-headline italic text-2xl text-primary mb-3">{title}</h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed">{description}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Life in Balance ── */}
       <section className="py-24 px-8 bg-surface-container-low border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto">
