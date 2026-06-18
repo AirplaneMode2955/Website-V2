@@ -151,6 +151,7 @@ const lifePhotos = [
   { src: '/IMG_0478.jpeg', alt: 'On a cliff overlook above the river' },
   { src: '/IMG_3219.jpeg', alt: 'Holding a fish at sunset' },
   { src: '/High School Golf.JPEG', alt: 'High school golf' },
+  { src: '/IMG_1642.JPEG', alt: 'Jett and his wife hanging out' },
 ];
 
 export default function AboutPage() {

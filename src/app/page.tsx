@@ -443,6 +443,9 @@ export default function Home() {
               { src: '/Mission.JPEG', alt: 'LDS Mission in Brazil' },
               { src: '/Fishing sitting down.jpeg', alt: 'Fishing' },
               { src: '/Baby Jett.JPEG', alt: 'Baby Jett' },
+              { src: '/IMG_0961.JPEG', alt: 'Jett and his wife in the mountains' },
+              { src: '/IMG_8221.jpeg', alt: 'Christmas lights date night' },
+              { src: '/IMG_9203.JPEG', alt: 'Jett and his wife at a wedding' },
             ].map((photo) => (
               <FadeIn key={photo.src} className="break-inside-avoid">
                 <div className="relative overflow-hidden rounded-[0.75rem]">
