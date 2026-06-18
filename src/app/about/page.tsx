@@ -152,6 +152,9 @@ const lifePhotos = [
   { src: '/IMG_3219.jpeg', alt: 'Holding a fish at sunset' },
   { src: '/High School Golf.JPEG', alt: 'High school golf' },
   { src: '/IMG_1642.JPEG', alt: 'Jett and his wife hanging out' },
+  { src: '/IMG_0490.JPEG', alt: 'Juggling a soccer ball in the Naples gallery' },
+  { src: '/IMG_7393.JPEG', alt: 'Couple selfie at the LDS temple' },
+  { src: '/IMG_7086.JPEG', alt: 'Wife with her plant display at home' },
 ];
 
 export default function AboutPage() {

@@ -446,6 +446,9 @@ export default function Home() {
               { src: '/IMG_0961.JPEG', alt: 'Jett and his wife in the mountains' },
               { src: '/IMG_8221.jpeg', alt: 'Christmas lights date night' },
               { src: '/IMG_9203.JPEG', alt: 'Jett and his wife at a wedding' },
+              { src: '/IMG_6857.JPEG', alt: 'Kissing in the rain at a lakeside heart sculpture' },
+              { src: '/IMG_0104.JPEG', alt: 'In Naples, Italy wearing Argentina jerseys' },
+              { src: '/Fishing w leo.JPEG', alt: 'Teaching a toddler to fish on the river' },
             ].map((photo) => (
               <FadeIn key={photo.src} className="break-inside-avoid">
                 <div className="relative overflow-hidden rounded-[0.75rem]">
