@@ -135,6 +135,55 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* ── What I'm Open To ── */}
+      <section className="py-20 px-8 bg-background border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              What I&apos;m open to
+            </span>
+            <h2 className="font-headline italic text-4xl text-primary mb-10">
+              The right conversations.
+            </h2>
+          </FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: 'smart_toy',
+                title: 'AI & Automation',
+                description:
+                  'Building workflows, agents, and systems that eliminate friction from marketing operations.',
+              },
+              {
+                icon: 'trending_up',
+                title: 'SEO & GEO Strategy',
+                description:
+                  'Helping brands show up in traditional and AI-mediated search. Strategy, content, and technical implementation.',
+              },
+              {
+                icon: 'handshake',
+                title: 'Consulting & Advising',
+                description:
+                  'Short-term engagements with founders or marketing teams who want a sharper approach to digital growth.',
+              },
+            ].map(({ icon, title, description }, i) => (
+              <FadeIn key={title} delay={i * 0.08}>
+                <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
+                  <span
+                    className="material-symbols-outlined text-primary/60 text-2xl mb-4 block"
+                    aria-hidden="true"
+                  >
+                    {icon}
+                  </span>
+                  <h3 className="font-headline italic text-2xl text-primary mb-3">{title}</h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed">{description}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Availability Note ── */}
       <section className="py-16 px-8 bg-background border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto text-center">
