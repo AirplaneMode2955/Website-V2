@@ -437,7 +437,7 @@ export default function AboutPage() {
                     src={photo.src}
                     alt={photo.alt}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="object-cover"
                   />
                 </div>
               </FadeIn>

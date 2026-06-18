@@ -46,37 +46,27 @@ const projects: Project[] = [
     status: 'live',
   },
   {
-    title: 'YouTube Thumbnail Generator',
+    title: 'SearchLight Digital',
     description:
-      'AI-powered scripts that generate YouTube thumbnails automatically. Built to remove the bottleneck of manually designing one for every video.',
+      'An SEO and GEO agency built for the new era of search — where AI answers are the new page one and most businesses have no idea they\'re invisible.',
     longDescription:
-      'Takes a video title and key topics as input, then uses the OpenAI API to generate thumbnail concepts and images automatically. Cuts a task that previously took 30–60 minutes down to under 2 minutes without sacrificing quality. The output drops directly into Canva for any final touches.',
-    tags: ['OpenAI API', 'Python', 'Automation'],
-    image: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80',
-    imageAlt: 'AI generation interface with prompts and image output',
-    status: 'completed',
-  },
-  {
-    title: 'Blog Poster',
-    description:
-      'An automated tool that formats, optimizes, and cross-publishes blog content from a single source. Removing the manual work of posting to multiple platforms.',
-    longDescription:
-      'Writing a blog post is one thing. Formatting it for WordPress, optimizing the meta data, creating social snippets, and posting across platforms is another. This tool takes a raw draft, runs it through an AI pipeline for SEO optimization and formatting, then publishes it to the configured destinations automatically.',
-    tags: ['Python', 'OpenAI API', 'Automation', 'CMS Integration'],
-    image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80',
-    imageAlt: 'Laptop with content writing interface open',
-    status: 'in-progress',
-  },
-  {
-    title: 'GEO Reporting System',
-    description:
-      'A custom reporting system that tracks how often The Insurance Center\'s brand appears in AI-generated search results. Giving visibility where no off-the-shelf tool does.',
-    longDescription:
-      'As AI-mediated search (Google AI Overviews, ChatGPT, Perplexity) reshapes how people find information, traditional SEO metrics miss half the picture. This system runs scheduled queries across AI platforms, captures brand mention data, and reports on GEO performance over time. It\'s the foundation of The Insurance Center\'s generative engine optimization strategy. Nothing on the market tracked this the right way.',
-    tags: ['Python', 'AI', 'Analytics', 'GEO', 'Automation'],
-    image: '/ai-insurance.png',
-    imageAlt: 'AI search result tracking and reporting interface',
+      'SearchLight Digital is the agency I founded to solve a problem I kept running into: the rules of search have changed, but most agencies are still playing the old game. We specialize in SEO and Generative Engine Optimization — helping brands show up in Google, ChatGPT, Perplexity, and AI Overviews. Every strategy is built around where attention actually lives now, not where it lived five years ago.',
+    tags: ['SEO', 'GEO', 'AI Search', 'Agency'],
+    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80',
+    imageAlt: 'Digital marketing and search strategy dashboard',
+    link: 'https://searchlight-digital-v2.vercel.app/',
     status: 'live',
+  },
+  {
+    title: 'Apple Watch Whoop Replacement',
+    description:
+      'A personal health algorithm that turns Apple Watch data into Whoop-style recovery and strain scores — without the subscription.',
+    longDescription:
+      'Whoop\'s insights are genuinely useful, but the data is already sitting in my Apple Watch. This system pulls health metrics directly from Apple Health — HRV, resting heart rate, sleep stages, SpO2, and more — and runs them through a custom algorithm that calculates daily recovery scores, strain scores, and sleep performance. The output mirrors what Whoop delivers but is built on data I already own, costs nothing to run, and can be tuned to how my body actually responds.',
+    tags: ['Python', 'Apple Health', 'Automation', 'Health Tech'],
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
+    imageAlt: 'Health metrics and wearable data dashboard',
+    status: 'in-progress',
   },
   {
     title: 'Google Reviews Workflow',

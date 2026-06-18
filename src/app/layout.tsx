@@ -4,7 +4,6 @@ import './globals.css';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
-import GlowCursor from '@/components/GlowCursor';
 
 const newsreader = Newsreader({
   subsets: ['latin'],
@@ -48,7 +47,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${newsreader.variable} ${manrope.variable} bg-background text-on-surface selection:bg-primary selection:text-on-primary`}
       >
-        <GlowCursor />
         <Nav />
         <main className="pt-24">
           <PageTransition>{children}</PageTransition>
