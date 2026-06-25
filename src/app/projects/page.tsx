@@ -71,10 +71,10 @@ const projects: Project[] = [
   {
     title: 'Utah Golf Tinder',
     description:
-      'A swipe-based matchmaking app for Utah golfers — find playing partners based on handicap, availability, and course preferences.',
+      'Track every golf course you\'ve played in Utah and see how far through the state\'s full catalog you\'ve made it.',
     longDescription:
-      'Built a Tinder-style web app specifically for golfers in Utah looking for compatible playing partners. Users create profiles with their handicap, preferred courses, and available tee times, then swipe through other golfers to find matches. Matched players can message each other to set up a round. The app solves the real problem of showing up to a course without a foursome or finding someone at your skill level to play with.',
-    tags: ['React', 'Node.js', 'Matchmaking', 'Web App'],
+      'A map-based web app that lets Utah golfers log which courses they\'ve played and visualize them on an interactive map. The app tracks your personal percentage of Utah\'s total golf courses played, turning it into a fun challenge to work through the whole state. Built for golfers who want to see their progress and discover courses they haven\'t hit yet.',
+    tags: ['React', 'Maps', 'Web App', 'Golf'],
     image: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&q=80',
     imageAlt: 'Golfer on a green Utah golf course',
     github: 'https://github.com/AirplaneMode2955/Utah-Golf-Tinder',
