@@ -69,6 +69,19 @@ const projects: Project[] = [
     status: 'in-progress',
   },
   {
+    title: 'Utah Golf Tinder',
+    description:
+      'A swipe-based matchmaking app for Utah golfers — find playing partners based on handicap, availability, and course preferences.',
+    longDescription:
+      'Built a Tinder-style web app specifically for golfers in Utah looking for compatible playing partners. Users create profiles with their handicap, preferred courses, and available tee times, then swipe through other golfers to find matches. Matched players can message each other to set up a round. The app solves the real problem of showing up to a course without a foursome or finding someone at your skill level to play with.',
+    tags: ['React', 'Node.js', 'Matchmaking', 'Web App'],
+    image: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&q=80',
+    imageAlt: 'Golfer on a green Utah golf course',
+    github: 'https://github.com/AirplaneMode2955/Utah-Golf-Tinder',
+    link: 'https://utah-golf-tinder.vercel.app/',
+    status: 'completed',
+  },
+  {
     title: 'Google Reviews Workflow',
     description:
       'An internal workflow system that tracks Google Review performance across agents. Making getting reviews a competitive, trackable team activity.',
