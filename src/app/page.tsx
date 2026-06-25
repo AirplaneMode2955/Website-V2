@@ -15,13 +15,13 @@ const featuredProjects = [
     link: 'https://searchlight-digital-v2.vercel.app/',
   },
   {
-    title: 'Apple Watch Whoop Replacement',
+    title: 'Utah Golf Tinder',
     description:
-      'A personal health algorithm that turns Apple Watch data into Whoop-style recovery and strain scores — without the subscription.',
-    tags: ['Python', 'Apple Health', 'Health Tech'],
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
-    imageAlt: 'Health metrics and wearable data dashboard',
-    link: null,
+      'Track every golf course you\'ve played in Utah and see how far through the state\'s full catalog you\'ve made it.',
+    tags: ['React', 'Maps', 'Web App', 'Golf'],
+    image: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&q=80',
+    imageAlt: 'Golfer on a green Utah golf course',
+    link: 'https://utah-golf-tinder.vercel.app/',
   },
 ];
 
