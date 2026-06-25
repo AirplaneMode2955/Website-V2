@@ -58,17 +58,6 @@ const projects: Project[] = [
     status: 'live',
   },
   {
-    title: 'Apple Watch Whoop Replacement',
-    description:
-      'A personal health algorithm that turns Apple Watch data into Whoop-style recovery and strain scores — without the subscription.',
-    longDescription:
-      'Whoop\'s insights are genuinely useful, but the data is already sitting in my Apple Watch. This system pulls health metrics directly from Apple Health — HRV, resting heart rate, sleep stages, SpO2, and more — and runs them through a custom algorithm that calculates daily recovery scores, strain scores, and sleep performance. The output mirrors what Whoop delivers but is built on data I already own, costs nothing to run, and can be tuned to how my body actually responds.',
-    tags: ['Python', 'Apple Health', 'Automation', 'Health Tech'],
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
-    imageAlt: 'Health metrics and wearable data dashboard',
-    status: 'in-progress',
-  },
-  {
     title: 'Utah Golf Tinder',
     description:
       'Track every golf course you\'ve played in Utah and see how far through the state\'s full catalog you\'ve made it.',
