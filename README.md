@@ -1,6 +1,6 @@
 # Jett Iverson — Personal Website V2
 
-Personal portfolio and professional website for Jett Iverson — marketer, husband, and AI strategist based in Utah. jettiverson.com
+Personal portfolio and professional website for Jett Iverson — marketer, husband, and AI strategist based in Utah. [jettiverson.com](url)
 
 ## About
 
