@@ -170,11 +170,12 @@
 
   function makeGreen(rand) {
     var slopeAng = rand() * Math.PI * 2;
-    var slopeMag = 0.010 + rand() * 0.022;
-    var hole = { x: W * (0.3 + rand() * 0.4), y: H * (0.14 + rand() * 0.12) };
-    var ball = { x: W * (0.3 + rand() * 0.4), y: H * (0.80 + rand() * 0.08), vx: 0, vy: 0 };
+    // gentle: this only ever bends a putt, never runs it away (see DECEL below)
+    var slopeMag = 0.018 + rand() * 0.026;
+    var hole = { x: W * (0.28 + rand() * 0.44), y: H * (0.16 + rand() * 0.10) };
+    var ball = { x: W * (0.28 + rand() * 0.44), y: H * (0.78 + rand() * 0.08), vx: 0, vy: 0 };
     var dist = Math.hypot(hole.x - ball.x, hole.y - ball.y);
-    var par = dist > 330 ? 3 : 2;
+    var par = dist > 340 ? 3 : 2;
     return {
       slope: { x: Math.cos(slopeAng) * slopeMag, y: Math.sin(slopeAng) * slopeMag },
       hole: hole, ball: ball, start: { x: ball.x, y: ball.y },
@@ -281,14 +282,27 @@
   }
 
   // ---- physics ----
-  var FRICTION = 0.985;
-  var STOP = 0.12;
+  // DECEL (constant rolling resistance) is larger than any slope magnitude, so a
+  // putt always slows to a stop — the slope only ever bends its path.
+  var FRICTION = 0.992;
+  var DECEL = 0.11;
+  var STOP = 0.22;
 
   function step() {
     if (!state.rolling) return;
     var b = state.ball;
+
+    // slope pulls the ball (this is the break you're reading)
     b.vx += state.slope.x;
     b.vy += state.slope.y;
+
+    // rolling resistance: shave a fixed amount off the speed each frame
+    var spd = Math.hypot(b.vx, b.vy);
+    if (spd > 0) {
+      var keep = Math.max(0, spd - DECEL) / spd;
+      b.vx *= keep;
+      b.vy *= keep;
+    }
     b.vx *= FRICTION;
     b.vy *= FRICTION;
     b.x += b.vx;
@@ -296,8 +310,8 @@
 
     // hole capture
     var d = Math.hypot(b.x - state.hole.x, b.y - state.hole.y);
-    var spd = Math.hypot(b.vx, b.vy);
-    if (d < HOLE_R - 1 && spd < 3.4) {
+    spd = Math.hypot(b.vx, b.vy);
+    if (d < HOLE_R - 1 && spd < 3.8) {
       state.holed = true;
       state.rolling = false;
       b.x = state.hole.x; b.y = state.hole.y; b.vx = b.vy = 0;
@@ -306,12 +320,12 @@
       return;
     }
 
-    // walls (soft bounce inside rounded field)
+    // walls — a hard fringe, most of the pace dies on contact
     var m = 10;
-    if (b.x < m) { b.x = m; b.vx = -b.vx * 0.5; }
-    if (b.x > W - m) { b.x = W - m; b.vx = -b.vx * 0.5; }
-    if (b.y < m) { b.y = m; b.vy = -b.vy * 0.5; }
-    if (b.y > H - m) { b.y = H - m; b.vy = -b.vy * 0.5; }
+    if (b.x < m) { b.x = m; b.vx = -b.vx * 0.3; }
+    if (b.x > W - m) { b.x = W - m; b.vx = -b.vx * 0.3; }
+    if (b.y < m) { b.y = m; b.vy = -b.vy * 0.3; }
+    if (b.y > H - m) { b.y = H - m; b.vy = -b.vy * 0.3; }
 
     if (spd < STOP) {
       b.vx = b.vy = 0;
@@ -359,7 +373,7 @@
     state.aim = null;
     if (pw < 6) { draw(); return; }
     var ang = Math.atan2(dy, dx);
-    var speed = 2 + (pw / 150) * 9;
+    var speed = 2.2 + (pw / 150) * 8;
     state.ball.vx = Math.cos(ang) * speed;
     state.ball.vy = Math.sin(ang) * speed;
     state.strokes++;

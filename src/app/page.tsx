@@ -438,8 +438,12 @@ export default function Home() {
           </FadeIn>
           <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
             {[
+              { src: '/fishing-pond-golden.jpg', alt: 'Fishing a still pond at golden hour with the dog watching, Utah foothills behind' },
+              { src: '/couple-forest-hillside.jpg', alt: 'Jett and his wife on a wooded hillside with the dog' },
               { src: '/IMG_6716.JPEG', alt: 'Jett and his wife at Lake Como, Italy' },
+              { src: '/fishing-sunset-silhouette.jpg', alt: 'Silhouetted at the lake, fishing under a burning sunset' },
               { src: '/Wedding.JPEG', alt: 'Wedding day' },
+              { src: '/snowbasin-summer-dog.jpg', alt: 'At Snowbasin in summer with the dog, gondola line up the green run' },
               { src: '/IMG_7344.JPEG', alt: 'Jett and his wife at an Argentina soccer match' },
               { src: '/Fishing Wind Rivers.JPEG', alt: 'Fishing in the Wind Rivers' },
               { src: '/IMG_0208.JPEG', alt: 'Cooking class in Rome' },

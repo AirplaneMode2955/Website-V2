@@ -155,6 +155,10 @@ const lifePhotos = [
   { src: '/IMG_0490.JPEG', alt: 'Juggling a soccer ball in the Naples gallery' },
   { src: '/IMG_7393.JPEG', alt: 'Couple selfie at the LDS temple' },
   { src: '/IMG_7086.JPEG', alt: 'Wife with her plant display at home' },
+  { src: '/fishing-pond-golden.jpg', alt: 'Fishing a still pond at golden hour with the dog' },
+  { src: '/fishing-sunset-silhouette.jpg', alt: 'Fishing the lake under a burning sunset' },
+  { src: '/couple-forest-hillside.jpg', alt: 'On a wooded hillside with wife and dog' },
+  { src: '/snowbasin-summer-dog.jpg', alt: 'At Snowbasin in summer with the dog' },
 ];
 
 export default function AboutPage() {
