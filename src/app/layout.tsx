@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Newsreader, Manrope } from 'next/font/google';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
@@ -52,6 +54,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
+        <Analytics />
+        <GoogleAnalytics gaId="G-K3YWDXK69Y" />
       </body>
     </html>
   );

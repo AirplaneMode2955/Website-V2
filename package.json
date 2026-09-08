@@ -10,6 +10,8 @@
     "resume:pdf": "node scripts/generate-resume-pdf.mjs"
   },
   "dependencies": {
+    "@next/third-parties": "^15.5.25",
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.38.0",
     "next": "^15.2.4",
     "react": "^19.0.0",

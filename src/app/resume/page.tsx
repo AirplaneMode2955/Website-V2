@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
 import AnimatedSkills from '@/components/AnimatedSkills';
 
@@ -156,15 +157,24 @@ export default function ResumePage() {
                   </a>
                 </p>
               </div>
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200 self-start whitespace-nowrap"
-              >
-                Download PDF
-                <span className="material-symbols-outlined text-sm">download</span>
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3 self-start">
+                <Link
+                  href="/case-studies/organic-search"
+                  className="inline-flex items-center justify-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:shadow-premium transition-all duration-200 whitespace-nowrap"
+                >
+                  View Case Study
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200 whitespace-nowrap"
+                >
+                  Download PDF
+                  <span className="material-symbols-outlined text-sm">download</span>
+                </a>
+              </div>
             </div>
           </FadeIn>
         </div>
