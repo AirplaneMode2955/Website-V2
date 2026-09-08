@@ -99,9 +99,9 @@ const timelineEvents: TimelineEvent[] = [
   },
   {
     date: 'December 2025',
-    title: 'Head of Marketing',
+    title: 'Acting Director of Marketing',
     description:
-      "Promoted to Head of Marketing at The Insurance Center. Leading SEO, GEO, and AI integration strategy, building systems that make the brand show up wherever it matters most.",
+      "Promoted to Acting Director of Marketing at The Insurance Center. Leading SEO, GEO, and AI integration strategy, building systems that make the brand show up wherever it matters most.",
     category: 'career',
     image: '/Head of Marketing.JPEG',
   },
@@ -385,7 +385,7 @@ export default function AboutPage() {
                   {[
                     { icon: 'location_on', text: 'Plain City, Utah' },
                     { icon: 'school', text: 'Utah State University' },
-                    { icon: 'work', text: 'Head of Marketing, TICU' },
+                    { icon: 'work', text: 'Acting Director of Marketing, TICU' },
                     { icon: 'favorite', text: 'Married, August 2025' },
                     { icon: 'golf_course', text: 'Golf & fishing' },
                     { icon: 'smart_toy', text: 'AI & automation nerd' },

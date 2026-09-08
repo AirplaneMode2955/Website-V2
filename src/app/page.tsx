@@ -45,8 +45,8 @@ export default function Home() {
               </h2>
               <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
                 Studying Marketing at Utah State University&apos;s Huntsman School of Business —
-                graduating December 2026 with a 3.74 GPA while working full time. Head of
-                Marketing at The Insurance Center, where I lead SEO, GEO, and AI
+                graduating December 2026 with a 3.74 GPA while working full time. Acting
+                Director of Marketing at The Insurance Center, where I lead SEO, GEO, and AI
                 innovation across the company&apos;s entire marketing operation.
               </p>
               <Link
@@ -87,7 +87,7 @@ export default function Home() {
                   The Insurance Center
                 </p>
                 <h3 className="font-headline italic text-3xl text-primary mb-1">
-                  Head of Marketing
+                  Acting Director of Marketing
                 </h3>
                 <p className="text-on-surface-variant text-sm mb-6">
                   Farr West, UT &nbsp;·&nbsp; Jun 2024 – Present
@@ -247,9 +247,16 @@ export default function Home() {
               Results
             </span>
             <h2 className="font-headline italic text-5xl text-primary mb-4">By the numbers</h2>
-            <p className="text-on-surface-variant text-lg mb-16 max-w-xl">
+            <p className="text-on-surface-variant text-lg mb-6 max-w-xl">
               Real outcomes from real campaigns. These are the numbers behind the work at The Insurance Center.
             </p>
+            <Link
+              href="/case-studies/organic-search"
+              className="inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors mb-16"
+            >
+              Full case study: growing organic search 203%
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
           </FadeIn>
 
           {/* Feature case study — Google Ads */}

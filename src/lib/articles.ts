@@ -18,6 +18,124 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: 'search-console-ai-query-data',
+    source: 'on-site',
+    readTime: '7 min read',
+    date: 'September 2026',
+    title: "What Search Console's AI Query Data Actually Tells You",
+    excerpt:
+      'Search Console now shows the questions people type into AI assistants. Most of that data sits unused. Here is how to read it and what to do when your pages show up in it.',
+    status: 'published',
+    topics: ['SEO', 'GEO', 'Search Console', 'Analytics'],
+    sections: [
+      {
+        body: `Open your Search Console performance report and scroll the query list. Mixed in with the usual keywords, you will see full sentences: "how much is life insurance for a 30 year old," "do I need umbrella coverage if I rent," "what happens if I miss a premium payment."
+
+Those are people talking to an assistant, not typing into a search bar. Google folds AI Overviews and, more recently, AI Mode into the same Performance report, so those impressions and clicks land in the export you already pull every month.
+
+Most businesses never look at them.`,
+      },
+      {
+        heading: 'Why the queries look different',
+        body: `Conversational queries are longer, they are phrased as questions, and they carry context the searcher would never bother typing into a keyword box — "if I rent," "for a 30 year old," "after a lapse."
+
+Keyword tools do not surface these because nobody was searching them at volume before. They show up in Search Console because that is where the real demand is now visible. The intent is usually specific and mid-funnel: someone weighing a decision, not just browsing.`,
+      },
+      {
+        heading: 'What to actually look at',
+        body: `Filter the query report to entries with five or more words, or ones that start with a question word — how, what, why, when, should, do, can. Then sort by impressions and read down the list. You are sorting every query into one of three buckets:
+
+**Ranking well (position 1–5).** Confirm the page answers that exact question in its first paragraph, in plain language, before any preamble.
+
+**Ranking on the edge (position 6–15).** You are close. A heading rewrite to match the question, or a direct-answer sentence near the top, usually moves it.
+
+**Impressions, no clicks, no ranking page.** A content gap. Someone is asking and you have nothing that answers it.`,
+      },
+      {
+        heading: 'The page-1 test',
+        body: `At The Insurance Center, one article ranks position 1 for "how much is life insurance for a 30 year old." It ranks there because the page answers that question in the first two sentences, with a real number range, before any setup.
+
+That is the pattern that wins conversational queries: the answer first, the context second, the sales language last or not at all. Assistants pull the sentence that most directly resolves the question. If your answer is buried under three paragraphs of positioning, it does not get pulled.`,
+      },
+      {
+        heading: 'Turning the list into work',
+        body: `Make it a monthly loop:
+
+**1.** Export the query report.
+**2.** Tag the conversational queries.
+**3.** Map each one to an existing page, or mark it as a gap.
+**4.** For gaps, write one focused page per question cluster — not a catch-all FAQ, a real page that answers one question well.
+**5.** Re-check position after 30 to 60 days.
+
+It compounds. Every question you answer clearly becomes a candidate for the next assistant's answer too, across every engine, not just the one that logged the impression.`,
+      },
+      {
+        heading: 'What it does not tell you',
+        body: `Search Console will not show you which assistant sent the impression, and it will not tell you whether you were named inside an AI-generated answer or just listed below it.
+
+For that you still have to run the queries yourself in ChatGPT, Claude, Gemini, and Perplexity and read the output. Search Console tells you what people are asking and whether you rank. A manual audit tells you whether you are actually in the answer. You need both, and they measure different things.`,
+      },
+      {
+        heading: 'Start this week',
+        body: `Pull the query report. Filter to questions. Find the three buckets. Take the five highest-impression gaps and write them.
+
+That is the whole method. The businesses doing this now are building an answer library while their competitors are still checking their rank for "insurance agency near me."`,
+      },
+    ],
+  },
+  {
+    slug: 'the-marketing-metric-that-was-lying',
+    source: 'on-site',
+    readTime: '5 min read',
+    date: 'September 2026',
+    title: 'The Marketing Metric That Was Lying to Me',
+    excerpt:
+      'While pulling two years of organic search data, I found a spike that would have looked great in a report. It was not real. Here is how to catch the ones that are not.',
+    status: 'published',
+    topics: ['Analytics', 'GA4', 'Data Integrity'],
+    sections: [
+      {
+        body: `I was assembling organic search numbers for a case study — GA4 on one side, Search Console on the other. The GA4 side showed a stretch where traffic jumped hard. On its own it looked like a win.
+
+Then I lined it up against Search Console for the same weeks and it fell apart.`,
+      },
+      {
+        heading: 'What did not add up',
+        body: `Two GA4 properties were spiking at almost exactly the same rate, in the same window. Search Console — impressions, clicks, average position — showed nothing over those weeks that would produce that kind of jump.
+
+Real organic growth shows up in both systems, roughly in proportion. This showed up in one, in a shape that looked more like a measurement artifact than actual demand.`,
+      },
+      {
+        heading: 'The decision',
+        body: `I could have reported it. It was in the tool, it was technically traffic, and it made the trend line steeper.
+
+I excluded it and used the number both systems agreed on. The growth figures in that case study — 203% more organic sessions, 232% more organic pageviews — are what held up after the anomaly came out.`,
+      },
+      {
+        heading: 'How to catch these',
+        body: `**Cross-check every headline number against a second source.** GA4 against Search Console for organic. The ad platform against GA4 for paid. Never report a number that only one system can see.
+
+**Be suspicious of clean correlation.** Two properties, two channels, or two campaigns moving in near-lockstep is usually instrumentation, not the market.
+
+**Ask what mechanism would produce the change.** If you cannot name a real-world cause — a campaign, a ranking gain, a season, a press hit — treat the number as suspect until you can.
+
+**Segment before you celebrate.** A spike concentrated in one source, one geo, or one hour of the day is a flag, not a result.`,
+      },
+      {
+        heading: 'Why this matters more than it sounds',
+        body: `An inflated number does not just make one report wrong. It sets a baseline you now have to keep beating. It sends budget toward something that did not actually work. And the first time someone catches one, every other number you have reported gets a second look.
+
+Excluding noise costs you a smaller headline once. Reporting it costs you your credibility later.`,
+      },
+      {
+        heading: 'The rule I use now',
+        body: `If a number would change a decision, it gets verified against a second source before it goes in a deck. If it cannot be verified, it goes in with a flag or it does not go in.
+
+That is the whole rule. It is slower. It is also why I can hand someone the underlying data and let them check it themselves.`,
+      },
+    ],
+  },
+  {
     slug: 'why-small-businesses-are-invisible-to-ai-search',
     source: 'on-site',
     readTime: '6 min read',

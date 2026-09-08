@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 const footerLinks = [
   { href: '/about', label: 'About' },
+  { href: '/case-studies', label: 'Case Studies' },
   { href: '/projects', label: 'Projects' },
   { href: '/content', label: 'Content' },
   { href: '/contact', label: 'Contact' },

@@ -146,7 +146,7 @@ export default function ContactPage() {
               </span>
             </div>
             <p className="text-on-surface-variant text-sm max-w-md mx-auto">
-              Currently Head of Marketing at The Insurance Center and studying at Utah State
+              Currently Acting Director of Marketing at The Insurance Center and studying at Utah State
               University. Open to interesting side projects and consulting conversations.
             </p>
           </FadeIn>

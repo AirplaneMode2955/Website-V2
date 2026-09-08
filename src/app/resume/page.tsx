@@ -5,23 +5,34 @@ import AnimatedSkills from '@/components/AnimatedSkills';
 export const metadata: Metadata = {
   title: 'Resume',
   description:
-    'Resume of Jett Iverson. Head of Marketing, Insurance Agent, and AI strategist based in Utah.',
+    'Resume of Jett Iverson. Acting Director of Marketing, Licensed Insurance Agent, and AI strategist based in Utah.',
 };
 
 const experience = [
   {
-    role: 'Head of Marketing / Licensed Insurance Agent',
+    role: 'Acting Director of Marketing / Licensed Insurance Agent',
     company: 'The Insurance Center',
     location: 'Farr West, UT',
     period: 'Jun 2024 – Present',
     bullets: [
-      'Took ownership of the full marketing function, from strategy to execution, building the agency\'s digital presence from the ground up',
-      'Grew brand exposure by over 50% through targeted social media campaigns and a disciplined content strategy',
+      'Took over the full marketing function in June 2024, the first person to hold the role in a dedicated capacity, covering strategy, execution, and reporting',
+      'Grew organic search sessions 203% (139/month in June 2024 to 421/month in July 2026) and organic pageviews 232% (235 to 780/month), measured in GA4\'s Organic Search channel and Google Search Console',
+      'Owned SEO and GEO strategy through the agency\'s April 2026 website migration, building 50 SEO/GEO content pages on the new site in five months from a near-blank slate',
+      'New site\'s Search Console impressions grew 12.5x in the first four months live (1,860 to 23,314/month)',
+      'Ran a generative-engine-optimization audit across ChatGPT, Claude, Gemini, and Perplexity (visibility scored 61/100) and confirmed content ranking inside AI-conversation search queries logged in Search Console, including position 1 for "how much is life insurance for a 30 year old"',
       'Drove sales velocity to 16.8%, surpassing both the industry average (12.7%) and the top-quartile benchmark (15.8%)',
-      'Maintained organic growth at 10.7%, in line with the industry median, while scaling new business velocity significantly above it',
       'Manages 100+ client accounts, ensuring prompt policy renewals and proactive coverage guidance',
-      'Conducts ongoing market research to identify emerging trends and adjust the agency\'s offerings accordingly',
-      'Leading SEO, GEO, and AI integration strategy. Building automation systems for content publishing, review generation, and analytics reporting',
+      'Built automation systems for content publishing, review generation, and analytics reporting',
+    ],
+  },
+  {
+    role: 'Founder',
+    company: 'SearchLight Digital',
+    location: 'Utah',
+    period: 'Pre-launch',
+    bullets: [
+      'SEO and GEO agency I founded, currently pre-launch and independent of my work at The Insurance Center',
+      'Productizing the same organic-search and AI-search-visibility methods I run in-house',
     ],
   },
   {
@@ -96,9 +107,16 @@ const serviceLeadership = [
 ];
 
 const skills: Record<string, string[]> = {
-  Marketing: ['SEO', 'GEO', 'Content Strategy', 'Local SEO', 'AI Search Optimization', 'Analytics', 'Social Media'],
-  Technical: ['React', 'Python', 'OpenAI API', 'Automation', 'Data Visualization', 'SQL'],
-  Tools: ['Google Analytics', 'Google Ads', 'Meta Business Suite', 'Canva', 'WordPress', 'CRM Integration'],
+  'Skills & Tools': [
+    'SEO & Technical SEO',
+    'GEO / AI Search Visibility (ChatGPT, Claude, Gemini, Perplexity)',
+    'Google Ads & Meta Ads',
+    'GA4 & Search Console',
+    'Looker Studio & Apps Script',
+    'SQL',
+    'Python',
+    'Marketing Automation (Zapier, n8n)',
+  ],
   Languages: ['English (Native)', 'Portuguese (Fluent)'],
 };
 
@@ -117,7 +135,7 @@ export default function ResumePage() {
                   Jett Iverson
                 </h1>
                 <p className="text-on-surface-variant">
-                  Head of Marketing &nbsp;·&nbsp; Licensed Insurance Agent &nbsp;·&nbsp; AI Strategist
+                  Acting Director of Marketing &nbsp;·&nbsp; Licensed Insurance Agent &nbsp;·&nbsp; AI Strategist
                 </p>
                 <p className="text-outline text-sm mt-1">
                   Plain City, Utah &nbsp;·&nbsp;{' '}
