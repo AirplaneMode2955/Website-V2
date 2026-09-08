@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#121213">
+<title>Birthdle — guess the birthday</title>
+<style>
+  :root {
+    --bg: #121213;
+    --card: #1a1a1b;
+    --card-2: #202021;
+    --border: #3a3a3c;
+    --border-soft: #2a2a2b;
+    --text: #f2f2f2;
+    --text-dim: #b0b0b1;
+    --text-faint: #6f6f70;
+    --green: #538d4e;
+    --green-text: #d6ecd2;
+    --amber: #b59f3b;
+    --amber-text: #f2ecd0;
+    --gray-tile: #3a3a3c;
+    --gold: #e3b23c;
+    --gold-soft: #f2d68a;
+    --gold-dim: #7a6224;
+    --gold-glow: rgba(227, 178, 60, 0.45);
+    --on-gold: #221a05;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    padding: 0 14px calc(28px + env(safe-area-inset-bottom));
+    padding-top: env(safe-area-inset-top);
+    position: relative;
+  }
+
+  header {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    padding: 14px 0 12px;
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 16px;
+  }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: none; background: transparent; color: var(--text-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; cursor: pointer;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+  .icon-btn:active { background: var(--gold-glow); color: var(--gold-soft); box-shadow: 0 0 12px var(--gold-glow); }
+  .title-block { text-align: center; }
+  .title-block h1 {
+    font-size: 21px; margin: 0; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase;
+    position: relative; display: inline-block;
+  }
+  .title-underline {
+    width: 34px; height: 3px; border-radius: 2px; margin: 6px auto 0;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
+    background-size: 200% auto;
+    animation: goldSweep 3.5s ease-in-out infinite;
+  }
+  @keyframes goldSweep { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
+  .title-block .pnum { font-size: 10px; color: var(--gold-dim); margin-top: 6px; letter-spacing: 0.5px; }
+
+  #gameCard.pending { visibility: hidden; }
+
+  .mode-select { margin-top: 4px; padding-top: 14px; border-top: 1px solid var(--border-soft); }
+  .mode-select-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px;
+    color: var(--text-faint); text-align: center; margin-bottom: 8px;
+  }
+  .mode-btn-row { display: flex; gap: 8px; }
+  .mode-choice-btn {
+    flex: 1; padding: 12px; border-radius: var(--radius); border: 1px solid var(--border);
+    background: var(--card-2); color: var(--text); font-weight: 700; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.4px; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .mode-choice-btn.active { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+  .mode-select-desc { font-size: 12px; color: var(--text-dim); text-align: center; margin: 10px 0 0; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    margin-bottom: 14px;
+    animation: cardIn 0.5s ease both;
+  }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .photo-frame {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    border: 1px solid var(--gold-dim);
+    position: relative;
+  }
+  @media (min-width: 420px) { .photo-frame { aspect-ratio: 4 / 3; } }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top center; animation: fadeIn 0.5s ease; transition: filter 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .photo-fallback { text-align: center; padding: 20px; color: var(--text-faint); }
+  .photo-fallback .icon { font-size: 34px; display: block; margin-bottom: 8px; }
+  .photo-fallback .label { font-size: 12px; line-height: 1.4; }
+  .photo-skel {
+    position: absolute; inset: 0;
+    background: linear-gradient(100deg, var(--card-2) 30%, #2b2b2d 50%, var(--card-2) 70%);
+    background-size: 200% 100%;
+    animation: skel 1.3s ease-in-out infinite;
+  }
+  @keyframes skel { to { background-position: -200% 0; } }
+
+  .person-name { font-size: 20px; font-weight: 700; text-align: center; margin: 2px 0 8px; }
+  .category-badge {
+    display: block; width: fit-content; margin: 0 auto 8px;
+    background: var(--gold-glow); border: 1px solid var(--gold-dim);
+    color: var(--gold-soft); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 4px 12px; border-radius: 999px;
+    opacity: 0; transform: scale(0.85);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .category-badge.show { opacity: 1; transform: scale(1); }
+
+  .hint-box {
+    font-size: 13px; color: var(--text-dim); text-align: center;
+    min-height: 18px; margin-top: 2px; line-height: 1.4;
+  }
+
+  .lives {
+    display: flex; justify-content: center; gap: 7px; margin: 4px 0 14px;
+  }
+  .lives .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .lives .dot.used { background: var(--gold); border-color: var(--gold); }
+  .lives .dot.pop { animation: dotPop 0.35s ease; }
+  @keyframes dotPop { 0% { transform: scale(1); box-shadow: 0 0 0 var(--gold-glow); } 40% { transform: scale(1.8); box-shadow: 0 0 10px var(--gold-glow); } 100% { transform: scale(1); box-shadow: 0 0 0 transparent; } }
+
+  .guess-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label {
+    font-size: 10px; color: var(--text-faint); text-transform: uppercase;
+    letter-spacing: 0.6px; text-align: center;
+  }
+  .field select, .field input {
+    width: 100%; padding: 10px 3px; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--card-2); color: var(--text);
+    font-size: 13px; text-align: center; font-weight: 600;
+    appearance: none; -webkit-appearance: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .field select:focus, .field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
+
+  .guess-btn {
+    width: 100%; padding: 14px; border-radius: var(--radius);
+    border: none; background: var(--gold); color: var(--on-gold);
+    font-weight: 800; font-size: 15px; letter-spacing: 0.5px;
+    text-transform: uppercase; cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.2s;
+    box-shadow: 0 0 0 rgba(227,178,60,0);
+  }
+  .guess-btn:hover:not(:disabled) { box-shadow: 0 0 18px var(--gold-glow); }
+  .guess-btn:active:not(:disabled) { transform: scale(0.97); }
+  .guess-btn:disabled { background: var(--border); color: var(--text-faint); cursor: not-allowed; }
+
+  .guess-history { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .guess-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .tile {
+    padding: 10px 4px; border-radius: var(--radius); text-align: center;
+    background: var(--gray-tile); color: var(--text);
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    animation: flipIn 0.45s ease both;
+    transform-origin: center;
+  }
+  .tile .val { font-size: 15px; font-weight: 700; }
+  .tile .arrow { font-size: 10px; opacity: 0.85; font-weight: 600; }
+  .tile.country .val { font-size: 11px; line-height: 1.2; word-break: break-word; }
+  .tile.country .arrow { font-size: 9px; text-transform: uppercase; }
+  .tile.exact { background: var(--green); color: var(--green-text); animation: flipIn 0.45s ease both, goldPulse 1s ease 0.45s; }
+  .tile.close { background: var(--amber); color: var(--amber-text); }
+  @keyframes flipIn {
+    0% { transform: rotateX(0deg); }
+    45% { transform: rotateX(90deg); }
+    55% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0deg); }
+  }
+  @keyframes goldPulse {
+    0% { box-shadow: 0 0 0 0 var(--gold-glow); }
+    50% { box-shadow: 0 0 14px 2px var(--gold-glow); }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  .shake { animation: shake 0.4s; }
+  @keyframes shake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(3px); }
+    30%, 50%, 70% { transform: translateX(-5px); }
+    40%, 60% { transform: translateX(5px); }
+  }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.72);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; z-index: 50;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal {
+    background: var(--card); border: 1px solid var(--gold-dim);
+    border-radius: var(--radius-lg); padding: 22px 20px;
+    max-width: 400px; width: 100%; max-height: 85vh; overflow-y: auto;
+    position: relative;
+    transform: scale(0.9) translateY(10px); opacity: 0;
+    transition: transform 0.28s cubic-bezier(.2,.9,.3,1.3), opacity 0.25s ease;
+  }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); opacity: 1; }
+  .modal-close {
+    position: absolute; top: 12px; right: 12px;
+    width: 30px; height: 30px; border-radius: 50%; border: none;
+    background: var(--card-2); color: var(--text-dim); font-size: 16px; cursor: pointer;
+  }
+  .modal h2 { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 14px; text-align: center; color: var(--gold-soft); }
+  .modal p { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin: 0 0 10px; }
+  .rule-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+  .rule-row .tile-demo { flex-shrink: 0; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+
+  .result-headline {
+    font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 4px;
+    animation: popIn 0.4s ease;
+  }
+  .result-headline.win {
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold-soft), var(--gold), var(--gold-soft), var(--gold-dim));
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: popIn 0.4s ease, shimmer 3s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: -200% center; } }
+  @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .result-answer { font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 16px; line-height: 1.5; }
+  .share-btn {
+    width: 100%; padding: 13px; border-radius: var(--radius); border: none;
+    background: var(--gold); color: var(--on-gold); font-weight: 800; font-size: 14px;
+    letter-spacing: 0.4px; text-transform: uppercase; cursor: pointer; margin-bottom: 6px;
+    transition: transform 0.08s, box-shadow 0.2s;
+  }
+  .share-btn:hover { box-shadow: 0 0 18px var(--gold-glow); }
+  .share-btn:active { transform: scale(0.97); }
+  .copied-msg { font-size: 12px; color: var(--gold-soft); text-align: center; height: 14px; margin-bottom: 8px; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft); }
+  .stats-grid .stat { text-align: center; }
+  .stats-grid .stat .n { font-size: 22px; font-weight: 800; color: var(--gold-soft); }
+  .stats-grid .stat .l { font-size: 9px; color: var(--text-faint); text-transform: uppercase; margin-top: 3px; letter-spacing: 0.3px; }
+
+  footer { text-align: center; font-size: 11px; color: var(--text-faint); margin-top: 16px; }
+
+  .confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden; }
+  .confetti-piece {
+    position: absolute; top: -10px; width: 8px; height: 14px; border-radius: 2px;
+    animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(540deg); opacity: 0.9; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button class="icon-btn" id="helpBtn" aria-label="How to play">?</button>
+    <div class="title-block">
+      <h1>Birthdle</h1>
+      <div class="title-underline"></div>
+      <div class="pnum" id="puzzleNum"></div>
+    </div>
+    <button class="icon-btn" id="statsBtn" aria-label="Stats">📊</button>
+  </header>
+
+  <div class="card" id="gameCard">
+    <div class="photo-frame" id="photoFrame">
+      <div class="photo-skel" id="photoSkel"></div>
+      <div class="photo-fallback" id="photoFallback" style="display:none;">
+        <span class="icon">🕰️</span>
+        <span class="label">Portrait unavailable — guess from the clues below</span>
+      </div>
+    </div>
+    <div class="person-name" id="personName"></div>
+    <div class="category-badge" id="categoryBadge"></div>
+    <div class="hint-box" id="hintBox"></div>
+  </div>
+
+  <div class="card">
+    <div class="guess-form">
+      <div class="field">
+        <label for="mSel">Month</label>
+        <select id="mSel"></select>
+      </div>
+      <div class="field">
+        <label for="dSel">Day</label>
+        <select id="dSel"></select>
+      </div>
+      <div class="field">
+        <label for="ySel">Year</label>
+        <input id="ySel" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="1879" min="1400" max="2026">
+      </div>
+      <div class="field">
+        <label for="cSel">Country</label>
+        <input id="cSel" list="countryList" type="text" placeholder="France" autocomplete="off">
+      </div>
+    </div>
+    <datalist id="countryList"></datalist>
+    <button class="guess-btn" id="guessBtn">Guess</button>
+    <div class="lives" id="livesRow"></div>
+    <div class="guess-history" id="guessHistory"></div>
+  </div>
+
+  <footer>Built for fun — historical birthdates are best-effort and may vary by source.</footer>
+</div>
+
+<div class="modal-overlay" id="helpOverlay">
+  <div class="modal">
+    <button class="modal-close" id="helpClose">✕</button>
+    <h2>How to play</h2>
+    <p>Everyone gets the same historical figure each day. You have 6 tries to guess their exact birth month, day, and year.</p>
+    <div class="rule-row">
+      <div class="tile-demo" style="background: var(--green); color: var(--green-text);">MAR</div>
+      <p style="margin:0;"><strong style="color:var(--text);">Green</strong> means that field is exact.</p>
+    </div>
+    <div class="rule-row">
+      <div class="tile-demo" style="background: var(--amber); color: var(--amber-text);">1880</div>
+      <p style="margin:0;"><strong style="color:var(--text);">Amber</strong> means you're close — check the arrow for direction.</p>
+    </div>
+    <div class="rule-row">
+      <div class="tile-demo" style="background: var(--gray-tile); color: var(--text);">14</div>
+      <p style="margin:0;"><strong style="color:var(--text);">Gray</strong> means you're far off — follow the arrow.</p>
+    </div>
+    <div class="rule-row">
+      <div class="tile-demo" style="background: var(--amber); color: var(--amber-text); font-size:11px;">EUR</div>
+      <p style="margin:0;">4th tile is <strong style="color:var(--text);">birth country</strong>. Green = exact country, amber = right continent, gray = wrong continent.</p>
+    </div>
+    <p>Miss twice and their category unlocks. Miss four times and you'll get a fun fact.</p>
+
+    <div class="mode-select">
+      <div class="mode-select-label">Choose your mode</div>
+      <div class="mode-btn-row">
+        <button class="mode-choice-btn" id="modeNormalBtn" type="button">Normal</button>
+        <button class="mode-choice-btn" id="modeHardBtn" type="button">Hard Mode</button>
+      </div>
+      <p class="mode-select-desc">Hard Mode blurs the photo until you guess — it sharpens with every try.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="statsOverlay">
+  <div class="modal">
+    <button class="modal-close" id="statsClose">✕</button>
+    <h2>Statistics</h2>
+    <div id="statsResultSection" style="display:none;">
+      <div class="result-headline" id="resultHeadline"></div>
+      <div class="result-answer" id="resultAnswer"></div>
+      <button class="share-btn" id="shareBtn">Copy result</button>
+      <div class="copied-msg" id="copiedMsg"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><div class="n" id="statPlayed">0</div><div class="l">Played</div></div>
+      <div class="stat"><div class="n" id="statWinPct">0%</div><div class="l">Win %</div></div>
+      <div class="stat"><div class="n" id="statStreak">0</div><div class="l">Streak</div></div>
+      <div class="stat"><div class="n" id="statMaxStreak">0</div><div class="l">Max streak</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {n:"Albert Einstein", m:3,d:14,y:1879, c:"Science", co:"Germany", h:"Developed the theory of relativity."},
+  {n:"Abraham Lincoln", m:2,d:12,y:1809, c:"Politics", co:"United States", h:"16th President of the United States."},
+  {n:"Marie Curie", m:11,d:7,y:1867, c:"Science", co:"Poland", h:"First person to win Nobel Prizes in two different sciences."},
+  {n:"Leonardo da Vinci", m:4,d:15,y:1452, c:"Art", co:"Italy", h:"Painted the Mona Lisa."},
+  {n:"William Shakespeare", m:4,d:23,y:1564, c:"Literature", co:"United Kingdom", h:"Wrote Hamlet and Romeo and Juliet."},
+  {n:"Napoleon Bonaparte", m:8,d:15,y:1769, c:"Military & Politics", co:"France", h:"French emperor exiled to the island of Elba."},
+  {n:"Martin Luther King Jr.", m:1,d:15,y:1929, c:"Civil Rights", co:"United States", h:"Delivered the 'I Have a Dream' speech."},
+  {n:"Mahatma Gandhi", m:10,d:2,y:1869, c:"Civil Rights", co:"India", h:"Led India's independence movement through nonviolence."},
+  {n:"Winston Churchill", m:11,d:30,y:1874, c:"Politics", co:"United Kingdom", h:"British Prime Minister during World War II."},
+  {n:"Frida Kahlo", m:7,d:6,y:1907, c:"Art", co:"Mexico", h:"Mexican painter known for her self-portraits."},
+  {n:"Pablo Picasso", m:10,d:25,y:1881, c:"Art", co:"Spain", h:"Co-founded the Cubist art movement."},
+  {n:"Mark Twain", m:11,d:30,y:1835, c:"Literature", co:"United States", h:"Wrote The Adventures of Huckleberry Finn."},
+  {n:"Charles Darwin", m:2,d:12,y:1809, c:"Science", co:"United Kingdom", h:"Proposed the theory of evolution."},
+  {n:"Nikola Tesla", m:7,d:10,y:1856, c:"Science", co:"Croatia", h:"Pioneered alternating current electricity."},
+  {n:"Thomas Edison", m:2,d:11,y:1847, c:"Science", co:"United States", h:"Held over 1,000 patents, including the light bulb."},
+  {n:"Amelia Earhart", m:7,d:24,y:1897, c:"Aviation", co:"United States", h:"First woman to fly solo across the Atlantic."},
+  {n:"Susan B. Anthony", m:2,d:15,y:1820, c:"Civil Rights", co:"United States", h:"Leading figure in the women's suffrage movement."},
+  {n:"Elvis Presley", m:1,d:8,y:1935, c:"Music", co:"United States", h:"Known as the King of Rock and Roll."},
+  {n:"Michael Jackson", m:8,d:29,y:1958, c:"Music", co:"United States", h:"Known as the King of Pop."},
+  {n:"John Lennon", m:10,d:9,y:1940, c:"Music", co:"United Kingdom", h:"Co-founded The Beatles."},
+  {n:"Muhammad Ali", m:1,d:17,y:1942, c:"Sports", co:"United States", h:"Three-time world heavyweight boxing champion."},
+  {n:"Benjamin Franklin", m:1,d:17,y:1706, c:"Politics & Science", co:"United States", h:"Founding Father and inventor of the lightning rod."},
+  {n:"George Washington", m:2,d:22,y:1732, c:"Politics", co:"United States", h:"First President of the United States."},
+  {n:"Thomas Jefferson", m:4,d:13,y:1743, c:"Politics", co:"United States", h:"Principal author of the Declaration of Independence."},
+  {n:"Queen Victoria", m:5,d:24,y:1819, c:"Royalty", co:"United Kingdom", h:"Ruled the British Empire for 63 years."},
+  {n:"Vincent van Gogh", m:3,d:30,y:1853, c:"Art", co:"Netherlands", h:"Painted The Starry Night."},
+  {n:"Wolfgang Amadeus Mozart", m:1,d:27,y:1756, c:"Music", co:"Austria", h:"Composed over 600 works by age 35."},
+  {n:"Ludwig van Beethoven", m:12,d:16,y:1770, c:"Music", co:"Germany", h:"Composed his 9th Symphony while completely deaf."},
+  {n:"Johann Sebastian Bach", m:3,d:31,y:1685, c:"Music", co:"Germany", h:"Baroque composer of the Brandenburg Concertos."},
+  {n:"Anne Frank", m:6,d:12,y:1929, c:"History", co:"Germany", h:"Wrote a diary while hiding during World War II."},
+  {n:"Helen Keller", m:6,d:27,y:1880, c:"Advocacy", co:"United States", h:"First deaf-blind person to earn a college degree."},
+  {n:"Rosa Parks", m:2,d:4,y:1913, c:"Civil Rights", co:"United States", h:"Refused to give up her bus seat in Montgomery, Alabama."},
+  {n:"Malcolm X", m:5,d:19,y:1925, c:"Civil Rights", co:"United States", h:"Prominent human rights activist."},
+  {n:"John F. Kennedy", m:5,d:29,y:1917, c:"Politics", co:"United States", h:"35th U.S. President, assassinated in Dallas."},
+  {n:"Franklin D. Roosevelt", m:1,d:30,y:1882, c:"Politics", co:"United States", h:"Only U.S. President elected four times."},
+  {n:"Theodore Roosevelt", m:10,d:27,y:1858, c:"Politics", co:"United States", h:"Youngest U.S. President ever, at age 42."},
+  {n:"Queen Elizabeth II", m:4,d:21,y:1926, c:"Royalty", co:"United Kingdom", h:"Longest-reigning British monarch."},
+  {n:"Walt Disney", m:12,d:5,y:1901, c:"Entertainment", co:"United States", h:"Created Mickey Mouse."},
+  {n:"Charlie Chaplin", m:4,d:16,y:1889, c:"Entertainment", co:"United Kingdom", h:"Silent film icon known as 'The Tramp.'"},
+  {n:"Marilyn Monroe", m:6,d:1,y:1926, c:"Entertainment", co:"United States", h:"Iconic Hollywood actress of the 1950s."},
+  {n:"Audrey Hepburn", m:5,d:4,y:1929, c:"Entertainment", co:"Belgium", h:"Starred in Breakfast at Tiffany's."},
+  {n:"Stephen Hawking", m:1,d:8,y:1942, c:"Science", co:"United Kingdom", h:"Wrote A Brief History of Time."},
+  {n:"Steve Jobs", m:2,d:24,y:1955, c:"Business", co:"United States", h:"Co-founded Apple."},
+  {n:"Bruce Lee", m:11,d:27,y:1940, c:"Entertainment", co:"United States", h:"Martial artist and film star."},
+  {n:"Alexander Graham Bell", m:3,d:3,y:1847, c:"Science", co:"United Kingdom", h:"Credited with inventing the telephone."},
+  {n:"Wilbur Wright", m:4,d:16,y:1867, c:"Aviation", co:"United States", h:"Co-invented the first successful airplane."},
+  {n:"Henry Ford", m:7,d:30,y:1863, c:"Business", co:"United States", h:"Founded the Ford Motor Company."},
+  {n:"Sigmund Freud", m:5,d:6,y:1856, c:"Science", co:"Czech Republic", h:"Founded psychoanalysis."},
+  {n:"Karl Marx", m:5,d:5,y:1818, c:"Philosophy", co:"Germany", h:"Co-authored The Communist Manifesto."},
+  {n:"Nelson Mandela", m:7,d:18,y:1918, c:"Civil Rights", co:"South Africa", h:"South Africa's first Black president."},
+  {n:"Princess Diana", m:7,d:1,y:1961, c:"Royalty", co:"United Kingdom", h:"Known as the 'People's Princess.'"},
+  {n:"David Bowie", m:1,d:8,y:1947, c:"Music", co:"United Kingdom", h:"Known for the Ziggy Stardust persona."},
+  {n:"Freddie Mercury", m:9,d:5,y:1946, c:"Music", co:"Tanzania", h:"Lead singer of Queen."},
+  {n:"Bob Marley", m:2,d:6,y:1945, c:"Music", co:"Jamaica", h:"Popularized reggae music worldwide."},
+  {n:"Babe Ruth", m:2,d:6,y:1895, c:"Sports", co:"United States", h:"Legendary baseball slugger for the Yankees."},
+  {n:"Jackie Robinson", m:1,d:31,y:1919, c:"Sports", co:"United States", h:"First Black player in MLB's modern era."},
+  {n:"Mother Teresa", m:8,d:26,y:1910, c:"Advocacy", co:"North Macedonia", h:"Founded the Missionaries of Charity."},
+  {n:"Galileo Galilei", m:2,d:15,y:1564, c:"Science", co:"Italy", h:"Improved the telescope and championed heliocentrism."}
+];
+
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MAX_GUESSES = 6;
+
+const COUNTRIES = [
+  "Afghanistan","Argentina","Australia","Austria","Belgium","Brazil","Canada","China","Croatia",
+  "Czech Republic","Denmark","Egypt","Finland","France","Germany","Greece","India","Ireland","Israel",
+  "Italy","Jamaica","Japan","Kenya","Mexico","Morocco","Netherlands","New Zealand","Nigeria",
+  "North Macedonia","Norway","Pakistan","Peru","Philippines","Poland","Portugal","Russia",
+  "Saudi Arabia","Serbia","South Africa","South Korea","Spain","Sweden","Switzerland","Tanzania",
+  "Thailand","Turkey","Ukraine","United Kingdom","United States","Vietnam"
+];
+
+const CONTINENTS = {
+  "Afghanistan":"Asia","Argentina":"South America","Australia":"Oceania","Austria":"Europe",
+  "Belgium":"Europe","Brazil":"South America","Canada":"North America","China":"Asia","Croatia":"Europe",
+  "Czech Republic":"Europe","Denmark":"Europe","Egypt":"Africa","Finland":"Europe","France":"Europe",
+  "Germany":"Europe","Greece":"Europe","India":"Asia","Ireland":"Europe","Israel":"Asia","Italy":"Europe",
+  "Jamaica":"North America","Japan":"Asia","Kenya":"Africa","Mexico":"North America","Morocco":"Africa",
+  "Netherlands":"Europe","New Zealand":"Oceania","Nigeria":"Africa","North Macedonia":"Europe",
+  "Norway":"Europe","Pakistan":"Asia","Peru":"South America","Philippines":"Asia","Poland":"Europe",
+  "Portugal":"Europe","Russia":"Europe","Saudi Arabia":"Asia","Serbia":"Europe","South Africa":"Africa",
+  "South Korea":"Asia","Spain":"Europe","Sweden":"Europe","Switzerland":"Europe","Tanzania":"Africa",
+  "Thailand":"Asia","Turkey":"Asia","Ukraine":"Europe","United Kingdom":"Europe","United States":"North America",
+  "Vietnam":"Asia"
+};
+
+const COUNTRY_ALIASES = {
+  "usa":"United States","u.s.a.":"United States","us":"United States","u.s.":"United States",
+  "america":"United States","uk":"United Kingdom","u.k.":"United Kingdom","britain":"United Kingdom",
+  "great britain":"United Kingdom","england":"United Kingdom","scotland":"United Kingdom",
+  "wales":"United Kingdom","northern ireland":"United Kingdom","czechia":"Czech Republic",
+  "macedonia":"North Macedonia","holland":"Netherlands"
+};
+
+function resolveCountry(raw){
+  if (!raw) return null;
+  const key = raw.trim().toLowerCase();
+  if (!key) return null;
+  if (COUNTRY_ALIASES[key]) return COUNTRY_ALIASES[key];
+  const hit = COUNTRIES.find(c => c.toLowerCase() === key);
+  return hit || null;
+}
+
+function countryFeedback(guessRaw, actual){
+  const resolved = resolveCountry(guessRaw);
+  const label = resolved || (guessRaw || '').trim() || '—';
+  if (resolved && resolved === actual) return { cls: 'exact', arrow: '✓', label };
+  const gc = resolved ? CONTINENTS[resolved] : null;
+  const ac = CONTINENTS[actual];
+  if (gc && gc === ac) return { cls: 'close', arrow: gc, label };
+  return { cls: '', arrow: 'far', label };
+}
+
+function hashStr(str){
+  let h = 0;
+  for (let i=0;i<str.length;i++){ h = (h*31 + str.charCodeAt(i)) >>> 0; }
+  return h;
+}
+function todayKey(){
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+function getDailyIndex(){
+  return hashStr(todayKey()) % DATA.length;
+}
+function puzzleNumber(){
+  const epoch = new Date(2026,0,1);
+  const now = new Date();
+  const diffDays = Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate()) - epoch) / 86400000);
+  return Math.max(1, diffDays + 1);
+}
+
+const person = DATA[getDailyIndex()];
+const stateKey = 'birthdle_state_' + todayKey();
+const statsKey = 'birthdle_stats';
+
+let state = JSON.parse(localStorage.getItem(stateKey) || 'null') || { guesses: [], finished: false, won: false };
+
+function loadStats(){
+  return JSON.parse(localStorage.getItem(statsKey) || 'null') || { played:0, wins:0, streak:0, maxStreak:0, lastPuzzle:null, lastWon:false };
+}
+function saveStats(s){ localStorage.setItem(statsKey, JSON.stringify(s)); }
+function saveState(){ localStorage.setItem(stateKey, JSON.stringify(state)); }
+
+document.getElementById('puzzleNum').textContent = '#' + puzzleNumber();
+
+const mSel = document.getElementById('mSel');
+MONTHS.forEach((mn,i)=>{
+  const opt = document.createElement('option');
+  opt.value = i+1; opt.textContent = mn;
+  mSel.appendChild(opt);
+});
+const dSel = document.getElementById('dSel');
+for(let i=1;i<=31;i++){
+  const opt = document.createElement('option');
+  opt.value = i; opt.textContent = i;
+  dSel.appendChild(opt);
+}
+
+const countryListEl = document.getElementById('countryList');
+COUNTRIES.forEach(c => {
+  const opt = document.createElement('option');
+  opt.value = c;
+  countryListEl.appendChild(opt);
+});
+
+document.getElementById('personName').textContent = person.n;
+
+const photoFrame = document.getElementById('photoFrame');
+const photoFallback = document.getElementById('photoFallback');
+const photoSkel = document.getElementById('photoSkel');
+fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(person.n))
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(data => {
+    const src = (data.originalimage && data.originalimage.source) || (data.thumbnail && data.thumbnail.source);
+    if (!src) throw new Error('no image');
+    const img = new Image();
+    img.onload = () => { photoSkel.remove(); photoFrame.appendChild(img); updatePhotoBlur(); };
+    img.onerror = () => { showFallback(); };
+    img.src = src;
+    img.alt = person.n;
+  })
+  .catch(() => { showFallback(); });
+
+function showFallback(){
+  photoSkel.remove();
+  photoFallback.style.display = 'block';
+}
+
+const categoryBadge = document.getElementById('categoryBadge');
+const hintBox = document.getElementById('hintBox');
+const guessHistory = document.getElementById('guessHistory');
+const livesRow = document.getElementById('livesRow');
+const resultHeadline = document.getElementById('resultHeadline');
+const resultAnswer = document.getElementById('resultAnswer');
+const statsResultSection = document.getElementById('statsResultSection');
+const guessBtn = document.getElementById('guessBtn');
+const ySel = document.getElementById('ySel');
+const cSel = document.getElementById('cSel');
+const gameCard = document.getElementById('gameCard');
+const modeNormalBtn = document.getElementById('modeNormalBtn');
+const modeHardBtn = document.getElementById('modeHardBtn');
+
+let hardMode = localStorage.getItem('birthdle_hardmode') === '1';
+
+function updateModeButtons(){
+  modeNormalBtn.classList.toggle('active', !hardMode);
+  modeHardBtn.classList.toggle('active', hardMode);
+}
+updateModeButtons();
+
+function setHardMode(val){
+  hardMode = val;
+  localStorage.setItem('birthdle_hardmode', hardMode ? '1' : '0');
+  updateModeButtons();
+  updatePhotoBlur();
+}
+
+function revealGame(){
+  gameCard.classList.remove('pending');
+  updatePhotoBlur();
+}
+
+modeNormalBtn.addEventListener('click', () => { setHardMode(false); closeModal('helpOverlay'); revealGame(); });
+modeHardBtn.addEventListener('click', () => { setHardMode(true); closeModal('helpOverlay'); revealGame(); });
+
+if (state.guesses.length === 0 && !state.finished){
+  gameCard.classList.add('pending');
+}
+
+function updatePhotoBlur(){
+  const img = photoFrame.querySelector('img');
+  if (!img) return;
+  if (!hardMode || state.finished){ img.style.filter = 'none'; return; }
+  const blurPx = Math.max(0, 18 - state.guesses.length * 3);
+  img.style.filter = blurPx > 0 ? 'blur(' + blurPx + 'px)' : 'none';
+}
+
+for (let i=0;i<MAX_GUESSES;i++){
+  const dot = document.createElement('div');
+  dot.className = 'dot';
+  dot.dataset.i = i;
+  livesRow.appendChild(dot);
+}
+function updateLives(){
+  const dots = livesRow.querySelectorAll('.dot');
+  dots.forEach((dot,i)=>{
+    const used = i < state.guesses.length;
+    const wasUsed = dot.classList.contains('used');
+    dot.classList.toggle('used', used);
+    if (used && !wasUsed){
+      dot.classList.add('pop');
+      setTimeout(()=>dot.classList.remove('pop'), 400);
+    }
+  });
+}
+
+function fieldFeedback(guessVal, actualVal, closeRange){
+  if (guessVal === actualVal) return { cls: 'exact', arrow: '✓' };
+  const diff = Math.abs(guessVal - actualVal);
+  const cls = diff <= closeRange ? 'close' : '';
+  const arrow = actualVal > guessVal ? '▲ later' : '▼ earlier';
+  return { cls, arrow };
+}
+
+function renderGuess(g, animate){
+  const row = document.createElement('div');
+  row.className = 'guess-row';
+  const mF = fieldFeedback(g.m, person.m, 1);
+  const dF = fieldFeedback(g.d, person.d, 3);
+  const yF = fieldFeedback(g.y, person.y, 10);
+  const cF = countryFeedback(g.co, person.co);
+  [
+    { label: MONTHS[g.m-1], f: mF },
+    { label: g.d, f: dF },
+    { label: g.y, f: yF },
+    { label: cF.label, f: cF, country: true }
+  ].forEach((item, idx) => {
+    const tile = document.createElement('div');
+    tile.className = 'tile ' + item.f.cls + (item.country ? ' country' : '');
+    tile.innerHTML = '<span class="val">' + item.label + '</span><span class="arrow">' + item.f.arrow + '</span>';
+    if (animate) tile.style.animationDelay = (idx * 110) + 'ms';
+    else tile.style.animation = 'none';
+    row.appendChild(tile);
+  });
+  guessHistory.insertBefore(row, guessHistory.firstChild);
+}
+
+function updateHints(){
+  const wrongCount = state.guesses.length;
+  if (wrongCount >= 2){ categoryBadge.textContent = person.c; categoryBadge.classList.add('show'); }
+  if (wrongCount >= 4){ hintBox.textContent = person.h; }
+}
+
+function checkFinish(lastGuess){
+  const exact = lastGuess.m === person.m && lastGuess.d === person.d && lastGuess.y === person.y && resolveCountry(lastGuess.co) === person.co;
+  if (exact || state.guesses.length >= MAX_GUESSES){
+    state.finished = true;
+    state.won = exact;
+    saveState();
+    finishGame();
+  }
+}
+
+function launchConfetti(){
+  const layer = document.createElement('div');
+  layer.className = 'confetti-layer';
+  document.body.appendChild(layer);
+  const colors = ['#e3b23c', '#f2d68a', '#7a6224', '#ffffff'];
+  for (let i=0;i<32;i++){
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDuration = (1.4 + Math.random()*1.2) + 's';
+    p.style.animationDelay = (Math.random()*0.4) + 's';
+    p.style.transform = 'rotate(' + Math.floor(Math.random()*360) + 'deg)';
+    layer.appendChild(p);
+  }
+  setTimeout(()=>layer.remove(), 3200);
+}
+
+function animateCount(el, target){
+  const dur = 500;
+  const start = performance.now();
+  function tick(now){
+    const t = Math.min(1, (now-start)/dur);
+    el.textContent = Math.round(target * t);
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(tick);
+}
+
+function finishGame(){
+  guessBtn.disabled = true;
+  mSel.disabled = true; dSel.disabled = true; ySel.disabled = true; cSel.disabled = true;
+  categoryBadge.textContent = person.c; categoryBadge.classList.add('show');
+  hintBox.textContent = person.h;
+  resultHeadline.textContent = state.won ? 'Nailed it!' : 'So close — try again tomorrow';
+  resultHeadline.classList.toggle('win', state.won);
+  resultAnswer.textContent = person.n + ' was born ' + MONTHS[person.m-1] + ' ' + person.d + ', ' + person.y + '.';
+  statsResultSection.style.display = 'block';
+
+  const stats = loadStats();
+  const pNum = puzzleNumber();
+  if (stats.lastPuzzle !== pNum){
+    stats.played += 1;
+    if (state.won){
+      stats.wins += 1;
+      stats.streak = (stats.lastPuzzle === pNum - 1 && stats.lastWon) ? stats.streak + 1 : 1;
+    } else {
+      stats.streak = 0;
+    }
+    stats.maxStreak = Math.max(stats.maxStreak, stats.streak);
+    stats.lastPuzzle = pNum;
+    stats.lastWon = state.won;
+    saveStats(stats);
+  }
+  renderStats(true);
+  openModal('statsOverlay');
+  if (state.won) setTimeout(launchConfetti, 250);
+}
+
+function renderStats(animate){
+  const stats = loadStats();
+  const playedEl = document.getElementById('statPlayed');
+  const winPctEl = document.getElementById('statWinPct');
+  const streakEl = document.getElementById('statStreak');
+  const maxStreakEl = document.getElementById('statMaxStreak');
+  const winPct = stats.played ? Math.round(100*stats.wins/stats.played) : 0;
+  if (animate){
+    animateCount(playedEl, stats.played);
+    animateCount(streakEl, stats.streak);
+    animateCount(maxStreakEl, stats.maxStreak);
+    const dur = 500, start = performance.now();
+    (function tick(now){
+      const t = Math.min(1, (now-start)/dur);
+      winPctEl.textContent = Math.round(winPct*t) + '%';
+      if (t < 1) requestAnimationFrame(tick); else winPctEl.textContent = winPct + '%';
+    })(start);
+  } else {
+    playedEl.textContent = stats.played;
+    winPctEl.textContent = winPct + '%';
+    streakEl.textContent = stats.streak;
+    maxStreakEl.textContent = stats.maxStreak;
+  }
+}
+
+guessBtn.addEventListener('click', () => {
+  const m = parseInt(mSel.value, 10);
+  const d = parseInt(dSel.value, 10);
+  const y = parseInt(ySel.value, 10);
+  const co = cSel.value.trim();
+  if (!y || y < 1400 || y > 2026){
+    ySel.classList.add('shake');
+    setTimeout(()=>ySel.classList.remove('shake'), 400);
+    ySel.focus();
+    return;
+  }
+  if (!co){
+    cSel.classList.add('shake');
+    setTimeout(()=>cSel.classList.remove('shake'), 400);
+    cSel.focus();
+    return;
+  }
+  const g = { m, d, y, co };
+  state.guesses.push(g);
+  saveState();
+  renderGuess(g, true);
+  updateHints();
+  updateLives();
+  checkFinish(g);
+  updatePhotoBlur();
+});
+
+document.getElementById('shareBtn').addEventListener('click', () => {
+  const rows = state.guesses.map(g => {
+    const mF = fieldFeedback(g.m, person.m, 1);
+    const dF = fieldFeedback(g.d, person.d, 3);
+    const yF = fieldFeedback(g.y, person.y, 10);
+    const cF = countryFeedback(g.co, person.co);
+    const emoji = f => f.cls === 'exact' ? '🟩' : f.cls === 'close' ? '🟨' : '⬜';
+    return emoji(mF) + emoji(dF) + emoji(yF) + emoji(cF);
+  }).join('\n');
+  const text = 'Birthdle #' + puzzleNumber() + ' ' + (state.won ? state.guesses.length + '/6' : 'X/6') + '\n' + rows + '\n\nThink you can beat my score? https://birthdle-nine.vercel.app';
+  const copiedMsg = document.getElementById('copiedMsg');
+  function fallbackCopy(str){
+    const ta = document.createElement('textarea');
+    ta.value = str;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+  function showCopied(){
+    copiedMsg.textContent = 'Copied to clipboard!';
+    setTimeout(() => copiedMsg.textContent = '', 2000);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(showCopied).catch(() => { fallbackCopy(text); showCopied(); });
+  } else {
+    fallbackCopy(text);
+    showCopied();
+  }
+});
+
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+document.getElementById('helpBtn').addEventListener('click', () => openModal('helpOverlay'));
+document.getElementById('helpClose').addEventListener('click', () => { closeModal('helpOverlay'); revealGame(); });
+document.getElementById('helpOverlay').addEventListener('click', (e) => { if (e.target.id === 'helpOverlay') { closeModal('helpOverlay'); revealGame(); } });
+
+document.getElementById('statsBtn').addEventListener('click', () => { renderStats(false); openModal('statsOverlay'); });
+document.getElementById('statsClose').addEventListener('click', () => closeModal('statsOverlay'));
+document.getElementById('statsOverlay').addEventListener('click', (e) => { if (e.target.id === 'statsOverlay') closeModal('statsOverlay'); });
+
+state.guesses.forEach(g => renderGuess(g, false));
+updateHints();
+updateLives();
+renderStats(false);
+if (state.finished) finishGame();
+else if (state.guesses.length === 0) openModal('helpOverlay');
+</script>
+</body>
+</html>

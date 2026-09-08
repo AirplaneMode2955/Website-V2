@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Terrarium — a living city of tiny minds</title>
+<meta name="description" content="A colony of simulated citizens with personalities — they wander, gossip, fall in love, feud, and pass on. Watch the city evolve like an ant farm.">
+<meta property="og:title" content="Pixel Terrarium">
+<meta property="og:description" content="An ant farm made of tiny minds. Watch a pixel city live, argue, love, and evolve.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏙️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d16; --panel:#11142255; --panel2:#141830; --line:#232a4d;
+    --txt:#c9d4f5; --dim:#6b76a8; --accent:#7ee787; --gold:#ffd166;
+    --red:#ff6b6b; --pink:#ff8fd8; --blue:#6ec3ff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--txt);
+    font-family:ui-monospace,'Cascadia Mono',Menlo,Consolas,monospace;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  header{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    padding:10px 16px; border-bottom:2px solid var(--line); background:#0d1020;
+  }
+  header h1{
+    font-family:'Press Start 2P',monospace; font-size:13px; color:var(--accent);
+    letter-spacing:1px; text-shadow:0 0 12px #7ee78744;
+  }
+  header .sub{font-size:11px; color:var(--dim)}
+  #stats{display:flex; gap:14px; margin-left:auto; font-size:12px; align-items:center; flex-wrap:wrap}
+  #stats b{color:var(--gold); font-weight:600}
+  .ctl{display:flex; gap:6px; align-items:center}
+  button{
+    background:var(--panel2); color:var(--txt); border:1px solid var(--line);
+    font-family:inherit; font-size:11px; padding:5px 9px; cursor:pointer;
+    border-radius:3px; transition:background .12s, transform .08s;
+  }
+  button:hover{background:#1d2342; border-color:#3a4680}
+  button:active{transform:scale(0.94)}
+  button.on{background:#1f3a2a; border-color:var(--accent); color:var(--accent)}
+  button.god{color:var(--gold)}
+  #main{flex:1; display:flex; min-height:0}
+  #stage{
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:12px; min-width:0; background:
+      radial-gradient(ellipse at 50% 40%, #131735 0%, #0b0d16 75%);
+  }
+  canvas{
+    image-rendering:pixelated; image-rendering:crisp-edges;
+    max-width:100%; max-height:100%;
+    border:2px solid var(--line); border-radius:4px;
+    box-shadow:0 0 60px #00000088; cursor:crosshair;
+  }
+  #side{
+    width:340px; border-left:2px solid var(--line); background:#0d1020;
+    display:flex; flex-direction:column; min-height:0;
+  }
+  .paneh{
+    font-family:'Press Start 2P',monospace; font-size:9px; color:var(--dim);
+    padding:9px 12px 7px; border-bottom:1px solid var(--line); letter-spacing:1px;
+  }
+  #feed{flex:1; overflow-y:auto; padding:8px 10px; min-height:0}
+  .ev{
+    font-size:11.5px; line-height:1.45; padding:5px 8px; margin-bottom:5px;
+    background:var(--panel); border-left:3px solid var(--dim); border-radius:0 3px 3px 0;
+    animation:slidein .25s ease-out;
+  }
+  @keyframes slidein{from{opacity:0; transform:translateX(8px)}to{opacity:1}}
+  .ev .d{color:var(--dim); font-size:10px; margin-right:5px}
+  .ev.good{border-color:var(--accent)} .ev.bad{border-color:var(--red)}
+  .ev.love{border-color:var(--pink)} .ev.world{border-color:var(--blue)}
+  .ev.gold{border-color:var(--gold)}
+  #inspect{
+    border-top:2px solid var(--line); padding:10px 12px; font-size:11.5px;
+    max-height:46%; overflow-y:auto; display:none; background:#0e1226;
+  }
+  #inspect.open{display:block}
+  #inspect h3{font-size:13px; color:var(--gold); margin-bottom:2px}
+  #inspect .arch{color:var(--dim); font-size:10.5px; margin-bottom:8px}
+  .bar{display:flex; align-items:center; gap:8px; margin:3px 0}
+  .bar label{width:76px; color:var(--dim); font-size:10.5px}
+  .bar .tr{flex:1; height:7px; background:#1a1f3d; border-radius:2px; overflow:hidden}
+  .bar .fl{height:100%; border-radius:2px}
+  .relrow{display:flex; justify-content:space-between; padding:2px 0; font-size:11px}
+  .relrow .v{font-weight:600}
+  .mem{color:var(--dim); font-size:10.5px; line-height:1.5; margin-top:2px}
+  .sect{margin-top:9px; padding-top:7px; border-top:1px dashed #20264a; }
+  .sect .t{color:var(--dim); font-size:9.5px; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px}
+  ::-webkit-scrollbar{width:9px} ::-webkit-scrollbar-track{background:#0d1020}
+  ::-webkit-scrollbar-thumb{background:#232a4d; border-radius:4px}
+  #hint{font-size:10.5px; color:var(--dim); padding:6px 12px; border-top:1px solid var(--line)}
+  @media (max-width:900px){
+    body{overflow:auto} #main{flex-direction:column}
+    #side{width:100%; border-left:none; border-top:2px solid var(--line); max-height:45vh}
+    #stage{min-height:52vh}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>PIXEL TERRARIUM</h1>
+  <span class="sub">an ant farm made of tiny minds</span>
+  <div id="stats">
+    <span>Day <b id="stDay">1</b></span>
+    <span>Pop <b id="stPop">0</b></span>
+    <span>❤ <b id="stLove">0</b></span>
+    <span>🚨 Crimes <b id="stCrimes">0</b></span>
+    <span>🚔 Arrests <b id="stArrests">0</b></span>
+    <span id="stWeather">☀️</span>
+    <span class="ctl">
+      <button id="btnPause" title="pause">⏸</button>
+      <button id="sp1" class="on">1×</button>
+      <button id="sp2">2×</button>
+      <button id="sp4">4×</button>
+    </span>
+    <span class="ctl">
+      <button id="btnNew" class="god" title="a stranger arrives">🚌 newcomer</button>
+      <button id="btnFest" class="god" title="throw a festival">🎪 festival</button>
+      <button id="btnRain" class="god" title="summon rain">🌧 rain</button>
+    </span>
+  </div>
+</header>
+<div id="main">
+  <div id="stage"><canvas id="cv"></canvas></div>
+  <div id="side">
+    <div class="paneh">CITY LOG</div>
+    <div id="feed"></div>
+    <div id="inspect"></div>
+    <div id="hint">click any citizen, officer, or prisoner to inspect them · watch for 🚨 crime — officers investigate, then walk suspects to the 🔒 prison just south of town · the log names the exact avenue &amp; street</div>
+  </div>
+</div>
+<script>
+"use strict";
+/* ============================================================
+   PIXEL TERRARIUM — a self-contained living-city simulation
+   ============================================================ */
+
+// ---------- utils ----------
+const rand=(a,b)=>a+Math.random()*(b-a);
+const randi=(a,b)=>Math.floor(rand(a,b+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const chance=p=>Math.random()<p;
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const dist=(ax,ay,bx,by)=>Math.hypot(ax-bx,ay-by);
+
+// ---------- world constants ----------
+const W=44, H_CITY=44, PRISON_ROWS=16, H=H_CITY+PRISON_ROWS; // grid — square city + a prison strip just south of town
+const T=12, SC=2;                      // tile px, canvas internal scale
+const DAY=90;                          // real seconds per in-world day at 1x
+const POPCAP=22, POPSTART=14, POPMIN=6; // smaller, calmer population
+const AGENT_SCALE=1.4;                 // draw citizens/cops/prisoners bigger than tile size implies
+const MAX_CONVOS=3;                    // cap simultaneous chats so the city feels less hectic
+const G=0, ROAD=1, BLDG=2, WATER=3, PARK=4, PLAZA=5, YARD=6;
+
+const cv=document.getElementById('cv');
+cv.width=W*T*SC; cv.height=H*T*SC;
+const ctx=cv.getContext('2d');
+ctx.imageSmoothingEnabled=false;
+
+// mutable sim state
+const sim={time:DAY*0.3, speed:1, paused:false, births:0, deaths:0, arrests:0, crimes:0,
+  event:null, nextEventAt:DAY*0.5, weatherLabel:'☀️'};
+const tiles=new Uint8Array(W*H);
+const buildings=[], venues=[], trees=[], lamps=[];
+let fountain=null, plazaRect=null, policeStation=null, prisonGate=null, cityBottomY=0;
+const agents=[], convos=[], popups=[], meteors=[], drops=[], confetti=[];
+const police=[], prisoners=[], crimeScenes=[];
+let crimeCooldown=rand(18,30);
+let selected=null, selectedType=null;
+const ghosts=[], announced=new Set();
+let aveOf={}, stOf={};
+
+// ============================================================
+// CITY GENERATION
+// ============================================================
+const inb=(x,y)=>x>=0&&y>=0&&x<W&&y<H;
+const tget=(x,y)=>tiles[y*W+x];
+const tset=(x,y,v)=>{tiles[y*W+x]=v;};
+const walkable=(x,y)=>{if(!inb(x,y))return false; const t=tget(x,y); return t===ROAD||t===PARK||t===PLAZA||t===YARD;};
+
+const shade=(hex,f)=>{ // f>0 lighten, f<0 darken
+  const n=parseInt(hex.slice(1),16);
+  let r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+  r=clamp(Math.round(r+(f>0?(255-r)*f:r*f)),0,255);
+  g=clamp(Math.round(g+(f>0?(255-g)*f:g*f)),0,255);
+  b=clamp(Math.round(b+(f>0?(255-b)*f:b*f)),0,255);
+  return `rgb(${r},${g},${b})`;
+};
+
+let roadXs=[], roadYs=[];
+const VENUE_DEFS=[
+  {type:'café',    name:'The Rusty Bean', icon:'☕'},
+  {type:'tavern',  name:'Blue Moth Tavern', icon:'🍺'},
+  {type:'market',  name:'Corner Market', icon:'🛒'},
+  {type:'arcade',  name:'Neon Arcade', icon:'🕹️'},
+  {type:'diner',   name:'Moonlight Diner', icon:'🥞'},
+  {type:'bakery',  name:'Crumbtown Bakery', icon:'🥐'},
+  {type:'gym',     name:'Gym', icon:'💪'},
+  {type:'apartments', name:'Hunters Landing Apartments', icon:'🏢'},
+];
+// street name pools — avenues run N-S (vertical roads), streets run E-W (horizontal roads)
+const AVE_NAMES=['1st Ave','2nd Ave','3rd Ave','4th Ave','5th Ave'];
+const ST_NAMES=['Elm St','Oak St','Main St','Maple St','Birch St'];
+// building palettes by district — brighter, more saturated to match the reference city-builder art:
+// glassy blue towers, a cream civic quarter with a green dome, colorful shopfronts, cottage houses,
+// a gold manor, and the prison's poured concrete
+const PAL={
+  tower:  ['#8fb3d9','#7ea3cf','#a7c7e8','#6f93bf'],
+  gov:    ['#e3d2a3','#ecdcb4'],
+  gov2:   ['#ecdfc0','#e1d4b4'],
+  shop:   ['#c98a5c','#7fa6cf','#d9ac55','#7fae6a','#c98fb0','#6fa0c9','#dba86a','#9a86c0','#c99a68'],
+  house:  ['#f2e6cf','#e8d6ae','#dcc4a2','#f4e0c9'],
+  mansion:['#e0a34f','#e8ab5f'],
+  prison: ['#6b6f76'],
+};
+const PRISON={x0:11, x1:W-11, y0:H_CITY+3, y1:H-3}; // walled compound just south of the city
+
+// fills one macro-district cell with the buildings appropriate to its kind
+function fillCellBuildings(cell){
+  const {x,y,w,h,kind}=cell;
+  if(kind==='park'){
+    for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++)tset(xx,yy,PARK);
+    const pw=Math.min(4,Math.max(2,w-3)), ph=Math.min(3,Math.max(2,h-3));
+    const px=x+1, py=y+1;
+    for(let yy=py;yy<py+ph;yy++)for(let xx=px;xx<px+pw;xx++) if(xx<x+w&&yy<y+h) tset(xx,yy,WATER);
+    for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++) if(tget(xx,yy)===PARK&&chance(0.14)) trees.push({x:xx,y:yy});
+    return;
+  }
+  if(kind==='plaza'){
+    for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++)tset(xx,yy,PLAZA);
+    plazaRect={x,y,w,h};
+    fountain={x:x+Math.floor(w/2)-1,y:y+Math.floor(h/2)-1};
+    return;
+  }
+  if(kind==='gov'||kind==='gov2'||kind==='mansion'){
+    // one civic/manor centerpiece filling most of the cell
+    const bw=Math.max(4,w-2), bh=Math.max(3,h-2);
+    const bx=x+Math.floor((w-bw)/2), by=y+Math.floor((h-bh)/2);
+    const bd={x:bx,y:by,w:bw,h:bh,c:pick(PAL[kind]),kind,wins:[],spot:null,doorSide:null};
+    buildings.push(bd);
+    for(let q=by;q<by+bh;q++)for(let p=bx;p<bx+bw;p++)tset(p,q,BLDG);
+    return;
+  }
+  // tower / shop / house: subdivide the cell into several smaller buildings
+  let yy=y;
+  while(yy<y+h){
+    const bh=Math.min(kind==='tower'?randi(3,5):randi(2,3), y+h-yy);
+    if(bh<2) break;
+    let xx=x;
+    while(xx<x+w){
+      const bw=Math.min(kind==='tower'?randi(3,4):randi(2,3), x+w-xx);
+      if(bw<2) break;
+      const bd={x:xx,y:yy,w:bw,h:bh,c:pick(PAL[kind]),kind,wins:[],spot:null,doorSide:null};
+      buildings.push(bd);
+      for(let q=yy;q<yy+bh;q++)for(let p=xx;p<xx+bw;p++)tset(p,q,BLDG);
+      xx+=bw+(chance(0.35)?1:0);
+    }
+    yy+=bh+(chance(0.3)?1:0);
+  }
+}
+
+function genCity(){
+  // fixed 4x4 zoned grid — a compact square city with a road lattice, echoing the
+  // reference map's downtown/civic/shop/house/park districts around a central plaza
+  const NDIV=4;
+  const MX=[]; for(let i=0;i<=NDIV;i++) MX.push(2+Math.round(i*(W-5)/NDIV));
+  const MY=[]; for(let i=0;i<=NDIV;i++) MY.push(2+Math.round(i*(H_CITY-5)/NDIV));
+  roadXs=MX.slice(); roadYs=MY.slice(); cityBottomY=MY[MY.length-1];
+  for(const rx of roadXs) for(let yy=MY[0]; yy<=MY[MY.length-1]; yy++) tset(rx,yy,ROAD);
+  for(const ry of roadYs) for(let xx=MX[0]; xx<=MX[MX.length-1]; xx++) tset(xx,ry,ROAD);
+  for(const rx of roadXs) for(const ry of roadYs) lamps.push({x:rx,y:ry});
+
+  const cellKind=[
+    ['house','tower','tower','shop'],
+    ['gov','gov2','shop','shop'],
+    ['house','mansion','plaza','house'],
+    ['park','house','house','shop'],
+  ];
+  for(let cy=0;cy<NDIV;cy++) for(let cx=0;cx<NDIV;cx++){
+    const bx=MX[cx]+1, by=MY[cy]+1, bw=MX[cx+1]-bx, bh=MY[cy+1]-by;
+    if(bw<2||bh<2) continue;
+    fillCellBuildings({x:bx,y:by,w:bw,h:bh,kind:cellKind[cy][cx]});
+  }
+
+  // doors: find a road-adjacent side for each building
+  for(const b of buildings){
+    const midx=b.x+Math.floor(b.w/2), midy=b.y+Math.floor(b.h/2);
+    if(walkable(midx,b.y+b.h)){b.doorSide='s'; b.spot={x:midx,y:b.y+b.h};}
+    else if(walkable(midx,b.y-1)){b.doorSide='n'; b.spot={x:midx,y:b.y-1};}
+    else if(walkable(b.x-1,midy)){b.doorSide='w'; b.spot={x:b.x-1,y:midy};}
+    else if(walkable(b.x+b.w,midy)){b.doorSide='e'; b.spot={x:b.x+b.w,y:midy};}
+  }
+
+  // civic venues live in their themed buildings
+  const govBd=buildings.find(b=>b.kind==='gov'&&b.spot);
+  if(govBd){ const v={type:'library',name:'Library',icon:'📚',b:govBd,spot:govBd.spot}; govBd.venue=v; venues.push(v); }
+  const gov2Bd=buildings.find(b=>b.kind==='gov2'&&b.spot);
+  if(gov2Bd){ const v={type:'police',name:'Precinct 12',icon:'👮',b:gov2Bd,spot:gov2Bd.spot}; gov2Bd.venue=v; venues.push(v); policeStation=v; }
+
+  // easter egg: the manor building is "Iverson's" — home of Jett & Izzy
+  const iversonsBd=buildings.find(b=>b.kind==='mansion'&&b.spot);
+  if(iversonsBd){
+    iversonsBd.special='iversons';
+    const v={type:'home',name:"Iverson's",icon:'💍',b:iversonsBd,spot:iversonsBd.spot};
+    iversonsBd.venue=v; venues.push(v);
+  }
+
+  // remaining venues: assign to spread-out shop buildings that have doors
+  const cands=buildings.filter(b=>b.spot&&!b.venue&&b.kind==='shop').sort(()=>Math.random()-0.5);
+  for(let i=0;i<VENUE_DEFS.length&&i<cands.length;i++){
+    const v={...VENUE_DEFS[i], b:cands[i], spot:cands[i].spot};
+    cands[i].venue=v; venues.push(v);
+  }
+}
+
+// assigns real names to every avenue (vertical road) and street (horizontal road) so the
+// city log can say exactly where something happened, e.g. "near 2nd Ave & Oak St"
+function nameStreets(){
+  const xs=[...roadXs].sort((a,b)=>a-b), ys=[...roadYs].sort((a,b)=>a-b);
+  aveOf={}; xs.forEach((x,i)=>{aveOf[x]=AVE_NAMES[i]||`${i+1}th Ave`;});
+  stOf={};  ys.forEach((y,i)=>{stOf[y]=ST_NAMES[i]||`${i+1}th St`;});
+}
+function nearestStreetLabel(x,y){
+  let bx=roadXs[0]||0, bd=Infinity;
+  for(const rx of roadXs){const d=Math.abs(rx-x); if(d<bd){bd=d; bx=rx;}}
+  let by=roadYs[0]||0, bd2=Infinity;
+  for(const ry of roadYs){const d=Math.abs(ry-y); if(d<bd2){bd2=d; by=ry;}}
+  return `${aveOf[bx]||'Main Ave'} & ${stOf[by]||'Main St'}`;
+}
+
+// the prison — a walled compound just south of the city, reachable by one connector road
+function genPrison(){
+  const gateX=Math.round((PRISON.x0+PRISON.x1)/2);
+  for(let yy=cityBottomY; yy<PRISON.y0; yy++) tset(gateX,yy,ROAD);
+  prisonGate={x:gateX,y:cityBottomY};
+  const cb={x:PRISON.x0+2, y:PRISON.y0+1, w:(PRISON.x1-PRISON.x0-4), h:4,
+    c:pick(PAL.prison), kind:'prison', wins:[], spot:null, doorSide:'s'};
+  buildings.push(cb);
+  for(let q=cb.y;q<cb.y+cb.h;q++)for(let p=cb.x;p<cb.x+cb.w;p++)tset(p,q,BLDG);
+  cb.spot={x:cb.x+Math.floor(cb.w/2), y:cb.y+cb.h};
+  for(let yy=PRISON.y0; yy<=PRISON.y1; yy++) for(let xx=PRISON.x0; xx<=PRISON.x1; xx++)
+    if(tget(xx,yy)!==BLDG) tset(xx,yy,YARD);
+}
+function prisonYardSpot(){
+  return {x:randi(PRISON.x0+1,PRISON.x1-1), y:randi(PRISON.y0+6,PRISON.y1-1)};
+}
+
+// ============================================================
+// CITY PRE-RENDER (static base drawn once)
+// ============================================================
+const cityC=document.createElement('canvas');
+cityC.width=W*T; cityC.height=H*T;
+const cc=cityC.getContext('2d');
+
+function renderCity(){
+  // grass base + noise — brighter, more saturated to match the reference art
+  cc.fillStyle='#5a9a4e'; cc.fillRect(0,0,W*T,H*T);
+  for(let i=0;i<2600;i++){
+    cc.fillStyle=chance(0.5)?'#4f8a45':'#6bb058';
+    cc.fillRect(randi(0,W*T-2),randi(0,H*T-2),2,2);
+  }
+  // dirt/tan border ring around the whole map, echoing the reference image's frame
+  {
+    const BORDER=2;
+    cc.fillStyle='#9c7a4a';
+    for(let ty=0;ty<H;ty++)for(let tx=0;tx<W;tx++){
+      if(tget(tx,ty)===G && (tx<BORDER||tx>=W-BORDER||ty<BORDER||ty>=H-BORDER))
+        cc.fillRect(tx*T,ty*T,T,T);
+    }
+    for(let i=0;i<1200;i++){
+      const edge=chance(0.5);
+      const tx=edge?(chance(0.5)?randi(0,BORDER-1):randi(W-BORDER,W-1)):randi(0,W-1);
+      const ty=edge?randi(0,H-1):(chance(0.5)?randi(0,BORDER-1):randi(H-BORDER,H-1));
+      if(tget(tx,ty)!==G) continue;
+      cc.fillStyle=chance(0.5)?'#8a6a3e':'#ab8757';
+      cc.fillRect(tx*T+randi(0,T-2),ty*T+randi(0,T-2),2,2);
+    }
+  }
+  for(let ty=0;ty<H;ty++)for(let tx=0;tx<W;tx++){
+    const t=tget(tx,ty), X=tx*T, Y=ty*T;
+    if(t===ROAD){
+      cc.fillStyle='#4b4a66'; cc.fillRect(X,Y,T,T);
+      // sidewalk edges where neighbor isn't road
+      cc.fillStyle='#76769a';
+      if(!inb(tx,ty-1)||tget(tx,ty-1)!==ROAD) cc.fillRect(X,Y,T,2);
+      if(!inb(tx,ty+1)||tget(tx,ty+1)!==ROAD) cc.fillRect(X,Y+T-2,T,2);
+      if(!inb(tx-1,ty)||tget(tx-1,ty)!==ROAD) cc.fillRect(X,Y,2,T);
+      if(!inb(tx+1,ty)||tget(tx+1,ty)!==ROAD) cc.fillRect(X+T-2,Y,2,T);
+    } else if(t===WATER){
+      cc.fillStyle='#3a7cb0'; cc.fillRect(X,Y,T,T);
+      if(chance(0.3)){cc.fillStyle='#4f96cc'; cc.fillRect(X+randi(1,8),Y+randi(1,9),3,1);}
+    } else if(t===PARK){
+      cc.fillStyle='#4f8a52'; cc.fillRect(X,Y,T,T);
+      if(chance(0.3)){cc.fillStyle='#5ea060'; cc.fillRect(X+randi(0,9),Y+randi(0,9),2,2);}
+    } else if(t===PLAZA){
+      cc.fillStyle=((tx+ty)%2===0)?'#9a9aa8':'#8f8f9c'; cc.fillRect(X,Y,T,T);
+      cc.fillStyle='#78788400';
+    } else if(t===YARD){
+      cc.fillStyle=((tx+ty)%2===0)?'#a89c82':'#9e9278'; cc.fillRect(X,Y,T,T);
+    }
+  }
+  // lane dashes — bright yellow to match the reference road markings
+  cc.fillStyle='#f0d050';
+  for(const ry of roadYs) for(let tx=roadXs[0];tx<roadXs[roadXs.length-1];tx+=2)
+    if(tget(tx,ry)===ROAD) cc.fillRect(tx*T+3,ry*T+T/2-1,5,1);
+  for(const rx of roadXs) for(let ty=roadYs[0];ty<roadYs[roadYs.length-1];ty+=2)
+    if(tget(rx,ty)===ROAD) cc.fillRect(rx*T+T/2-1,ty*T+3,1,5);
+  // connector road dashes leading down to the prison
+  if(prisonGate){
+    for(let ty=cityBottomY; ty<PRISON.y0; ty+=2)
+      if(tget(prisonGate.x,ty)===ROAD) cc.fillRect(prisonGate.x*T+T/2-1,ty*T+3,1,5);
+  }
+  // street signage — small labels at the top/left end of each avenue & street so the
+  // city log's "near 2nd Ave & Oak St" call-outs can actually be found on the map
+  cc.font='bold 7px monospace'; cc.textAlign='left';
+  for(const rx of roadXs){
+    cc.save(); cc.translate(rx*T+5, Math.max(2,roadYs[0]*T-3)); cc.rotate(Math.PI/2);
+    cc.fillStyle='rgba(255,255,255,0.7)'; cc.fillText(aveOf[rx]||'',0,0);
+    cc.restore();
+  }
+  for(const ry of roadYs){
+    cc.fillStyle='rgba(255,255,255,0.7)';
+    cc.fillText(stOf[ry]||'', Math.max(2,roadXs[0]*T-46), ry*T-2);
+  }
+  // trees
+  for(const tr of trees){
+    const X=tr.x*T+T/2, Y=tr.y*T+T/2;
+    cc.fillStyle='#4a3626'; cc.fillRect(X-1,Y+1,2,3);
+    cc.fillStyle='#2f5c33'; cc.fillRect(X-4,Y-4,8,7);
+    cc.fillStyle='#3d7442'; cc.fillRect(X-3,Y-5,6,6);
+    cc.fillStyle='#4f8a54'; cc.fillRect(X-2,Y-4,3,3);
+  }
+  // fountain base
+  if(fountain){
+    const X=fountain.x*T, Y=fountain.y*T;
+    cc.fillStyle='#6a6a78'; cc.fillRect(X-3,Y-3,2*T+6,2*T+6);
+    cc.fillStyle='#2b5f8a'; cc.fillRect(X,Y,2*T,2*T);
+  }
+  // buildings — styled per district kind
+  for(const b of buildings){
+    const X=b.x*T, Y=b.y*T, Wd=b.w*T, Hd=b.h*T;
+    cc.fillStyle=b.c; cc.fillRect(X,Y,Wd,Hd);
+    cc.fillStyle=shade(b.c,-0.35); cc.fillRect(X,Y+Hd-2,Wd,2); cc.fillRect(X+Wd-2,Y,2,Hd);
+    const roofBand=b.kind==='tower'?2:4;
+    const roofCol=b.kind==='gov'?'#3f8a5c':b.kind==='house'?'#8a3f3f':b.kind==='mansion'?'#8a5f2f':
+      b.kind==='prison'?'#3d3f45':shade(b.c,0.22);
+    cc.fillStyle=roofCol; cc.fillRect(X,Y,Wd,roofBand);               // roof band
+    cc.fillStyle=shade(b.c,-0.2); cc.fillRect(X,Y+roofBand,Wd,1);
+    // windows (skip roof band) — towers get denser rows, prison gets barred slits
+    const winTop=Y+roofBand+3;
+    for(let wy=winTop; wy<Y+Hd-4; wy+=(b.kind==='tower'?6:7)) for(let wx=X+3; wx<X+Wd-4; wx+=6){
+      b.wins.push({x:wx,y:wy,lit:chance(0.5)});
+      cc.fillStyle= b.kind==='prison' ? '#111318' : '#1c2030';
+      cc.fillRect(wx,wy,3,3);
+      cc.fillStyle=shade(b.c,-0.45); cc.fillRect(wx,wy+3,3,1);
+      if(b.kind==='prison'){cc.fillStyle='#3a3d44'; cc.fillRect(wx+1,wy,1,3);}
+    }
+    // courthouse columns
+    if(b.kind==='gov2'){
+      cc.fillStyle='#efe9d8';
+      for(let cx2=X+4; cx2<X+Wd-4; cx2+=6) cc.fillRect(cx2,Y+roofBand+1,2,Hd-roofBand-5);
+    }
+    // door
+    if(b.doorSide){
+      cc.fillStyle='#241a12';
+      const mx=b.x+Math.floor(b.w/2), my=b.y+Math.floor(b.h/2);
+      if(b.doorSide==='s') cc.fillRect(mx*T+3,Y+Hd-5,5,5);
+      if(b.doorSide==='n') cc.fillRect(mx*T+3,Y,5,4);
+      if(b.doorSide==='w') cc.fillRect(X,my*T+3,4,5);
+      if(b.doorSide==='e') cc.fillRect(X+Wd-4,my*T+3,4,5);
+    }
+    // venue awning
+    if(b.venue&&b.kind!=='house'&&b.kind!=='tower'&&b.kind!=='prison'){
+      cc.fillStyle=pick(['#c94f4f','#4f77c9','#c9a04f']);
+      cc.fillRect(X+1,Y+1,Wd-2,2);
+      for(let sx=X+1; sx<X+Wd-2; sx+=4){cc.fillStyle='#eee6d5'; cc.fillRect(sx,Y+1,2,2);}
+    }
+  }
+  // billboards — small name signs baked above every notable venue (library, gym,
+  // apartments, Iverson's, etc.) so buildings are identifiable at a glance
+  cc.font='bold 7px monospace'; cc.textAlign='center';
+  for(const v of venues){
+    if(!v.b) continue;
+    const X=v.b.x*T, Y=v.b.y*T, Wd=v.b.w*T;
+    const label=`${v.icon} ${v.name}`;
+    const tw=cc.measureText(label).width+6;
+    const bx=X+Wd/2, by=Y-9;
+    cc.fillStyle='#1c2030'; cc.fillRect(bx-tw/2,by-8,tw,10);
+    cc.strokeStyle='#ffd166'; cc.lineWidth=1; cc.strokeRect(bx-tw/2+0.5,by-8+0.5,tw-1,9);
+    cc.fillStyle='#ffe9b0'; cc.fillText(label,bx,by-1);
+  }
+  // lamp bases
+  cc.fillStyle='#20222c';
+  for(const l of lamps) cc.fillRect(l.x*T+T/2-1,l.y*T+T/2-1,2,2);
+
+  // prison perimeter wall & watchtowers
+  {
+    const X0=PRISON.x0*T-4, Y0=PRISON.y0*T-4, X1=(PRISON.x1+1)*T+4, Y1=(PRISON.y1+1)*T+4;
+    const gateX=prisonGate?prisonGate.x*T:((PRISON.x0+PRISON.x1)/2)*T;
+    cc.fillStyle='#4a4d55';
+    cc.fillRect(X0,Y0,X1-X0,6);
+    cc.fillRect(X0,Y1-6,X1-X0,6);
+    cc.fillRect(X0,Y0,6,Y1-Y0);
+    cc.fillRect(X1-6,Y0,6,Y1-Y0);
+    cc.fillStyle='#3a5a40'; cc.fillRect(gateX-6,Y0,12,6); // gate opening
+    cc.strokeStyle='#9aa0ac'; cc.lineWidth=1; cc.beginPath();
+    for(let x=X0; x<X1; x+=8){cc.moveTo(x,Y0-2); cc.lineTo(x+4,Y0-5); cc.lineTo(x+8,Y0-2);}
+    cc.stroke();
+    cc.fillStyle='#33353c';
+    for(const [tx,ty] of [[X0-6,Y0-6],[X1-10,Y0-6],[X0-6,Y1-10],[X1-10,Y1-10]]){
+      cc.fillRect(tx,ty,16,16);
+      cc.fillStyle='#20222a'; cc.fillRect(tx+3,ty+3,10,10);
+      cc.fillStyle='#33353c';
+    }
+    cc.fillStyle='#9aa0ac'; cc.font='bold 9px monospace'; cc.textAlign='center';
+    cc.fillText('◆ STATE PRISON ◆', (X0+X1)/2, Y0-10);
+  }
+}
+
+// ============================================================
+// PATHFINDING (BFS on walkable tiles)
+// ============================================================
+const bfsPrev=new Int32Array(W*H), bfsSeen=new Uint8Array(W*H), bfsQ=new Int32Array(W*H);
+function findPath(sx,sy,tx,ty){
+  if(!walkable(tx,ty)){const n=nearestWalkable(tx,ty); if(!n)return null; tx=n.x; ty=n.y;}
+  if(!walkable(sx,sy)){const n=nearestWalkable(sx,sy); if(!n)return null; sx=n.x; sy=n.y;}
+  bfsSeen.fill(0);
+  let qh=0,qt=0; const si=sy*W+sx, ti=ty*W+tx;
+  bfsQ[qt++]=si; bfsSeen[si]=1; bfsPrev[si]=-1;
+  while(qh<qt){
+    const cur=bfsQ[qh++]; if(cur===ti) break;
+    const cx=cur%W, cy=(cur-cx)/W;
+    const nb=[cur-1,cur+1,cur-W,cur+W];
+    const ok=[cx>0&&walkable(cx-1,cy), cx<W-1&&walkable(cx+1,cy),
+              cy>0&&walkable(cx,cy-1), cy<H-1&&walkable(cx,cy+1)];
+    for(let k=0;k<4;k++) if(ok[k]&&!bfsSeen[nb[k]]){bfsSeen[nb[k]]=1;bfsPrev[nb[k]]=cur;bfsQ[qt++]=nb[k];}
+  }
+  if(!bfsSeen[ti]) return null;
+  const path=[]; let cur=ti;
+  while(cur!==-1){path.push({x:cur%W, y:Math.floor(cur/W)}); cur=bfsPrev[cur];}
+  path.reverse(); return path;
+}
+function nearestWalkable(x,y){
+  x=clamp(Math.round(x),0,W-1); y=clamp(Math.round(y),0,H-1);
+  if(walkable(x,y)) return {x,y};
+  for(let r=1;r<10;r++) for(let dy=-r;dy<=r;dy++) for(let dx=-r;dx<=r;dx++)
+    if(walkable(x+dx,y+dy)) return {x:x+dx,y:y+dy};
+  return null;
+}
+function randomSpot(){
+  for(let i=0;i<200;i++){const x=randi(0,W-1),y=randi(0,H_CITY-1); if(walkable(x,y))return {x,y};}
+  return {x:roadXs[0],y:roadYs[0]};
+}
+function plazaSpot(){
+  if(!plazaRect) return randomSpot();
+  return {x:randi(plazaRect.x,plazaRect.x+plazaRect.w-1), y:randi(plazaRect.y,plazaRect.y+plazaRect.h-1)};
+}
+
+// ============================================================
+// CITIZENS
+// ============================================================
+const NAMES=['Mara','Jun','Otto','Faye','Theo','Iri','Vex','Pip','Nova','Rook',
+'Sable','Wren','Ash','Bo','Cleo','Dax','Eda','Fenn','Gil','Hana','Ivo','Kip',
+'Lux','Mox','Nia','Oren','Pax','Quill','Rue','Sol','Tam','Una','Von','Wyn',
+'Xan','Yara','Zed','Ember','Onyx','Juno','Milo','Tilda','Basil','Opal','Ada',
+'Bram','Cass','Dot','Elm','Fig','Grey','Hollis','Ink','Jett','Koa','Lark'];
+const usedNames=new Set();
+function makeName(){
+  const free=NAMES.filter(n=>!usedNames.has(n));
+  const n=free.length?pick(free):pick(NAMES)+'-'+randi(2,99);
+  usedNames.add(n); return n;
+}
+const SHIRTS=['#e05d5d','#5da9e0','#63c96a','#e0b25d','#b57de0','#e08fbf','#7dd8d0','#d8d87d','#e0855d'];
+const SKINS=['#f2c9a0','#d9a06b','#b57a4e','#8f5a38'];
+const HAIRS=['#2b2b2b','#5a3b1e','#c9c95a','#a83232','#e8e8e8','#4e3a6b','#356b5e'];
+const TRAITS=['social','temper','curious','warmth','vigor'];
+const TRAIT_LABEL={social:'sociable',temper:'temper',curious:'curiosity',warmth:'warmth',vigor:'restless'};
+
+let nextId=1;
+function archetype(tr){
+  const e=Object.entries(tr).sort((a,b)=>b[1]-a[1]);
+  if(e[0][1]<0.42) return 'The Loner';
+  const top=e[0][0];
+  return {social:'The Socialite',temper:'The Firebrand',curious:'The Dreamer',
+          warmth:'The Charmer',vigor:'The Wanderer'}[top];
+}
+
+function makeAgent(opts={}){
+  const tr={};
+  for(const t of TRAITS) tr[t]=opts.traits?opts.traits[t]:rand(0.1,0.95);
+  const home=pick(buildings.filter(b=>b.spot&&b.kind!=='prison'))||buildings[0];
+  const spawn=opts.at||home.spot||randomSpot();
+  const a={
+    id:nextId++, name:opts.name||makeName(), traits:tr,
+    arch:archetype(tr),
+    shirt:pick(SHIRTS), skin:pick(SKINS), hair:pick(HAIRS),
+    x:spawn.x, y:spawn.y, path:null, pathI:0, onArrive:null,
+    state:'idle', linger:rand(0.5,3), hidden:false,
+    energy:rand(55,95), socialN:rand(40,90), mood:rand(50,80),
+    age:opts.age!==undefined?opts.age:rand(3.5,10), lifespan:rand(22,34),
+    nightOwl:chance(0.2), partner:null, home,
+    rel:new Map(), cd:new Map(), mem:[], convo:null, dead:false,
+    parents:opts.parents||null,
+  };
+  agents.push(a); return a;
+}
+const isAdult=a=>a.age>=3;
+const byId=id=>agents.find(a=>a.id===id);
+function addMem(a,s){a.mem.unshift(`${s} · day ${Math.floor(sim.time/DAY)+1}`); if(a.mem.length>8)a.mem.pop();}
+
+// ---------- relationships ----------
+const relGet=(a,bid)=>a.rel.get(bid)||0;
+function relSet(a,bid,v){a.rel.set(bid,clamp(v,-100,100));}
+function relAdd(a,b,d){
+  const oa=relGet(a,b.id), ob=relGet(b,a.id);
+  relSet(a,b.id,oa+d); relSet(b,a.id,ob+d);
+  const nv=relGet(a,b.id), ov=oa;
+  const key=(t)=>`${Math.min(a.id,b.id)}-${Math.max(a.id,b.id)}-${t}`;
+  const once=(t)=>{if(announced.has(key(t)))return false; announced.add(key(t)); return true;};
+  if(ov<45&&nv>=45&&once('fr')) feed(`🤝 ${a.name} and ${b.name} became friends`,'good');
+  if(ov<70&&nv>=70){
+    if(isAdult(a)&&isAdult(b)&&!a.partner&&!b.partner&&(a.traits.warmth+b.traits.warmth)/2>0.45){
+      a.partner=b.id; b.partner=a.id;
+      feed(`❤️ ${a.name} and ${b.name} are now partners!`,'love');
+      addMem(a,`Fell for ${b.name} ❤️`); addMem(b,`Fell for ${a.name} ❤️`);
+      popup(a.x,a.y-1,'❤️','#ff8fd8');
+    } else if(once('al')) feed(`🛡️ Alliance formed: ${a.name} & ${b.name}`,'good');
+  }
+  if(ov>-35&&nv<=-35&&once('rv')) feed(`😾 ${a.name} and ${b.name} are now rivals`,'bad');
+  if(ov>-60&&nv<=-60&&once('fd')){feed(`⚡ FEUD! ${a.name} and ${b.name} despise each other`,'bad');
+    addMem(a,`Feud with ${b.name} ⚡`); addMem(b,`Feud with ${a.name} ⚡`);}
+}
+function compat(a,b){
+  let d=0; for(const t of TRAITS) d+=Math.abs(a.traits[t]-b.traits[t]);
+  return 1-(d/TRAITS.length)*0.9;
+}
+
+// ---------- dialogue ----------
+const DLG={
+  small:["nice {w} today, huh?","have you been to {v} lately?","the fountain's extra sparkly today",
+    "i counted 14 pigeons this morning","the roads feel busier lately","did you sleep okay? i never do",
+    "someday i'll get a place by the lake","heard {v} changed their menu","this city keeps getting stranger",
+    "i love this street at dusk","you ever just watch the lamps flicker?","new shoes. thoughts?",
+    "i'm saving up for a bigger house","the plaza tiles are SO satisfying","weather's been wild lately",
+    "i swear the moon was pink last night","work has been endless","found a coin on the main road today"],
+  reply:["ha, totally","no way, really?","hm. if you say so","i was JUST thinking that","classic you",
+    "tell me more","that's what you said yesterday","wild times","honestly? same","couldn't agree more",
+    "you might be onto something","sure, sure","huh. never noticed"],
+  gossip:["did you hear about {t}?","{t} has been acting weird lately","i saw {t} near {v} at 2am",
+    "between us, {t} owes me one","{t} said the nicest thing yesterday","don't tell {t} i said this...",
+    "{t} and i go way back","honestly i don't trust {t}","{t} never waves back at me"],
+  deep:["do you think we're being watched?","what if the city just... ends at the edge?",
+    "i dreamt i was made of tiny squares","does the sun ever get tired?","we're all just passing through, you know?",
+    "sometimes i hear a hum beneath the roads","what's beyond the lake, really?","i think the fountain knows things",
+    "were we always here? like, always?"],
+  flirt:["i like walking with you","you make this street brighter","i was thinking about you at {v} today",
+    "your hair looks great in this light","we should watch the stars sometime","i saved you a seat at {v}",
+    "is it warm out here, or is it just you?"],
+  argue:["you ALWAYS do this","take that back!","i'm done covering for you","you never listen to me",
+    "that was MY idea","don't you start with me","you embarrassed me at {v}","some friend YOU are",
+    "i heard what you said about me"],
+  argueReply:["oh, grow up","says YOU","whatever helps you sleep","i'm not doing this today","fine. FINE.",
+    "you're impossible","take a walk","unbelievable"],
+};
+function weatherWord(){
+  const e=sim.event;
+  if(e&&e.type==='rain')return 'rain'; if(e&&e.type==='heat')return 'heat';
+  return daylight()>0.5?'sun':'night air';
+}
+function fillLine(s,a,b){
+  return s.replace('{n}',b?b.name:'')
+          .replace('{v}',venues.length?pick(venues).name:'the plaza')
+          .replace('{w}',weatherWord())
+          .replace('{t}',(()=>{
+            const others=agents.filter(o=>!o.dead&&o!==a&&o!==b);
+            return others.length?pick(others).name:'someone';
+          })());
+}
+
+function pickTone(a,b){
+  const rel=relGet(a,b.id);
+  const tempA=(a.traits.temper+b.traits.temper)/2;
+  const curA=(a.traits.curious+b.traits.curious)/2;
+  if(!isAdult(a)||!isAdult(b)) return 'small';
+  const heat=sim.event&&sim.event.type==='heat'?0.2:0;
+  if(rel<-20&&chance(0.6+heat)) return 'argue';
+  if(Math.max(a.traits.temper,b.traits.temper)>0.7&&chance(0.28+heat)) return 'argue';
+  if(rel>30&&!a.partner&&!b.partner&&chance(0.3+(a.traits.warmth+b.traits.warmth)*0.15)) return 'flirt';
+  if(a.partner===b.id&&chance(0.5)) return 'flirt';
+  if(curA>0.6&&chance(0.35)) return 'deep';
+  if(chance(0.3)) return 'gossip';
+  return 'small';
+}
+function startConvo(a,b){
+  const tone=pickTone(a,b);
+  const lines=[];
+  const n=randi(3,4);
+  for(let i=0;i<n;i++){
+    const who=i%2===0?a:b, other=i%2===0?b:a;
+    let pool;
+    if(tone==='argue') pool=i===0?DLG.argue:(i%2?DLG.argueReply:DLG.argue);
+    else if(i===0) pool=DLG[tone==='small'?'small':tone];
+    else if(i%2===1) pool=DLG.reply;
+    else pool=chance(0.5)?DLG[tone==='small'?'small':tone]:DLG.small;
+    lines.push({who, text:fillLine(pick(pool),who,other)});
+  }
+  const c={a,b,lines,idx:0,t:0,tone,lineT:2.4};
+  a.state='chat'; b.state='chat'; a.convo=c; b.convo=c; a.path=null; b.path=null;
+  convos.push(c);
+}
+function endConvo(c){
+  const {a,b,tone}=c;
+  const cp=compat(a,b);
+  if(tone==='argue'){
+    const d=-(6+rand(0,12))*(1+((a.traits.temper+b.traits.temper)/2)*0.6);
+    relAdd(a,b,d); a.mood=clamp(a.mood-9,0,100); b.mood=clamp(b.mood-9,0,100);
+    feed(`💢 ${a.name} and ${b.name} argued in the street`,'bad');
+    addMem(a,`Argued with ${b.name}`); addMem(b,`Argued with ${a.name}`);
+    popup((a.x+b.x)/2,(a.y+b.y)/2-1,'💢','#ff6b6b');
+  } else {
+    let d=(4+rand(0,9))*(0.5+cp);
+    if(tone==='flirt') d+=6;
+    relAdd(a,b,d);
+    a.mood=clamp(a.mood+6,0,100); b.mood=clamp(b.mood+6,0,100);
+    if(chance(0.22)) feed(`💬 ${a.name} and ${b.name} ${pick(['swapped gossip','talked about the weather','chatted by the road','shared a joke','talked late into the day'])}`,'');
+  }
+  a.socialN=clamp(a.socialN+35,0,100); b.socialN=clamp(b.socialN+35,0,100);
+  const until=sim.time+rand(30,70);
+  a.cd.set(b.id,until); b.cd.set(a.id,until);
+  for(const p of [a,b]){ p.state='idle'; p.linger=rand(1,3); p.convo=null; }
+}
+
+// ---------- agent behavior ----------
+function goTo(a,x,y,then){
+  const p=findPath(Math.round(a.x),Math.round(a.y),x,y);
+  if(!p||p.length<2){a.state='idle'; a.linger=rand(1,3); return;}
+  a.path=p; a.pathI=1; a.state='walk'; a.onArrive=then||null;
+}
+function goSleep(a){
+  const s=a.home.spot||randomSpot();
+  goTo(a,s.x,s.y,()=>{a.state='sleep'; a.hidden=true;});
+}
+function decide(a){
+  const e=sim.event;
+  if(e&&e.type==='festival'&&chance(0.7)){const s=plazaSpot(); goTo(a,s.x,s.y,()=>{a.linger=rand(5,12);}); return;}
+  if(e&&e.type==='meteor'&&chance(0.6)){const s=plazaSpot(); goTo(a,s.x,s.y,()=>{a.linger=rand(6,14);}); return;}
+  if(a.energy<18){goSleep(a); return;}
+  if(e&&e.type==='rain'&&chance(0.4)&&venues.length){const v=pick(venues); goTo(a,v.spot.x,v.spot.y,()=>{a.linger=rand(4,9);}); return;}
+  if(a.socialN<48&&chance(0.7)){
+    // seek a friend or a busy venue
+    let bestId=null,best=0;
+    for(const [id,v] of a.rel) if(v>best){const o=byId(id); if(o&&!o.dead&&!o.hidden){best=v;bestId=id;}}
+    if(bestId&&chance(0.6)){const o=byId(bestId); goTo(a,Math.round(o.x),Math.round(o.y)); return;}
+    if(venues.length){const v=pick(venues); goTo(a,v.spot.x,v.spot.y,()=>{a.linger=rand(3,8);}); return;}
+  }
+  const r=Math.random();
+  if(r<0.55+a.traits.vigor*0.3){const s=randomSpot(); goTo(a,s.x,s.y);}
+  else if(r<0.85&&venues.length){const v=pick(venues); goTo(a,v.spot.x,v.spot.y,()=>{a.linger=rand(3,8);});}
+  else a.linger=rand(2,5);
+}
+
+function updateAgent(a,dt){
+  if(a.dead) return;
+  if(a.state==='escorted') return; // being walked to prison by an officer — see updateEscorts
+  a.age+=dt/DAY;
+  const dl=daylight();
+  if(a.state==='sleep'){
+    a.energy=clamp(a.energy+dt*(300/DAY),0,100);
+    if((dl>0.35&&a.energy>65)||a.energy>=100){a.state='idle'; a.hidden=false; a.linger=rand(0.5,2);}
+    return;
+  }
+  a.energy=clamp(a.energy-dt*(55/DAY)*(0.6+a.traits.vigor*0.7),0,100);
+  a.socialN=clamp(a.socialN-dt*(45/DAY),0,100);
+  a.mood=clamp(a.mood+(60-a.mood)*dt*0.01,0,100);
+  if(sim.event&&sim.event.type==='rain') a.mood=clamp(a.mood-dt*0.35,0,100);
+  if(sim.event&&sim.event.type==='festival') a.mood=clamp(a.mood+dt*0.5,0,100);
+
+  // bedtime
+  if(a.state!=='chat'&&!a.nightOwl&&dl<0.2&&a.energy<80&&a.state!=='walk'){goSleep(a);}
+
+  if(a.state==='walk'&&a.path){
+    const nx=a.path[a.pathI];
+    if(!nx){a.path=null; a.state='idle'; a.linger=rand(1,4); return;}
+    const spd=1.5*(isAdult(a)?1:0.7);
+    const dx=nx.x-a.x, dy=nx.y-a.y, d=Math.hypot(dx,dy);
+    if(d<0.08){a.x=nx.x; a.y=nx.y; a.pathI++;
+      if(a.pathI>=a.path.length){a.path=null;
+        const f=a.onArrive; a.onArrive=null;
+        a.state='idle'; a.linger=rand(2,6);
+        if(f)f(); }
+    } else { a.x+=dx/d*spd*dt; a.y+=dy/d*spd*dt; }
+  } else if(a.state==='idle'){
+    a.linger-=dt;
+    if(a.linger<=0) decide(a);
+  }
+  // natural death (the Iversons are exempt — this is their happily-ever-after)
+  if(!a.special&&a.age>a.lifespan&&chance(dt*(0.6/DAY)*(1+(a.age-a.lifespan)))) kill(a,'passed away peacefully');
+}
+
+function kill(a,how,opts={}){
+  a.dead=true;
+  if(a.convo){const c=a.convo; c.b.state='idle'; c.a.state='idle'; c.a.convo=null; c.b.convo=null;
+    const i=convos.indexOf(c); if(i>=0)convos.splice(i,1);}
+  const friends=[...a.rel.values()].filter(v=>v>50).length;
+  ghosts.push({x:a.x,y:a.y,t:0,name:a.name,murder:!!opts.murder});
+  sim.deaths++;
+  feed(`✝️ ${a.name} ${how} at ${Math.floor(a.age)} — remembered by ${friends} friend${friends===1?'':'s'}`,'gold');
+  if(a.partner){const p=byId(a.partner); if(p){p.partner=null; p.mood=clamp(p.mood-30,0,100); addMem(p,`Lost dear ${a.name} 💔`);
+    feed(`💔 ${p.name} grieves for ${a.name}`,'love');}}
+  if(selected===a){selected=null; selectedType=null; renderInspect();}
+  const i=agents.indexOf(a); if(i>=0) agents.splice(i,1);
+}
+
+// ---------- encounters, births, arrivals ----------
+let convoScanT=0, birthT=0;
+function scanConvos(dt){
+  convoScanT-=dt; if(convoScanT>0) return; convoScanT=0.5;
+  if(convos.length>=MAX_CONVOS) return; // keep the city calm — cap simultaneous chats
+  for(let i=0;i<agents.length;i++){
+    const a=agents[i];
+    if(a.hidden||a.dead||a.state==='chat'||a.state==='sleep'||a.state==='escorted') continue;
+    for(let j=i+1;j<agents.length;j++){
+      const b=agents[j];
+      if(b.hidden||b.dead||b.state==='chat'||b.state==='sleep'||b.state==='escorted') continue;
+      if(Math.abs(a.x-b.x)>1.4||Math.abs(a.y-b.y)>1.4) continue;
+      if((a.cd.get(b.id)||0)>sim.time) continue;
+      const p=0.12+((a.traits.social+b.traits.social)/2)*0.30+(sim.event&&sim.event.type==='festival'?0.15:0);
+      if(chance(p)){ startConvo(a,b); return; }
+    }
+  }
+}
+function scanBirths(dt){
+  birthT-=dt; if(birthT>0) return; birthT=2;
+  if(agents.length>=POPCAP) return;
+  for(const a of agents){
+    if(!a.partner||a.id>a.partner) continue;   // each pair once
+    const b=byId(a.partner); if(!b) continue;
+    if(chance(2*(0.8/DAY))){
+      const tr={}; for(const t of TRAITS) tr[t]=clamp((a.traits[t]+b.traits[t])/2+rand(-0.18,0.18),0.05,0.98);
+      const kid=makeAgent({age:0, traits:tr, at:a.home.spot, parents:[a.name,b.name]});
+      kid.home=a.home; sim.births++;
+      feed(`👶 ${kid.name} was born to ${a.name} & ${b.name}!`,'love');
+      addMem(a,`${kid.name} was born 👶`); addMem(b,`${kid.name} was born 👶`);
+      popup(kid.x,kid.y-1,'👶','#ffd166');
+    }
+  }
+}
+function newcomer(){
+  if(agents.length>=POPCAP) return;
+  const edge={x:roadXs[0], y:pick(roadYs)};
+  const a=makeAgent({age:rand(4,10), at:edge});
+  feed(`🚌 A newcomer arrived: ${a.name} (${a.arch.replace('The ','')})`,'world');
+  const s=randomSpot(); goTo(a,s.x,s.y);
+}
+
+// ============================================================
+// CRIME, POLICE & PRISON
+// ============================================================
+function makeCop(i){
+  const spot=policeStation?policeStation.spot:randomSpot();
+  return {id:'cop'+i, name:'Officer '+pick(['Diaz','Kade','Nune','Frost','Blake','Ortiz','Reyes','Voss']),
+    x:spot.x, y:spot.y, path:null, pathI:0, onArrive:null, state:'idle', linger:rand(1,3),
+    urgent:false, busy:false, investigating:null, escorting:null};
+}
+function copGoTo(c,x,y,then,urgent){
+  const p=findPath(Math.round(c.x),Math.round(c.y),x,y);
+  if(!p||p.length<2){c.state='idle'; c.linger=rand(1,3); if(then)then(); return;}
+  c.path=p; c.pathI=1; c.state='walk'; c.onArrive=then||null; c.urgent=!!urgent;
+}
+function updateCop(c,dt){
+  if(c.state==='walk'&&c.path){
+    const nx=c.path[c.pathI];
+    if(!nx){c.path=null; c.state='idle'; c.linger=rand(1,3); return;}
+    const spd=c.urgent?2.6:1.5;
+    const dx=nx.x-c.x, dy=nx.y-c.y, d=Math.hypot(dx,dy);
+    if(d<0.08){c.x=nx.x; c.y=nx.y; c.pathI++;
+      if(c.pathI>=c.path.length){c.path=null; c.urgent=false;
+        const f=c.onArrive; c.onArrive=null; c.state='idle'; c.linger=rand(1,3);
+        if(f)f(); }
+    } else { c.x+=dx/d*spd*dt; c.y+=dy/d*spd*dt; }
+  } else if(c.state==='idle'&&!c.investigating){
+    c.linger-=dt;
+    if(c.linger<=0){ const s=randomSpot(); copGoTo(c,s.x,s.y); }
+  }
+}
+function updatePolice(dt){
+  // dispatch a free officer to any unassigned crime scene
+  for(const scene of crimeScenes){
+    if(scene.resolved||scene.assigned) continue;
+    const free=police.find(c=>!c.busy);
+    if(!free) continue;
+    free.busy=true; scene.assigned=free.id;
+    copGoTo(free,scene.x,scene.y,()=>{
+      free.investigating=scene; scene.invT=0;
+      feed(`🔍 ${free.name} arrives to investigate the ${scene.type} near ${scene.streetName||scene.locName}`,'world');
+    },true);
+  }
+  for(const c of police){
+    updateCop(c,dt);
+    if(c.investigating){
+      const scene=c.investigating;
+      scene.invT+=dt;
+      if(scene.invT>scene.needT) resolveCrime(scene,c);
+    }
+  }
+}
+function triggerCrime(){
+  const pool=agents.filter(a=>!a.dead&&!a.hidden&&isAdult(a)&&!a.special);
+  if(pool.length<2) return;
+  const victim=pick(pool);
+  const suspects=pool.filter(a=>a!==victim);
+  if(!suspects.length) return;
+  const suspect=pick(suspects);
+  const night=daylight()<0.3;
+  const isMurder=chance(night?0.3:0.12); // robberies are more common than murders, both more likely at night
+  const loc={x:Math.round(victim.x),y:Math.round(victim.y)};
+  const nonPolice=venues.filter(v=>v.type!=='police');
+  const locName=nonPolice.length?pick(nonPolice).name:'downtown';
+  const streetName=nearestStreetLabel(loc.x,loc.y);
+  if(isMurder){
+    feed(`🔪 ${victim.name} was found dead near ${locName}, close to ${streetName} — foul play suspected`,'bad');
+    popup(loc.x,loc.y-1,'💀','#ff6b6b');
+    kill(victim,'was murdered',{murder:true});
+  } else {
+    feed(`🚨 ${victim.name} was robbed near ${locName}, close to ${streetName}`,'bad');
+    victim.mood=clamp(victim.mood-25,0,100);
+    addMem(victim,'Got robbed 😨');
+    popup(loc.x,loc.y-1,'💰','#ffd166');
+  }
+  sim.crimes++;
+  crimeScenes.push({x:loc.x,y:loc.y,type:isMurder?'murder':'robbery',suspectId:suspect.id,
+    victimName:victim.name,locName,streetName,assigned:null,invT:0,needT:rand(10,18),resolved:false,t:0});
+  // a small crowd wanders over to see what happened
+  const witnesses=agents.filter(a=>a!==victim&&a!==suspect&&!a.dead&&!a.hidden&&a.state!=='sleep'&&a.state!=='escorted'
+    &&dist(a.x,a.y,loc.x,loc.y)<14).sort(()=>Math.random()-0.5).slice(0,randi(2,4));
+  for(const w of witnesses) goTo(w,clamp(loc.x+randi(-1,1),0,W-1),clamp(loc.y+randi(-1,1),0,H_CITY-1),()=>{w.linger=rand(4,8);});
+  if(witnesses.length) feed(`👀 A crowd gathers near ${streetName} to see what happened`,'world');
+}
+function resolveCrime(scene,cop){
+  scene.resolved=true;
+  cop.investigating=null;
+  const suspect=byId(scene.suspectId);
+  const solved=chance(scene.type==='murder'?0.42:0.58);
+  if(solved&&suspect&&!suspect.dead){
+    feed(`🚔 ${cop.name} places ${suspect.name} under arrest for the ${scene.type}`,'gold');
+    popup(cop.x,cop.y-1,'🚔','#ffd166');
+    suspect.x=cop.x; suspect.y=cop.y; // apprehended right where the officer stands
+    beginEscort(cop,suspect,scene.type);
+  } else {
+    feed(`🤷 The ${scene.type} near ${scene.streetName||scene.locName} remains unsolved — the case goes cold`,'');
+    cop.busy=false; cop.linger=rand(2,4);
+  }
+  const idx=crimeScenes.indexOf(scene); if(idx>=0) crimeScenes.splice(idx,1);
+}
+// officer physically walks the suspect from the arrest site to the prison gate
+function beginEscort(cop,suspect,crimeType){
+  if(suspect.convo){
+    const c=suspect.convo; const o=c.a===suspect?c.b:c.a; if(o){o.state='idle'; o.convo=null;}
+    const ci=convos.indexOf(c); if(ci>=0) convos.splice(ci,1);
+  }
+  suspect.path=null; suspect.convo=null; suspect.state='escorted'; suspect.hidden=false;
+  cop.escorting=suspect;
+  const g=prisonGate||{x:Math.round(cop.x),y:Math.round(cop.y)};
+  copGoTo(cop,g.x,g.y,()=>{
+    feed(`🔒 ${cop.name} delivers ${suspect.name} to the prison for the ${crimeType}`,'gold');
+    jailAgent(suspect,crimeType);
+    sim.arrests++;
+    cop.escorting=null; cop.busy=false; cop.linger=rand(2,4);
+  },true);
+}
+// every frame, keeps an escorted suspect trailing just behind their officer
+function updateEscorts(dt){
+  for(const c of police){
+    const s=c.escorting; if(!s) continue;
+    if(s.dead){ c.escorting=null; c.busy=false; continue; }
+    const dx=c.x-s.x, dy=c.y-s.y, d=Math.hypot(dx,dy);
+    if(d>0.05){ const spd=Math.min(d*6,2.2); s.x+=dx/d*spd*dt; s.y+=dy/d*spd*dt; }
+  }
+}
+function updateCrime(dt){
+  crimeCooldown-=dt;
+  if(crimeCooldown<=0){
+    const dl=daylight();
+    if(chance(dl<0.3?0.92:0.42)) triggerCrime();
+    crimeCooldown=dl<0.3?rand(14,26):rand(28,50);
+  }
+  for(const scene of crimeScenes) scene.t+=dt;
+}
+function jailAgent(a,crimeType){
+  const i=agents.indexOf(a); if(i>=0) agents.splice(i,1);
+  if(a.convo){const c=a.convo; const o=c.a===a?c.b:c.a; o.state='idle'; o.convo=null;
+    const ci=convos.indexOf(c); if(ci>=0)convos.splice(ci,1);}
+  if(selected===a){selected=null; selectedType=null; renderInspect();}
+  a.state='jailed'; a.path=null; a.convo=null; a.hidden=false; a.crimeType=crimeType||a.crimeType;
+  const spot=prisonYardSpot(); a.x=spot.x; a.y=spot.y;
+  a.sentenceLeft=rand(75,160);
+  a.linger=rand(2,5);
+  prisoners.push(a);
+}
+function updatePrisoners(dt){
+  for(const p of [...prisoners]){
+    p.sentenceLeft-=dt;
+    if(!p.path){
+      p.linger-=dt;
+      if(p.linger<=0){
+        const s=prisonYardSpot();
+        const path=findPath(Math.round(p.x),Math.round(p.y),s.x,s.y);
+        if(path&&path.length>1){p.path=path; p.pathI=1;}
+        p.linger=rand(3,7);
+      }
+    } else {
+      const nx=p.path[p.pathI];
+      if(!nx){p.path=null;}
+      else{
+        const dx=nx.x-p.x, dy=nx.y-p.y, d=Math.hypot(dx,dy);
+        if(d<0.08){p.x=nx.x; p.y=nx.y; p.pathI++; if(p.pathI>=p.path.length) p.path=null;}
+        else { p.x+=dx/d*1.5*dt; p.y+=dy/d*1.5*dt; }
+      }
+    }
+    if(p.sentenceLeft<=0){
+      const idx=prisoners.indexOf(p); if(idx>=0) prisoners.splice(idx,1);
+      p.state='idle'; p.linger=rand(1,3); p.path=null;
+      const g=prisonGate||{x:Math.round(p.x),y:Math.round(p.y)};
+      p.x=g.x; p.y=g.y;
+      p.mood=clamp(p.mood-15,0,100);
+      agents.push(p);
+      feed(`⛓️ ${p.name} was released from prison and returns to the city`,'world');
+    }
+  }
+}
+
+// ---------- world events ----------
+function fireEvent(force){
+  const dl=daylight();
+  let type=force||pick(['rain','rain','festival','festival','meteor','blackout','heat']);
+  if(type==='meteor'&&dl>0.3&&!force) type='rain';
+  const dur=rand(28,55);
+  sim.event={type, until:sim.time+dur};
+  const msg={rain:'🌧 Rain sweeps over the city',
+    festival:'🎪 A festival erupts on the plaza! Everyone\'s invited',
+    meteor:'🌠 Meteor shower tonight — citizens gather to watch',
+    blackout:'🔌 Blackout! The city goes dark',
+    heat:'🔥 Heatwave — tempers are running short'}[type];
+  feed(msg,'world');
+  sim.weatherLabel={rain:'🌧',festival:'🎪',meteor:'🌠',blackout:'🔌',heat:'🔥'}[type];
+  if(type==='rain') for(let i=0;i<130;i++) drops.push({x:rand(0,cv.width),y:rand(0,cv.height),s:rand(300,500)});
+  if(type==='festival') for(let i=0;i<80;i++) confetti.push({x:(plazaRect.x+rand(0,plazaRect.w))*T*SC,y:(plazaRect.y+rand(0,plazaRect.h))*T*SC,c:pick(SHIRTS),t:rand(0,2)});
+}
+function updateEvents(dt){
+  if(sim.event){
+    if(sim.event.type==='heat'){ // heat raises argument odds via temper — handled cheaply here
+      if(chance(dt*0.02)) for(const a of agents) a.mood=clamp(a.mood-1,0,100);
+    }
+    if(sim.event.type==='meteor'&&chance(dt*1.5))
+      meteors.push({x:rand(0,cv.width),y:rand(0,cv.height*0.7),vx:rand(150,260),vy:rand(60,120),t:0});
+    if(sim.time>sim.event.until){
+      sim.event=null; drops.length=0;
+      sim.nextEventAt=sim.time+rand(50,140);
+      sim.weatherLabel=daylight()>0.4?'☀️':'🌙';
+    }
+  } else {
+    sim.weatherLabel=daylight()>0.4?'☀️':'🌙';
+    if(sim.time>sim.nextEventAt) fireEvent();
+  }
+  if(agents.length<POPMIN&&chance(dt*0.1)) newcomer();
+  else if(agents.length<POPCAP*0.55&&chance(dt*0.018)) newcomer();
+}
+
+// ============================================================
+// TIME OF DAY
+// ============================================================
+function daylight(){
+  const tod=(sim.time%DAY)/DAY;
+  if(tod<0.2) return 0;
+  if(tod<0.3) return (tod-0.2)/0.1;
+  if(tod<0.75) return 1;
+  if(tod<0.9) return 1-(tod-0.75)/0.15;
+  return 0;
+}
+
+// ============================================================
+// FEED / POPUPS / UI
+// ============================================================
+const feedEl=document.getElementById('feed'), inspEl=document.getElementById('inspect');
+function feed(msg,cls){
+  const d=document.createElement('div');
+  d.className='ev '+(cls||'');
+  d.innerHTML=`<span class="d">d${Math.floor(sim.time/DAY)+1}</span>${msg}`;
+  feedEl.prepend(d);
+  while(feedEl.children.length>90) feedEl.lastChild.remove();
+}
+function popup(x,y,txt,color){popups.push({x,y,txt,color:color||'#fff',t:0});}
+
+function relLabel(v){
+  if(v>=70)return['❤ bonded','#ff8fd8']; if(v>=45)return['friend','#7ee787'];
+  if(v>=20)return['friendly','#9fdc9f']; if(v<=-60)return['FEUD','#ff6b6b'];
+  if(v<=-35)return['rival','#ff9d6b']; if(v<=-15)return['tense','#c9a06b'];
+  return['acquaintance','#6b76a8'];
+}
+function renderInspect(){
+  if(!selected){inspEl.classList.remove('open'); inspEl.innerHTML=''; return;}
+  inspEl.classList.add('open');
+  if(selectedType==='cop'){
+    const c=selected;
+    let status='on patrol';
+    if(c.escorting) status=`escorting ${c.escorting.name} to the prison ⛓️`;
+    else if(c.investigating) status=`🔍 investigating a ${c.investigating.type} near ${c.investigating.streetName||c.investigating.locName}`;
+    else if(c.urgent) status='racing to a crime scene';
+    inspEl.innerHTML=`<h3>${c.name} 👮</h3><div class="arch">Precinct 12 patrol officer</div>
+      <div class="sect"><div class="t">status</div><div class="mem">${status}</div></div>`;
+    return;
+  }
+  if(selectedType==='prisoner'){
+    const p=selected;
+    inspEl.innerHTML=`<h3>${p.name} 🔒</h3><div class="arch">convicted of ${p.crimeType||'a crime'} · ${Math.max(0,Math.ceil(p.sentenceLeft||0))}s left on sentence</div>
+      <div class="sect"><div class="t">memories</div><div class="mem">${p.mem.length?p.mem.map(m=>'· '+m).join('<br>'):'no memories on file'}</div></div>`;
+    return;
+  }
+  const a=selected;
+  const partner=a.partner?byId(a.partner):null;
+  const rels=[...a.rel.entries()].map(([id,v])=>({o:byId(id),v})).filter(r=>r.o)
+    .sort((p,q)=>Math.abs(q.v)-Math.abs(p.v)).slice(0,6);
+  const barRow=(label,v,col)=>`<div class="bar"><label>${label}</label>
+    <div class="tr"><div class="fl" style="width:${Math.round(v*100)}%;background:${col}"></div></div></div>`;
+  let h=`<h3>${a.name} ${partner?'<span style="color:var(--pink)">❤ '+partner.name+'</span>':''}</h3>
+    <div class="arch">${a.arch} · age ${Math.floor(a.age)} ${a.age<3?'(child)':''} ${a.nightOwl?'· night owl 🦉':''}${a.parents?' · child of '+a.parents.join(' & '):''}</div>`;
+  if(a.special) h+=`<div style="color:var(--pink);font-size:11px;margin-bottom:6px">💍 The Iversons — married in real life too. This is their happily ever after.</div>`;
+  if(a.state==='escorted') h+=`<div style="color:var(--red);font-size:11px;margin-bottom:6px">⛓️ Being escorted to the prison</div>`;
+  for(const t of TRAITS) h+=barRow(TRAIT_LABEL[t],a.traits[t],'#6ec3ff');
+  h+=barRow('mood',a.mood/100,'#ff8fd8')+barRow('energy',a.energy/100,'#ffd166');
+  if(rels.length){
+    h+=`<div class="sect"><div class="t">relationships</div>`;
+    for(const r of rels){const [lab,col]=relLabel(r.v);
+      h+=`<div class="relrow"><span>${r.o.name}</span><span class="v" style="color:${col}">${lab} ${r.v>0?'+':''}${Math.round(r.v)}</span></div>`;}
+    h+=`</div>`;
+  }
+  if(a.mem.length){
+    h+=`<div class="sect"><div class="t">memories</div><div class="mem">${a.mem.map(m=>'· '+m).join('<br>')}</div></div>`;
+  }
+  inspEl.innerHTML=h;
+}
+
+// stats
+const stDay=document.getElementById('stDay'), stPop=document.getElementById('stPop'),
+      stLove=document.getElementById('stLove'), stWeather=document.getElementById('stWeather'),
+      stArrests=document.getElementById('stArrests'), stCrimes=document.getElementById('stCrimes');
+function updateStats(){
+  stDay.textContent=Math.floor(sim.time/DAY)+1;
+  stPop.textContent=agents.length;
+  stLove.textContent=Math.floor(agents.filter(a=>a.partner).length/2);
+  stCrimes.textContent=sim.crimes;
+  stArrests.textContent=sim.arrests;
+  stWeather.textContent=sim.weatherLabel;
+}
+
+// controls
+const btnPause=document.getElementById('btnPause');
+btnPause.onclick=()=>{sim.paused=!sim.paused; btnPause.textContent=sim.paused?'▶':'⏸'; btnPause.classList.toggle('on',sim.paused);};
+for(const [id,sp] of [['sp1',1],['sp2',2],['sp4',4]]){
+  document.getElementById(id).onclick=e=>{
+    sim.speed=sp;
+    for(const q of ['sp1','sp2','sp4']) document.getElementById(q).classList.toggle('on',q===id);
+  };
+}
+document.getElementById('btnNew').onclick=()=>newcomer();
+document.getElementById('btnFest').onclick=()=>fireEvent('festival');
+document.getElementById('btnRain').onclick=()=>fireEvent('rain');
+
+// click-to-select — citizens, officers, and prisoners are all selectable
+cv.addEventListener('click',e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=(e.clientX-r.left)/r.width*W, my=(e.clientY-r.top)/r.height*H;
+  let best=null,bd=1.6,bestType=null;
+  for(const a of agents){ if(a.hidden)continue;
+    const d=dist(a.x+0.5,a.y+0.5,mx,my); if(d<bd){bd=d;best=a;bestType='agent';} }
+  for(const c of police){
+    const d=dist(c.x+0.5,c.y+0.5,mx,my); if(d<bd){bd=d;best=c;bestType='cop';} }
+  for(const p of prisoners){
+    const d=dist(p.x+0.5,p.y+0.5,mx,my); if(d<bd){bd=d;best=p;bestType='prisoner';} }
+  selected=best; selectedType=bestType; renderInspect();
+});
+
+// ============================================================
+// DRAWING
+// ============================================================
+function drawAgent(a,now){
+  if(a.hidden) return;
+  const cx=(a.x+0.5)*T*SC, cy=(a.y+0.5)*T*SC;
+  const walking=a.state==='walk'||a.state==='escorted';
+  const f=walking?Math.floor(now*7)%2:0;
+  const s=(isAdult(a)?1:0.62)*AGENT_SCALE;
+  ctx.save(); ctx.translate(cx,cy-(f?1:0)); ctx.scale(s,s);
+  ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.fillRect(-5,7,10,3);              // shadow
+  ctx.fillStyle='#23242e';                                               // legs
+  ctx.fillRect(-4,2,3,5+(f?0:1)); ctx.fillRect(1,2,3,5+(f?1:0));
+  ctx.fillStyle=a.shirt; ctx.fillRect(-5,-4,10,7);                       // body
+  ctx.fillStyle=a.skin;  ctx.fillRect(-4,-11,8,7);                       // head
+  ctx.fillStyle=a.hair;  ctx.fillRect(-4,-13,8,3); ctx.fillRect(-4,-11,1,2); ctx.fillRect(3,-11,1,2);
+  ctx.fillStyle='#20222c'; ctx.fillRect(-2,-8,1,1); ctx.fillRect(1,-8,1,1); // eyes
+  ctx.restore();
+  if(a===selected){
+    ctx.strokeStyle='#ffd166'; ctx.lineWidth=2;
+    ctx.strokeRect(cx-9*AGENT_SCALE,cy-17*AGENT_SCALE,18*AGENT_SCALE,28*AGENT_SCALE);
+    ctx.fillStyle='#ffd166'; ctx.font='11px monospace'; ctx.textAlign='center';
+    ctx.fillText(a.name,cx,cy-22*AGENT_SCALE);
+  }
+  if(a.state==='sleep'){ctx.fillStyle='#9fb4ff'; ctx.font='10px monospace'; ctx.fillText('z',cx+8,cy-14*AGENT_SCALE);}
+  if(a.state==='escorted'){ctx.font='11px monospace'; ctx.textAlign='center'; ctx.fillText('⛓️',cx,cy-20*AGENT_SCALE);}
+  if(a.special){ctx.font='11px monospace'; ctx.textAlign='center'; ctx.fillText('💍',cx,cy-20*AGENT_SCALE-(a.state==='escorted'?11:0));}
+}
+
+function drawCop(c,now){
+  const cx=(c.x+0.5)*T*SC, cy=(c.y+0.5)*T*SC;
+  const walking=c.state==='walk';
+  const f=walking?Math.floor(now*7)%2:0;
+  ctx.save(); ctx.translate(cx,cy-(f?1:0)); ctx.scale(AGENT_SCALE,AGENT_SCALE);
+  ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.fillRect(-5,7,10,3);              // shadow
+  ctx.fillStyle='#1c2030'; ctx.fillRect(-4,2,3,5+(f?0:1)); ctx.fillRect(1,2,3,5+(f?1:0)); // legs
+  ctx.fillStyle='#2b4a7a'; ctx.fillRect(-5,-4,10,7);                     // navy uniform
+  ctx.fillStyle='#ffd166'; ctx.fillRect(-1,-2,2,2);                      // badge
+  ctx.fillStyle='#e8c9a0'; ctx.fillRect(-4,-11,8,7);                     // head
+  ctx.fillStyle='#1c2030'; ctx.fillRect(-4,-13,8,3);                     // cap
+  ctx.fillStyle='#0d1020'; ctx.fillRect(-2,-8,1,1); ctx.fillRect(1,-8,1,1); // eyes
+  ctx.restore();
+  if(c===selected){
+    ctx.strokeStyle='#ffd166'; ctx.lineWidth=2;
+    ctx.strokeRect(cx-9*AGENT_SCALE,cy-17*AGENT_SCALE,18*AGENT_SCALE,28*AGENT_SCALE);
+    ctx.fillStyle='#ffd166'; ctx.font='11px monospace'; ctx.textAlign='center';
+    ctx.fillText(c.name,cx,cy-22*AGENT_SCALE);
+  }
+  if(c.escorting){ctx.font='11px monospace'; ctx.textAlign='center'; ctx.fillText('⛓️',cx,cy-18*AGENT_SCALE);}
+  else if(c.urgent){ctx.fillStyle='#ff6b6b'; ctx.font='11px monospace'; ctx.textAlign='center'; ctx.fillText('!',cx,cy-18*AGENT_SCALE);}
+  else if(c.investigating){ctx.font='11px monospace'; ctx.textAlign='center'; ctx.fillText('🔍',cx,cy-18*AGENT_SCALE);}
+}
+
+function drawPrisoner(p,now){
+  const cx=(p.x+0.5)*T*SC, cy=(p.y+0.5)*T*SC;
+  ctx.save(); ctx.translate(cx,cy); ctx.scale(AGENT_SCALE,AGENT_SCALE);
+  ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.fillRect(-5,7,10,3);
+  ctx.fillStyle='#23242e'; ctx.fillRect(-4,2,3,6); ctx.fillRect(1,2,3,6);
+  ctx.fillStyle='#e2762b'; ctx.fillRect(-5,-4,10,7);                    // jumpsuit
+  ctx.fillStyle='#c9601f'; ctx.fillRect(-5,-2,10,1); ctx.fillRect(-5,0,10,1); // stripes
+  ctx.fillStyle=p.skin; ctx.fillRect(-4,-11,8,7);
+  ctx.fillStyle=p.hair; ctx.fillRect(-4,-13,8,3);
+  ctx.fillStyle='#20222c'; ctx.fillRect(-2,-8,1,1); ctx.fillRect(1,-8,1,1);
+  ctx.restore();
+  if(p===selected){
+    ctx.strokeStyle='#ffd166'; ctx.lineWidth=2;
+    ctx.strokeRect(cx-9*AGENT_SCALE,cy-17*AGENT_SCALE,18*AGENT_SCALE,28*AGENT_SCALE);
+    ctx.fillStyle='#ffd166'; ctx.font='11px monospace'; ctx.textAlign='center';
+    ctx.fillText(p.name,cx,cy-22*AGENT_SCALE);
+  }
+}
+
+// lays out every active speech bubble using horizontal "lanes" stacked above each
+// speaker: a bubble only climbs to the next lane up if it would truly overlap
+// another bubble already placed in its lane, so simultaneous chats never cover
+// each other no matter how close the speakers are standing
+function layoutBubbles(){
+  ctx.font='12px ui-monospace,Menlo,Consolas,monospace';
+  const items=[];
+  for(const c of convos){
+    const line=c.lines[c.idx]; if(!line) continue;
+    const sp=line.who; if(sp.hidden) continue;
+    const w=ctx.measureText(line.text).width+12;
+    const sx=(sp.x+0.5)*T*SC, sy=(sp.y+0.5)*T*SC;
+    items.push({c,line,sx,sy,w});
+  }
+  items.sort((p,q)=>p.sx-q.sx);
+  const lanes=[], placed=[];
+  for(const it of items){
+    let bx=clamp(it.sx-it.w/2,4,cv.width-it.w-4);
+    let lane=0, guard=0;
+    while(guard++<8){
+      const occ=lanes[lane]||(lanes[lane]=[]);
+      const clash=occ.find(o=>bx<o[1]+6&&o[0]<bx+it.w+6);
+      if(!clash){ occ.push([bx,bx+it.w]); break; }
+      lane++;
+    }
+    const by=clamp(it.sy-46-lane*22,4,cv.height-30);
+    placed.push({c:it.c,line:it.line,bx,by,w:it.w});
+  }
+  return placed;
+}
+function drawBubble(item){
+  const {c,line,bx,by,w}=item;
+  const sp=line.who;
+  const sx=(sp.x+0.5)*T*SC;
+  const arg=c.tone==='argue';
+  ctx.font='12px ui-monospace,Menlo,Consolas,monospace';
+  ctx.fillStyle=arg?'#2a0f16':'#f6f2e4';
+  ctx.strokeStyle=arg?'#ff6b6b':'#8d876f'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.roundRect(bx,by,w,20,4); ctx.fill(); ctx.stroke();
+  ctx.fillStyle=arg?'#f6f2e4':'#20222c';                                  // tail
+  ctx.fillRect(sx-2,by+20,4,5);
+  ctx.fillStyle=arg?'#ffb3b3':'#20222c';
+  ctx.textAlign='left';
+  ctx.fillText(line.text,bx+6,by+14);
+}
+
+function draw(now){
+  ctx.drawImage(cityC,0,0,cv.width,cv.height);
+  // fountain sparkle
+  if(fountain){
+    const fx=fountain.x*T*SC, fy=fountain.y*T*SC;
+    for(let i=0;i<6;i++){
+      ctx.fillStyle=chance(0.5)?'#bfe8ff':'#e8f6ff';
+      ctx.fillRect(fx+rand(2,2*T*SC-4),fy+rand(2,2*T*SC-4),2,2);
+    }
+  }
+  // festival dressing
+  if(sim.event&&sim.event.type==='festival'&&plazaRect){
+    const px=plazaRect.x*T*SC, py=plazaRect.y*T*SC, pw=plazaRect.w*T*SC;
+    for(let i=0;i<pw;i+=10){ctx.fillStyle=SHIRTS[(i/10)%SHIRTS.length|0]; ctx.fillRect(px+i,py-3,6,4);}
+    for(const cf of confetti){
+      ctx.fillStyle=cf.c; ctx.fillRect(cf.x+Math.sin(cf.t*3)*6,cf.y,3,3);
+    }
+  }
+  // agents (sorted by y so lower ones draw in front)
+  const sorted=[...agents].sort((p,q)=>p.y-q.y);
+  for(const a of sorted) drawAgent(a,now);
+  for(const c of police) drawCop(c,now);
+  for(const p of prisoners) drawPrisoner(p,now);
+  // ghosts
+  for(const g of ghosts){
+    const al=1-g.t/3; if(al<=0) continue;
+    const gx=(g.x+0.5)*T*SC, gy=(g.y+0.5)*T*SC-g.t*10;
+    ctx.globalAlpha=al*0.8;
+    ctx.fillStyle=g.murder?'#ffb3b3':'#e8ecff'; ctx.fillRect(gx-4,gy-10,8,12);
+    ctx.fillRect(gx-6,gy-6,2,4); ctx.fillRect(gx+4,gy-6,2,4);
+    ctx.fillStyle='#20222c'; ctx.fillRect(gx-2,gy-7,1,2); ctx.fillRect(gx+1,gy-7,1,2);
+    ctx.globalAlpha=1;
+  }
+  // rain
+  if(sim.event&&sim.event.type==='rain'){
+    ctx.strokeStyle='rgba(160,195,255,0.45)'; ctx.lineWidth=1;
+    ctx.beginPath();
+    for(const d of drops){ctx.moveTo(d.x,d.y); ctx.lineTo(d.x-2,d.y+8);}
+    ctx.stroke();
+  }
+  // meteors
+  for(const m of meteors){
+    const al=1-m.t/1.1; if(al<=0)continue;
+    ctx.strokeStyle=`rgba(255,255,230,${al})`; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(m.x,m.y); ctx.lineTo(m.x-m.vx*0.12,m.y-m.vy*0.12); ctx.stroke();
+  }
+  // night tint
+  const dl=daylight();
+  let tint=(1-dl)*0.55;
+  const blackout=sim.event&&sim.event.type==='blackout';
+  if(blackout) tint=Math.min(0.72,tint+0.25);
+  if(tint>0.02){ctx.fillStyle=`rgba(8,10,38,${tint})`; ctx.fillRect(0,0,cv.width,cv.height);}
+  if(tint>0.12&&!blackout){
+    ctx.fillStyle='rgba(255,214,110,0.85)';
+    for(const b of buildings) for(const wn of b.wins)
+      if(wn.lit) ctx.fillRect(wn.x*SC,wn.y*SC,3*SC,3*SC);
+    for(const l of lamps){
+      const lx=(l.x+0.5)*T*SC, ly=(l.y+0.5)*T*SC;
+      ctx.fillStyle='rgba(255,225,150,0.10)';
+      ctx.beginPath(); ctx.arc(lx,ly,26,0,7); ctx.fill();
+      ctx.fillStyle='#ffe9b0'; ctx.fillRect(lx-1,ly-1,3,3);
+    }
+    // prison watchtower spotlights sweeping the yard
+    const pX0=PRISON.x0*T*SC-10, pY0=PRISON.y0*T*SC-10, pX1=(PRISON.x1+1)*T*SC+10;
+    const towers=[[pX0,pY0],[pX1,pY0]];
+    for(let i=0;i<towers.length;i++){
+      const [tx,ty]=towers[i];
+      const ang=(i?Math.PI*0.7:Math.PI*0.3)+Math.sin(now*0.35+i*2.1)*0.5;
+      ctx.save(); ctx.translate(tx,ty); ctx.rotate(ang);
+      const grad=ctx.createLinearGradient(0,0,140,0);
+      grad.addColorStop(0,'rgba(255,255,210,0.22)'); grad.addColorStop(1,'rgba(255,255,210,0)');
+      ctx.fillStyle=grad;
+      ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(140,-16); ctx.lineTo(140,16); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+  }
+  // speech bubbles above everything (auto-stacked so simultaneous chats never overlap)
+  for(const item of layoutBubbles()) drawBubble(item);
+  // crime scene markers — a pulsing alarm ring, visible until police resolve them
+  for(const scene of crimeScenes){
+    const cx=(scene.x+0.5)*T*SC, cy=(scene.y+0.5)*T*SC;
+    const pulse=(Math.sin(scene.t*4)+1)/2;
+    ctx.save();
+    ctx.globalAlpha=0.55+pulse*0.35;
+    ctx.strokeStyle=scene.type==='murder'?'#ff6b6b':'#ffd166';
+    ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(cx,cy,16+pulse*6,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+    ctx.font='13px monospace'; ctx.textAlign='center';
+    ctx.fillText(scene.type==='murder'?'💀':'🚨', cx, cy-20);
+    if(scene.assigned){
+      ctx.fillStyle='#6ec3ff'; ctx.font='bold 9px monospace';
+      ctx.fillText('🔍 INVESTIGATING', cx, cy-34);
+    }
+  }
+  // popups
+  for(const p of popups){
+    const al=1-p.t/2.2; if(al<=0)continue;
+    ctx.globalAlpha=al; ctx.font='15px monospace'; ctx.textAlign='center';
+    ctx.fillStyle=p.color;
+    ctx.fillText(p.txt,(p.x+0.5)*T*SC,(p.y+0.5)*T*SC-14-p.t*12);
+    ctx.globalAlpha=1;
+  }
+}
+
+// ============================================================
+// MAIN LOOP
+// ============================================================
+let last=performance.now(), uiT=0;
+function frame(now){
+  let dt=Math.min((now-last)/1000,0.1); last=now;
+  if(!sim.paused){
+    const s=dt*sim.speed;
+    sim.time+=s;
+    updateEvents(s);
+    scanConvos(s);
+    scanBirths(s);
+    updateCrime(s);
+    updatePolice(s);
+    updateEscorts(s);
+    updatePrisoners(s);
+    for(const c of [...convos]){
+      c.t+=s;
+      if(c.t>c.lineT){
+        c.t=0; c.idx++;
+        if(c.idx>=c.lines.length){convos.splice(convos.indexOf(c),1); endConvo(c);}
+      }
+    }
+    for(const a of [...agents]) updateAgent(a,s);
+    for(let i=ghosts.length-1;i>=0;i--){ghosts[i].t+=s; if(ghosts[i].t>3)ghosts.splice(i,1);}
+    for(let i=popups.length-1;i>=0;i--){popups[i].t+=s; if(popups[i].t>2.2)popups.splice(i,1);}
+    for(let i=meteors.length-1;i>=0;i--){const m=meteors[i]; m.t+=s; m.x+=m.vx*s; m.y+=m.vy*s;
+      if(m.t>1.1)meteors.splice(i,1);}
+    for(const d of drops){d.y+=d.s*s; d.x-=d.s*s*0.2;
+      if(d.y>cv.height){d.y=-8; d.x=rand(0,cv.width+80);}}
+    for(const cf of confetti){cf.t+=s; cf.y+=18*s;
+      if(plazaRect&&cf.y>(plazaRect.y+plazaRect.h)*T*SC){cf.y=plazaRect.y*T*SC; cf.x=(plazaRect.x+rand(0,plazaRect.w))*T*SC;}}
+    if(!(sim.event&&sim.event.type==='festival')) confetti.length=0;
+  }
+  uiT+=dt;
+  if(uiT>0.4){uiT=0; updateStats(); if(selected)renderInspect();}
+  draw(now/1000);
+  requestAnimationFrame(frame);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+genCity();
+nameStreets();
+genPrison();
+renderCity();
+for(let i=0;i<POPSTART;i++) makeAgent();
+for(let i=0;i<4;i++) police.push(makeCop(i));
+
+// easter egg: Jett & Izzy Iverson — married, live at Iverson's, and always will be
+{
+  const iversonsHome=buildings.find(b=>b.special==='iversons');
+  if(iversonsHome){
+    const spot=iversonsHome.spot||randomSpot();
+    const jett=makeAgent({name:'Jett', age:9, at:spot,
+      traits:{social:0.8,temper:0.2,curious:0.7,warmth:0.97,vigor:0.45}});
+    const izzy=makeAgent({name:'Izzy', age:9, at:spot,
+      traits:{social:0.85,temper:0.18,curious:0.75,warmth:0.98,vigor:0.45}});
+    jett.home=iversonsHome; izzy.home=iversonsHome;
+    jett.partner=izzy.id; izzy.partner=jett.id;
+    jett.special=true; izzy.special=true;
+    jett.lifespan=9999; izzy.lifespan=9999;
+    relSet(jett,izzy.id,100); relSet(izzy,jett.id,100);
+    usedNames.add('Jett'); usedNames.add('Izzy');
+    feed(`💍 ${jett.name} & ${izzy.name} Iverson live happily at Iverson's — high five to the real Jett & Izzy`,'love');
+  }
+}
+// seed a few pre-existing relationships so the drama starts warm
+for(let i=0;i<14;i++){
+  const a=pick(agents), b=pick(agents);
+  if(a!==b) relAdd(a,b,rand(-35,45));
+}
+// one established couple
+{
+  const adults=agents.filter(isAdult);
+  for(let k=0;k+1<adults.length&&k<4;k+=2){
+    const a=adults[k], b=adults[k+1];
+    a.traits.warmth=Math.max(a.traits.warmth,0.6);
+    b.traits.warmth=Math.max(b.traits.warmth,0.6);
+    relAdd(a,b,90);
+  }
+}
+feed(`🌇 Welcome to <b>Pixel Terrarium</b> — population ${agents.length}. They don't know you're watching.`,'gold');
+feed(`👀 Click any citizen to peek inside their head. Speed it up to watch generations pass.`,'world');
+requestAnimationFrame(frame);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1177 @@
+<title>Career Signature</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#F1F4F8;
+    --surface:#FFFFFF;
+    --surface-2:#F7F9FC;
+    --ink:#161B26;
+    --ink-soft:#4B5568;
+    --ink-faint:#8792A3;
+    --line:#DBE1EA;
+    --line-strong:#C3CBD9;
+    --accent:#BD5B1E;
+    --accent-hover:#A44E19;
+    --accent-ink:#FFFFFF;
+    --accent-soft:rgba(189,91,30,0.10);
+    --c-r:#2E6F76; --c-i:#4655A0; --c-a:#8C3F72; --c-s:#C6812C; --c-e:#BD5B1E; --c-c:#586278;
+    --shadow: 0 1px 2px rgba(22,27,38,0.04), 0 8px 24px rgba(22,27,38,0.06);
+    --focus: 0 0 0 3px rgba(189,91,30,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0F1420;
+      --surface:#161C2B;
+      --surface-2:#1B2233;
+      --ink:#EEF1F6;
+      --ink-soft:#AEB6C7;
+      --ink-faint:#727C90;
+      --line:#2A3245;
+      --line-strong:#39435A;
+      --accent:#E38A45;
+      --accent-hover:#EE9C5C;
+      --accent-ink:#161320;
+      --accent-soft:rgba(227,138,69,0.14);
+      --c-r:#4B98A0; --c-i:#8391DE; --c-a:#D186B6; --c-s:#E3A85C; --c-e:#E38A45; --c-c:#96A0BC;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+      --focus: 0 0 0 3px rgba(227,138,69,0.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F1420;
+    --surface:#161C2B;
+    --surface-2:#1B2233;
+    --ink:#EEF1F6;
+    --ink-soft:#AEB6C7;
+    --ink-faint:#727C90;
+    --line:#2A3245;
+    --line-strong:#39435A;
+    --accent:#E38A45;
+    --accent-hover:#EE9C5C;
+    --accent-ink:#161320;
+    --accent-soft:rgba(227,138,69,0.14);
+    --c-r:#4B98A0; --c-i:#8391DE; --c-a:#D186B6; --c-s:#E3A85C; --c-e:#E38A45; --c-c:#96A0BC;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+    --focus: 0 0 0 3px rgba(227,138,69,0.4);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  h1,h2,h3{font-family:'Fraunces', Georgia, serif; font-weight:500; margin:0; text-wrap:balance;}
+  p{margin:0;}
+  button{font-family:inherit;}
+  a{color:inherit;}
+  ::selection{background:var(--accent-soft);}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .mono{font-family:'IBM Plex Mono', ui-monospace, monospace;}
+
+  /* ---------- blueprint background ---------- */
+  .grid-field{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:44px 44px;
+    opacity:0.35;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  #app{position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column;}
+
+  /* ---------- top progress ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:5;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  .progress-track{height:3px; background:var(--line); width:100%;}
+  .progress-fill{height:100%; background:var(--accent); width:0%; transition:width .35s ease;}
+  .topbar-row{
+    max-width:920px; margin:0 auto; padding:12px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.08em; color:var(--ink-faint);
+  }
+  .brand-mark{display:flex; align-items:center; gap:8px; color:var(--ink-soft); text-transform:uppercase;}
+  .brand-hex{width:12px;height:12px;flex:none;}
+  .back-link{
+    background:none;border:none;color:var(--ink-faint);cursor:pointer;
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    padding:6px 8px; margin:-6px -8px; border-radius:4px;
+  }
+  .back-link:hover{color:var(--ink);}
+  .back-link:disabled{opacity:0; pointer-events:none;}
+  .back-link:focus-visible{outline:none; box-shadow:var(--focus);}
+
+  main{flex:1; display:flex; flex-direction:column;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:1040px; margin:0 auto; padding:clamp(48px,8vw,96px) 24px 64px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;
+  }
+  @media (max-width:800px){ .hero{grid-template-columns:1fr; padding-top:32px;} }
+  .hero h1{
+    font-size:clamp(2.35rem, 1.6rem + 3vw, 4rem);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{font-style:italic; color:var(--accent); font-weight:400;}
+  .hero-sub{margin-top:20px; font-size:1.05rem; color:var(--ink-soft); max-width:46ch; line-height:1.65;}
+  .hero-meta{
+    margin-top:28px; display:flex; gap:20px; flex-wrap:wrap;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--ink-faint); letter-spacing:0.03em;
+  }
+  .hero-meta strong{color:var(--ink-soft); font-weight:600;}
+  .hero-actions{margin-top:32px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+  .hero-figure{display:flex; align-items:center; justify-content:center;}
+  .hero-figure svg{width:100%; max-width:340px; height:auto;}
+
+  .btn{
+    appearance:none; border:none; cursor:pointer; border-radius:8px;
+    font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:0.85rem; letter-spacing:0.04em;
+    padding:14px 26px; text-transform:uppercase; display:inline-flex; align-items:center; gap:10px;
+    transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn:focus-visible{outline:none; box-shadow:var(--focus);}
+  .btn-primary{background:var(--accent); color:var(--accent-ink); box-shadow:var(--shadow);}
+  .btn-primary:hover{background:var(--accent-hover);}
+  .btn-ghost{background:transparent; color:var(--ink-soft); border:1px solid var(--line-strong);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--ink);}
+  .btn[disabled]{opacity:0.4; cursor:not-allowed;}
+
+  .about-strip{
+    max-width:1040px; margin:0 auto; padding:0 24px 72px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  }
+  @media (max-width:720px){ .about-strip{grid-template-columns:1fr;} }
+  .about-cell{background:var(--surface); padding:24px;}
+  .about-cell .eyebrow{margin-bottom:8px;}
+  .about-cell p{color:var(--ink-soft); font-size:0.92rem;}
+
+  /* ---------- quiz shell ---------- */
+  .quiz-shell{
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:48px 24px 64px;
+  }
+  .card{
+    width:100%; max-width:640px; background:var(--surface);
+    border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow);
+    padding:clamp(28px,5vw,48px);
+  }
+  .card .eyebrow{margin-bottom:14px; display:flex; align-items:center; gap:10px;}
+  .card .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .q-text{font-size:clamp(1.28rem,1rem + 1vw,1.65rem); line-height:1.32; margin-bottom:32px;}
+  .q-hint{font-size:0.85rem; color:var(--ink-faint); margin-top:-20px; margin-bottom:28px;}
+
+  /* likert dial */
+  fieldset{border:none; margin:0; padding:0;}
+  .likert{display:flex; flex-direction:column; gap:14px;}
+  .dial-row{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .dial{
+    position:relative; display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer;
+    flex:1;
+  }
+  .dial input{
+    appearance:none; -webkit-appearance:none; width:30px; height:30px; border-radius:50%;
+    border:2px solid var(--line-strong); background:var(--surface); cursor:pointer; margin:0;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .dial input:hover{border-color:var(--accent);}
+  .dial input:checked{border-color:var(--accent); background:var(--accent);
+    box-shadow:inset 0 0 0 4px var(--surface);
+  }
+  .dial input:focus-visible{outline:none; box-shadow:var(--focus);}
+  .dial-num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-faint);}
+  .dial-line{position:absolute; top:14px; left:0; right:0; height:1px; background:var(--line); z-index:-1;}
+  .likert-track{position:relative;}
+  .likert-labels{display:flex; justify-content:space-between; margin-top:6px;}
+  .likert-labels span{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.03em; color:var(--ink-faint); max-width:9ch;}
+  .likert-labels span:last-child{text-align:right;}
+
+  /* choice rows */
+  .choice-list{display:flex; flex-direction:column; gap:10px;}
+  .choice-row{
+    display:flex; align-items:flex-start; gap:14px; padding:16px 18px;
+    border:1px solid var(--line); border-radius:10px; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .choice-row:hover{border-color:var(--accent); background:var(--accent-soft);}
+  .choice-row input{margin-top:3px; accent-color:var(--accent); width:17px; height:17px; flex:none;}
+  .choice-row input:focus-visible{outline:none; box-shadow:var(--focus); border-radius:50%;}
+  .choice-row:has(input:checked){border-color:var(--accent); background:var(--accent-soft);}
+  .choice-row span{font-size:0.98rem; color:var(--ink);}
+
+  /* checklist chips */
+  .chip-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media (max-width:560px){ .chip-grid{grid-template-columns:1fr;} }
+  .chip{
+    display:flex; align-items:flex-start; gap:10px; padding:13px 14px;
+    border:1px solid var(--line); border-radius:10px; cursor:pointer; font-size:0.88rem;
+    transition:border-color .15s ease, background .15s ease; color:var(--ink-soft);
+  }
+  .chip:hover{border-color:var(--accent);}
+  .chip input{accent-color:var(--accent); width:16px; height:16px; margin-top:2px; flex:none;}
+  .chip input:focus-visible{outline:none; box-shadow:var(--focus);}
+  .chip:has(input:checked){border-color:var(--accent); background:var(--accent-soft); color:var(--ink);}
+
+  .card-footer{display:flex; justify-content:space-between; align-items:center; margin-top:32px;}
+  .step-count{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-faint);}
+
+  /* ---------- results ---------- */
+  .results-wrap{max-width:1080px; margin:0 auto; padding:48px 24px 96px; width:100%;}
+  .results-head{display:grid; grid-template-columns:1fr 340px; gap:48px; align-items:center; margin-bottom:56px;}
+  @media (max-width:860px){ .results-head{grid-template-columns:1fr;} }
+  .sig-code{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:400;
+    font-size:clamp(2.6rem,2rem + 3vw,4.2rem); letter-spacing:0.01em; margin-bottom:6px;
+  }
+  .sig-code b{font-style:normal; color:var(--accent); font-weight:500;}
+  .sig-names{font-family:'IBM Plex Mono', monospace; font-size:0.82rem; letter-spacing:0.05em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:20px;}
+  .sig-para{font-size:1.02rem; line-height:1.7; color:var(--ink-soft); max-width:56ch;}
+  .sig-para b{color:var(--ink); font-weight:600;}
+
+  .hex-wrap{display:flex; flex-direction:column; align-items:center; gap:10px;}
+  .hex-caption{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.08em; color:var(--ink-faint); text-transform:uppercase;}
+
+  .section-title{display:flex; align-items:baseline; gap:12px; margin-bottom:20px;}
+  .section-title h2{font-size:1.35rem;}
+  .section-title .eyebrow{position:relative; top:1px;}
+
+  .axis-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px 32px; margin-bottom:56px;}
+  @media (max-width:700px){ .axis-grid{grid-template-columns:1fr;} }
+  .axis{display:flex; flex-direction:column; gap:8px;}
+  .axis-labels{display:flex; justify-content:space-between; font-size:0.78rem; color:var(--ink-faint);}
+  .axis-labels .hi{color:var(--ink-soft); font-weight:500;}
+  .axis-bar{position:relative; height:6px; background:var(--line); border-radius:3px;}
+  .axis-bar .mid{position:absolute; left:50%; top:-3px; width:1px; height:12px; background:var(--line-strong);}
+  .axis-bar .marker{
+    position:absolute; top:50%; width:14px; height:14px; border-radius:50%;
+    background:var(--accent); border:2px solid var(--surface); box-shadow:0 0 0 1px var(--accent);
+    transform:translate(-50%,-50%);
+  }
+
+  .match-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  @media (max-width:900px){ .match-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:620px){ .match-grid{grid-template-columns:1fr;} }
+  .match-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px;
+    display:flex; flex-direction:column; gap:12px; box-shadow:var(--shadow);
+  }
+  .match-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .match-rank{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-faint);}
+  .match-name{font-size:1.14rem; font-weight:500; line-height:1.25;}
+  .match-score{
+    flex:none; width:52px; height:52px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    border:2px solid var(--accent); font-family:'IBM Plex Mono', monospace; color:var(--accent);
+  }
+  .match-score b{font-size:0.95rem; line-height:1;}
+  .match-score i{font-style:normal; font-size:0.5rem; opacity:0.8;}
+  .match-blurb{font-size:0.88rem; color:var(--ink-soft); line-height:1.55;}
+  .match-why{font-size:0.85rem; color:var(--ink); line-height:1.55; background:var(--surface-2); border-radius:8px; padding:10px 12px; border-left:2px solid var(--accent);}
+  .match-detail{font-size:0.82rem; color:var(--ink-faint); line-height:1.6;}
+  .match-detail b{color:var(--ink-soft); font-weight:600;}
+  .pill-row{display:flex; flex-wrap:wrap; gap:6px;}
+  .pill{
+    font-family:'IBM Plex Mono', monospace; font-size:0.66rem; letter-spacing:0.03em; text-transform:uppercase;
+    padding:4px 8px; border-radius:20px; background:var(--surface-2); color:var(--ink-faint); border:1px solid var(--line);
+  }
+
+  .results-footer{
+    margin-top:56px; padding-top:28px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+  }
+  .disclaimer{font-size:0.8rem; color:var(--ink-faint); max-width:60ch; line-height:1.6;}
+  .footer-actions{display:flex; gap:12px; flex-wrap:wrap;}
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:var(--bg); padding:10px 18px; border-radius:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease; z-index:20;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important;}
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+</style>
+
+<div class="grid-field" aria-hidden="true"></div>
+<div id="app"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     DATA — questions
+     ========================================================= */
+  var RIASEC_Q = [
+    ["I'd rather fix something with my hands than read about how it works.", 'R'],
+    ["Working outdoors or on my feet sounds better than sitting at a desk all day.", 'R'],
+    ["I like using tools, machines, or equipment to build or repair things.", 'R'],
+    ["I trust results I can see and touch over abstract theories.", 'R'],
+    ["Technical or physical challenges satisfy me more than paperwork does.", 'R'],
+    ["I get pulled into figuring out why something works the way it does.", 'I'],
+    ["Solving a hard puzzle or logic problem is genuinely fun for me.", 'I'],
+    ["I'd rather investigate a problem thoroughly than jump to a quick fix.", 'I'],
+    ["I enjoy digging through data or research to find a pattern others missed.", 'I'],
+    ["I ask 'why' more than most people I know.", 'I'],
+    ["I need creative outlets — writing, music, art, design — to feel like myself.", 'A'],
+    ["I'd rather invent a new approach than follow a template.", 'A'],
+    ["Rules and structure make me feel boxed in when I'm trying to create something.", 'A'],
+    ["People have told me I have a strong sense of style or original taste.", 'A'],
+    ["I notice and care about how things look, sound, or feel more than most people.", 'A'],
+    ["Helping someone work through a problem is one of the most satisfying parts of my day.", 'S'],
+    ["I'm the person friends come to when they need advice or support.", 'S'],
+    ["I'd rather work directly with people than with data or machines.", 'S'],
+    ["Teaching or coaching someone until they 'get it' feels genuinely rewarding.", 'S'],
+    ["I read people's moods and needs pretty easily.", 'S'],
+    ["I like convincing people to see things my way or back an idea.", 'E'],
+    ["Starting something of my own excites me more than joining someone else's project.", 'E'],
+    ["I'm comfortable taking charge when a group needs direction.", 'E'],
+    ["Competition and clear stakes — sales numbers, results, wins — motivate me.", 'E'],
+    ["I'd rather pitch the idea than execute the fine details.", 'E'],
+    ["I like having a clear system, checklist, or process to follow.", 'C'],
+    ["Keeping things organized — files, schedules, numbers — comes naturally to me.", 'C'],
+    ["I'd rather follow a proven, reliable method than experiment and risk a mistake.", 'C'],
+    ["Accuracy and getting the details right matters more to me than moving fast.", 'C'],
+    ["I feel more comfortable when expectations and rules are clearly defined.", 'C']
+  ];
+
+  var AXES = ['pt','sf','rs','ls','pc','cp','db','it'];
+  var AXIS_LABEL = {
+    pt:['Data & things','People'],
+    sf:['Flexible','Structured'],
+    rs:['Stability','Risk & upside'],
+    ls:['Support role','Leads'],
+    pc:['Steady pace','Fast pace'],
+    cp:['Proven methods','New ideas'],
+    db:['Big picture','Detail'],
+    it:['Team','Independent']
+  };
+  var AXIS_NAME = {
+    pt:'People vs. things', sf:'Structure vs. flexibility', rs:'Risk vs. stability',
+    ls:'Leadership vs. support', pc:'Pace', cp:'Creative vs. practical',
+    db:'Detail vs. big picture', it:'Independence vs. team'
+  };
+  var AXIS_PHRASE = {
+    pt:{pos:'working directly with people', neg:'working independently with data or systems'},
+    sf:{pos:'having a clear structure to work within', neg:'flexibility and improvising as you go'},
+    rs:{pos:'taking on risk for a bigger upside', neg:'steady, predictable ground'},
+    ls:{pos:'leading and owning the outcome', neg:'contributing without owning the whole outcome'},
+    pc:{pos:'a fast, high-energy pace', neg:'a steady, methodical pace'},
+    cp:{pos:'inventing new approaches', neg:'relying on proven methods'},
+    db:{pos:'precision and getting details right', neg:'zooming out to the big picture'},
+    it:{pos:'owning things independently', neg:'working closely as part of a team'}
+  };
+
+  var WS_Q = [
+    ["I'd rather spend my day talking with people than working quietly with data, tools, or systems.", 'pt'],
+    ["Being around people all day energizes me more than it drains me.", 'pt'],
+    ["I do my best work when there's a clear process to follow.", 'sf'],
+    ["Last-minute changes to my plan throw me off more than they should.", 'sf'],
+    ["I'd take a job with higher upside but less security over a safe, predictable one.", 'rs'],
+    ["Uncertainty about income or outcome doesn't bother me much.", 'rs'],
+    ["I naturally end up leading the group, even when I didn't plan to.", 'ls'],
+    ["I want to be the one making the final call, not just contributing input.", 'ls'],
+    ["I do better in a fast-moving environment than a slow, steady one.", 'pc'],
+    ["I get restless if things move too slowly at work.", 'pc'],
+    ["I'd rather come up with a new approach than use one that already works.", 'cp'],
+    ["Novel ideas excite me more than proven, reliable ones.", 'cp'],
+    ["Getting the small details exactly right matters more to me than the big-picture vision.", 'db'],
+    ["I catch mistakes other people miss.", 'db'],
+    ["I get more done working alone than as part of a team.", 'it'],
+    ["I'd rather own a project start to finish than split it with others.", 'it']
+  ];
+
+  var PRACTICAL_Q = [
+    { key:'edu', prompt:"How much more school are you realistically up for?", options:[
+      ["Done with school — I want to start working, train on the job, or get a short certification","none"],
+      ["An associate degree, trade school, or a professional certification (1–2 years)","cert"],
+      ["A four-year bachelor's degree, planned or already done","bachelor"],
+      ["Graduate or professional school — law, med, a PhD, an MBA","grad"]
+    ]},
+    { key:'env', prompt:"Where do you actually want to spend your day?", options:[
+      ["Mostly at a desk, in an office or studio","desk"],
+      ["Hands-on — a shop, job site, lab, clinic, or moving around","hands_on"],
+      ["A mix of both, depending on the day","mixed"],
+      ["Doesn't matter much, or I'd like remote / flexible","remote_ok"]
+    ]},
+    { key:'people', prompt:"How much contact with other people do you want, day to day?", options:[
+      ["Mostly solo — minimal interruptions, deep focus","alone"],
+      ["A small, consistent team","small_team"],
+      ["Constant contact — clients, the public, big groups","public"]
+    ]},
+    { key:'priority', prompt:"When pay and meaning pull in different directions, which way do you lean?", options:[
+      ["Stability and predictable pay matter most to me right now","stability"],
+      ["I lean toward stability but want real room to grow or lead","balanced"],
+      ["I'll take some risk or lower pay early for work I find meaningful","meaning"],
+      ["I'm chasing the highest ceiling, even if it's less certain","upside"]
+    ]}
+  ];
+
+  var EXPERIENCE_CATS = [
+    { name:'Hands-On & Building', tag:'build', bumpLetter:'R', items:[
+      "Took something apart to see how it worked",
+      "Built, repaired, or renovated something — furniture, a car, a room, a computer",
+      "Worked a job that involved tools, machines, or physical labor",
+      "Grew, raised, or cared for plants, land, or animals",
+      "Cooked or baked something complicated from scratch",
+      "Played a sport or did something physically demanding I was proud of"
+    ]},
+    { name:'Analysis & Systems', tag:'analysis', bumpLetter:'I', items:[
+      "Used data, spreadsheets, or numbers to answer a real question",
+      "Wrote code, built a website, or automated something",
+      "Did independent research on a topic just because I was curious",
+      "Diagnosed a problem — mechanical, technical, or otherwise — that stumped other people",
+      "Took an advanced math, science, or technical class and actually liked it",
+      "Built a model, budget, or forecast that turned out to be right"
+    ]},
+    { name:'Creative & Expression', tag:'creative', bumpLetter:'A', items:[
+      "Made something — art, music, writing, video, design — that other people responded to",
+      "Performed in front of an audience — music, theater, sports, speech",
+      "Designed something's look or feel — a space, a page, an outfit, a brand",
+      "Started a creative project with no assignment or grade attached",
+      "Was told my work looked or sounded more polished than expected",
+      "Edited or produced content — photo, video, music — that people actually used"
+    ]},
+    { name:'People & Care', tag:'care', bumpLetter:'S', items:[
+      "Tutored, taught, or coached someone until they improved",
+      "Was the go-to person when a friend or family member was struggling",
+      "Volunteered for a cause I cared about",
+      "Worked in healthcare, childcare, or another caregiving role",
+      "Mediated a conflict between other people",
+      "Mentored someone younger or newer than me"
+    ]},
+    { name:'Business & Leadership', tag:'lead', bumpLetter:'E', items:[
+      "Started or ran a small business, side hustle, or fundraiser",
+      "Sold something — products, sponsorships, tickets, ideas",
+      "Led a team, club, or project from start to finish",
+      "Negotiated a deal, price, or agreement that worked out well",
+      "Managed a budget or money for a group, event, or business",
+      "Convinced a skeptical group to back an idea I believed in"
+    ]},
+    { name:'Service & Organization', tag:'organize', bumpLetter:'C', items:[
+      "Organized an event, trip, or process that actually went smoothly",
+      "Worked a customer-facing job — retail, food service, front desk",
+      "Kept records, files, or schedules that other people relied on",
+      "Caught an error or inconsistency that everyone else missed",
+      "Followed a strict procedure — safety, legal, medical, financial — without cutting corners",
+      "Was the reliable one — the person others counted on to follow through"
+    ]}
+  ];
+
+  var LETTER_FULL = {R:'Realistic', I:'Investigative', A:'Artistic', S:'Social', E:'Enterprising', C:'Conventional'};
+  var LETTER_DESC = {
+    R:'built around building, fixing, and working with your hands',
+    I:'built around analysis, research, and solving hard problems',
+    A:'built around original creative expression',
+    S:'built around helping, teaching, and connecting with people',
+    E:'built around leading, persuading, and building ventures',
+    C:'built around structure, precision, and reliable systems'
+  };
+  var LETTER_SHORT = {R:'hands-on, mechanical', I:'analytical, curious', A:'creative, expressive', S:'people-first, helping', E:'driven, persuasive', C:'organized, precise'};
+  var TAG_PHRASE = {
+    build:'building or fixing things with your hands',
+    analysis:'digging into data, research, or a hard problem',
+    creative:'making something people actually responded to',
+    care:'helping someone work through something hard',
+    lead:'running or leading a project',
+    organize:'keeping something complex organized and on track'
+  };
+
+  /* =========================================================
+     DATA — careers
+     ========================================================= */
+  function C(spec){
+    return {
+      n: spec.n, code: spec.code, w: spec.w, edu: spec.edu, env: spec.env, people: spec.people,
+      tags: spec.tags, blurb: spec.blurb, day: spec.day, path: spec.path, pay: spec.pay
+    };
+  }
+
+  var CAREERS = [
+    C({n:"Registered Nurse", code:{R:0.3,I:0.5,A:0,S:1,E:0,C:0.2}, w:{pt:2,sf:1,rs:-1,ls:0,pc:1,cp:-1,db:1,it:-1}, edu:'cert', env:'hands_on', people:'public', tags:['care'], blurb:"Hands-on patient care where clinical judgment and bedside manner matter equally.", day:"Rounds, medication management, patient education, coordinating with doctors.", path:"Associate or bachelor's in nursing (ADN/BSN) plus NCLEX licensure.", pay:"$65k–$95k"}),
+    C({n:"Physician (MD)", code:{R:0.2,I:1,A:0,S:0.6,E:0.2,C:0.2}, w:{pt:1,sf:1,rs:-1,ls:1,pc:1,cp:-1,db:2,it:-1}, edu:'grad', env:'hands_on', people:'public', tags:['care','analysis'], blurb:"Long training for the authority to diagnose and treat — equal parts science and bedside trust.", day:"Patient exams, diagnosis, treatment planning, case coordination.", path:"Bachelor's, then medical school (MD/DO), then residency.", pay:"$220k–$400k+"}),
+    C({n:"Physical Therapist", code:{R:0.5,I:0.4,A:0,S:1,E:0,C:0.1}, w:{pt:2,sf:1,rs:-1,ls:0,pc:0,cp:-1,db:1,it:-1}, edu:'grad', env:'hands_on', people:'public', tags:['care','build'], blurb:"Rebuilds people's movement and independence, one hands-on session at a time.", day:"Patient assessments, guided exercises, tracking recovery progress.", path:"Doctor of Physical Therapy (DPT), about 3 years after a bachelor's.", pay:"$75k–$100k"}),
+    C({n:"Occupational Therapist", code:{R:0.2,I:0.3,A:0.5,S:1,E:0,C:0.1}, w:{pt:2,sf:1,rs:-1,ls:0,pc:-1,cp:1,db:1,it:-1}, edu:'grad', env:'hands_on', people:'public', tags:['care','creative'], blurb:"Helps people relearn daily life skills after injury or disability — practical and deeply human.", day:"Adaptive-skills sessions, home and workplace modifications, progress notes.", path:"Master's or doctorate in occupational therapy.", pay:"$70k–$95k"}),
+    C({n:"Dental Hygienist", code:{R:0.5,I:0.2,A:0,S:0.6,E:0,C:0.5}, w:{pt:1,sf:1,rs:-1,ls:-1,pc:0,cp:-1,db:2,it:-1}, edu:'cert', env:'hands_on', people:'public', tags:['care','organize'], blurb:"Precise, repeatable hands-on work with a steady patient relationship built in.", day:"Cleanings, X-rays, and patient education on oral health.", path:"Associate degree in dental hygiene plus licensure.", pay:"$80k–$100k"}),
+    C({n:"Pharmacist", code:{R:0,I:1,A:0,S:0.4,E:0.2,C:0.7}, w:{pt:1,sf:2,rs:-1,ls:0,pc:0,cp:-1,db:2,it:0}, edu:'grad', env:'mixed', people:'public', tags:['analysis','organize','care'], blurb:"Where clinical knowledge meets exacting accuracy — no room for a rounding error.", day:"Verifying prescriptions, counseling patients, checking drug interactions.", path:"Doctor of Pharmacy (PharmD), about 4 years after undergrad.", pay:"$120k–$140k"}),
+    C({n:"Medical Laboratory Technologist", code:{R:0.4,I:0.9,A:0,S:0.1,E:0,C:0.5}, w:{pt:-1,sf:2,rs:-1,ls:-1,pc:0,cp:-1,db:2,it:1}, edu:'bachelor', env:'hands_on', people:'small_team', tags:['analysis','build'], blurb:"Runs the tests doctors' diagnoses actually depend on — meticulous behind-the-scenes work.", day:"Running samples, calibrating equipment, verifying results.", path:"Bachelor's in medical laboratory science plus certification.", pay:"$55k–$75k"}),
+    C({n:"Physician Assistant", code:{R:0.2,I:0.9,A:0,S:0.7,E:0.2,C:0.1}, w:{pt:2,sf:1,rs:0,ls:1,pc:1,cp:0,db:1,it:0}, edu:'grad', env:'hands_on', people:'public', tags:['care','analysis'], blurb:"Broad clinical practice with more autonomy than nursing and less training time than an MD.", day:"Exams, diagnosis, prescribing, and minor procedures alongside a supervising physician.", path:"Master's in PA studies, about 2–3 years after a bachelor's.", pay:"$110k–$135k"}),
+    C({n:"Mental Health Counselor", code:{R:0,I:0.4,A:0.3,S:1,E:0,C:0.1}, w:{pt:2,sf:0,rs:0,ls:0,pc:-1,cp:0,db:0,it:0}, edu:'grad', env:'mixed', people:'public', tags:['care'], blurb:"Sits with people in their hardest moments and helps them find a way through.", day:"Client sessions, treatment planning, and case notes.", path:"Master's in counseling or psychology, then supervised hours and licensure.", pay:"$50k–$80k"}),
+    C({n:"Veterinarian", code:{R:0.6,I:1,A:0,S:0.5,E:0.2,C:0.1}, w:{pt:1,sf:1,rs:-1,ls:1,pc:1,cp:-1,db:1,it:0}, edu:'grad', env:'hands_on', people:'public', tags:['care','build','analysis'], blurb:"Medicine for patients who can't tell you what's wrong — diagnosis by observation and instinct.", day:"Exams, surgery, diagnostics, and client communication about pets or livestock.", path:"Doctor of Veterinary Medicine (DVM), 4 years after a bachelor's.", pay:"$100k–$130k"}),
+    C({n:"Radiologic Technologist", code:{R:0.7,I:0.5,A:0,S:0.2,E:0,C:0.6}, w:{pt:1,sf:2,rs:-1,ls:-1,pc:0,cp:-1,db:2,it:0}, edu:'cert', env:'hands_on', people:'public', tags:['build','analysis'], blurb:"Runs the imaging equipment that makes diagnosis possible — technical precision with patient contact.", day:"Positioning patients, operating imaging equipment, ensuring image quality.", path:"Associate degree in radiologic technology plus certification.", pay:"$60k–$75k"}),
+    C({n:"Paramedic / EMT", code:{R:0.7,I:0.4,A:0,S:0.9,E:0.2,C:0}, w:{pt:1,sf:1,rs:2,ls:1,pc:2,cp:-1,db:0,it:0}, edu:'cert', env:'hands_on', people:'public', tags:['care','build'], blurb:"High-stakes decisions made fast, often in someone's worst five minutes.", day:"Emergency response, triage, and stabilizing patients en route to care.", path:"EMT or paramedic certification — months, not years.", pay:"$40k–$60k"}),
+    C({n:"Financial Analyst", code:{R:0,I:0.7,A:0,S:0,E:0.5,C:1}, w:{pt:-1,sf:1,rs:0,ls:0,pc:0,cp:-1,db:2,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['analysis','organize'], blurb:"Turns spreadsheets and market data into the numbers decisions get made on.", day:"Modeling, forecasting, and reporting on company or market performance.", path:"Bachelor's in finance, accounting, or econ; a CFA helps later.", pay:"$65k–$95k"}),
+    C({n:"Accountant", code:{R:0,I:0.5,A:0,S:0,E:0.2,C:1}, w:{pt:-1,sf:2,rs:-1,ls:-1,pc:-1,cp:-1,db:2,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['organize','analysis'], blurb:"The person who makes sure the numbers are right, every time, no exceptions.", day:"Reconciling accounts, preparing statements, tax filings, audits.", path:"Bachelor's in accounting; a CPA license unlocks advancement.", pay:"$55k–$85k"}),
+    C({n:"Actuary", code:{R:0,I:1,A:0,S:0,E:0.2,C:0.9}, w:{pt:-2,sf:2,rs:-1,ls:-1,pc:-1,cp:-1,db:2,it:1}, edu:'bachelor', env:'desk', people:'alone', tags:['analysis','organize'], blurb:"Prices risk for a living — pure quantitative reasoning applied to real-world uncertainty.", day:"Statistical modeling, risk assessment, and pricing insurance or pension products.", path:"Bachelor's in math, stats, or actuarial science, plus a long series of professional exams.", pay:"$75k–$130k"}),
+    C({n:"Marketing Manager", code:{R:0,I:0.3,A:0.6,S:0.3,E:1,C:0.2}, w:{pt:1,sf:-1,rs:1,ls:1,pc:1,cp:1,db:-1,it:0}, edu:'bachelor', env:'desk', people:'small_team', tags:['lead','creative'], blurb:"Half creative director, half strategist — owns how the brand shows up and performs.", day:"Campaign planning, creative review, performance reporting, budget calls.", path:"Bachelor's in marketing or business; results matter more than pedigree over time.", pay:"$65k–$110k"}),
+    C({n:"Human Resources Manager", code:{R:0,I:0.2,A:0,S:1,E:0.6,C:0.5}, w:{pt:2,sf:1,rs:-1,ls:1,pc:0,cp:-1,db:0,it:-1}, edu:'bachelor', env:'desk', people:'small_team', tags:['care','organize','lead'], blurb:"Sits at the intersection of people problems and business policy.", day:"Hiring, employee relations, policy, conflict resolution, compliance.", path:"Bachelor's in HR, business, or psychology; SHRM certification helps.", pay:"$65k–$100k"}),
+    C({n:"Management Consultant", code:{R:0,I:0.7,A:0,S:0.1,E:1,C:0.4}, w:{pt:1,sf:0,rs:1,ls:1,pc:2,cp:0,db:1,it:-1}, edu:'bachelor', env:'desk', people:'small_team', tags:['analysis','lead'], blurb:"Parachutes into someone else's hardest business problem and has to solve it fast.", day:"Client interviews, data analysis, building the recommendation, presenting to executives.", path:"Bachelor's, often from a competitive program; an MBA helps advancement.", pay:"$85k–$160k"}),
+    C({n:"Operations Manager", code:{R:0.3,I:0.2,A:0,S:0.2,E:0.8,C:0.9}, w:{pt:0,sf:1,rs:0,ls:1,pc:1,cp:-1,db:1,it:0}, edu:'bachelor', env:'mixed', people:'small_team', tags:['organize','lead'], blurb:"Keeps the machine running — the person who notices when a process is quietly broken.", day:"Process monitoring, staff coordination, troubleshooting bottlenecks.", path:"Bachelor's in business or operations; experience counts as much as the degree.", pay:"$65k–$100k"}),
+    C({n:"Real Estate Agent", code:{R:0,I:0,A:0.1,S:0.7,E:1,C:0.4}, w:{pt:2,sf:-1,rs:2,ls:1,pc:1,cp:0,db:-1,it:1}, edu:'cert', env:'mixed', people:'public', tags:['lead','care'], blurb:"Commission-driven sales built entirely on relationships and local market knowledge.", day:"Showings, negotiations, paperwork, client relationship management.", path:"State real estate license — no degree required.", pay:"$45k–$100k+ (commission, highly variable)"}),
+    C({n:"Bank Branch Manager", code:{R:0,I:0.1,A:0,S:0.6,E:0.8,C:0.9}, w:{pt:2,sf:1,rs:-1,ls:1,pc:0,cp:-1,db:1,it:-1}, edu:'bachelor', env:'desk', people:'public', tags:['organize','lead','care'], blurb:"Runs the branch — staff, sales targets, compliance, and the occasional upset customer.", day:"Staff supervision, sales goals, customer escalations, compliance checks.", path:"Bachelor's in business or finance; often an internal promotion.", pay:"$55k–$85k"}),
+    C({n:"Entrepreneur / Small Business Owner", code:{R:0.2,I:0.3,A:0.4,S:0.2,E:1,C:0.3}, w:{pt:1,sf:-2,rs:2,ls:2,pc:1,cp:1,db:-1,it:2}, edu:'none', env:'mixed', people:'public', tags:['lead','creative'], blurb:"You're the product, sales team, and accountant until you can afford not to be.", day:"Varies entirely — sales, operations, product, and cash flow, often all in one day.", path:"No fixed path — direct experience and access to capital matter most.", pay:"Highly variable — $0 to well into six figures"}),
+    C({n:"Sales Representative (B2B)", code:{R:0,I:0.1,A:0,S:0.5,E:1,C:0.3}, w:{pt:2,sf:-1,rs:1,ls:1,pc:2,cp:0,db:-1,it:1}, edu:'none', env:'mixed', people:'public', tags:['lead'], blurb:"Quota-driven relationship building — the close is the whole job.", day:"Prospecting, calls and demos, negotiating, closing, pipeline management.", path:"No fixed degree requirement; advancement is performance-based.", pay:"$50k–$120k+ (base plus commission)"}),
+    C({n:"Executive Assistant / Office Manager", code:{R:0,I:0.2,A:0,S:0.5,E:0.3,C:1}, w:{pt:1,sf:2,rs:-1,ls:-1,pc:0,cp:-1,db:2,it:-1}, edu:'none', env:'desk', people:'small_team', tags:['organize','care'], blurb:"The person who actually keeps an executive's life from falling apart.", day:"Scheduling, correspondence, logistics, and problem-solving on the fly.", path:"No fixed degree; a track record of reliability matters most.", pay:"$45k–$70k"}),
+    C({n:"Supply Chain Analyst", code:{R:0.2,I:0.8,A:0,S:0,E:0.2,C:0.9}, w:{pt:-1,sf:1,rs:0,ls:-1,pc:0,cp:-1,db:2,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['analysis','organize'], blurb:"Makes sure the right thing is in the right place before anyone notices it almost wasn't.", day:"Inventory analysis, forecasting, vendor coordination, logistics troubleshooting.", path:"Bachelor's in supply chain, business, or industrial engineering.", pay:"$60k–$90k"}),
+    C({n:"Software Engineer", code:{R:0.3,I:1,A:0.1,S:0,E:0.1,C:0.4}, w:{pt:-2,sf:0,rs:0,ls:-1,pc:0,cp:1,db:1,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['analysis','build'], blurb:"Builds the systems everything else runs on — logic puzzles with real consequences.", day:"Writing and reviewing code, debugging, design discussions, shipping features.", path:"Bachelor's in CS, or a self-taught path with a strong portfolio.", pay:"$85k–$160k+"}),
+    C({n:"Data Scientist", code:{R:0,I:1,A:0.2,S:0,E:0.1,C:0.6}, w:{pt:-1,sf:0,rs:0,ls:-1,pc:-1,cp:1,db:1,it:1}, edu:'grad', env:'desk', people:'small_team', tags:['analysis'], blurb:"Finds the signal in the noise, then has to explain it in plain English afterward.", day:"Modeling, data cleaning, experimentation, presenting findings.", path:"Bachelor's or master's in stats, CS, or a related field.", pay:"$95k–$150k"}),
+    C({n:"Cybersecurity Analyst", code:{R:0.3,I:0.9,A:0,S:0,E:0.1,C:0.6}, w:{pt:-1,sf:1,rs:1,ls:-1,pc:1,cp:0,db:2,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['analysis','build'], blurb:"Plays defense against people actively trying to break in — vigilance as a job description.", day:"Monitoring systems, investigating alerts, patching vulnerabilities, incident response.", path:"Bachelor's in CS or IT, or certifications like Security+ and CISSP.", pay:"$85k–$130k"}),
+    C({n:"UX / UI Designer", code:{R:0,I:0.4,A:1,S:0.4,E:0.1,C:0.1}, w:{pt:1,sf:-1,rs:0,ls:0,pc:0,cp:2,db:0,it:0}, edu:'bachelor', env:'desk', people:'small_team', tags:['creative','analysis'], blurb:"Designs how software feels to use, backed by research on how people actually behave.", day:"User research, wireframing, prototyping, testing with real users.", path:"Bachelor's in design or HCI, or a strong self-built portfolio.", pay:"$70k–$110k"}),
+    C({n:"Civil Engineer", code:{R:0.9,I:0.7,A:0,S:0,E:0.1,C:0.6}, w:{pt:-1,sf:1,rs:-1,ls:0,pc:0,cp:-1,db:2,it:0}, edu:'bachelor', env:'mixed', people:'small_team', tags:['build','analysis'], blurb:"Designs the roads, bridges, and buildings people trust without thinking about.", day:"Design calculations, site inspections, permitting, project coordination.", path:"Bachelor's in civil engineering, plus a PE license for advancement.", pay:"$70k–$100k"}),
+    C({n:"Mechanical Engineer", code:{R:1,I:0.7,A:0,S:0,E:0,C:0.4}, w:{pt:-2,sf:1,rs:-1,ls:0,pc:0,cp:0,db:2,it:1}, edu:'bachelor', env:'mixed', people:'small_team', tags:['build','analysis'], blurb:"Designs physical things that have to actually work under real-world stress.", day:"CAD design, prototyping, testing, troubleshooting manufacturing issues.", path:"Bachelor's in mechanical engineering.", pay:"$70k–$100k"}),
+    C({n:"Electrical Engineer", code:{R:0.8,I:0.9,A:0,S:0,E:0,C:0.4}, w:{pt:-2,sf:1,rs:-1,ls:0,pc:0,cp:0,db:2,it:1}, edu:'bachelor', env:'mixed', people:'small_team', tags:['build','analysis'], blurb:"Works at the level of circuits and power systems most people never see.", day:"Circuit design, testing, troubleshooting, documentation.", path:"Bachelor's in electrical engineering.", pay:"$75k–$105k"}),
+    C({n:"IT Support Specialist", code:{R:0.6,I:0.3,A:0,S:0.5,E:0,C:0.6}, w:{pt:1,sf:1,rs:-1,ls:-1,pc:1,cp:-1,db:1,it:0}, edu:'cert', env:'desk', people:'public', tags:['build','organize'], blurb:"The calm voice that fixes your computer while you panic about the deadline.", day:"Troubleshooting tickets, hardware and software fixes, user training.", path:"Associate degree or certifications like CompTIA A+; many enter without a degree.", pay:"$40k–$65k"}),
+    C({n:"Product Manager (Tech)", code:{R:0,I:0.6,A:0.3,S:0.2,E:1,C:0.2}, w:{pt:1,sf:0,rs:1,ls:1,pc:1,cp:1,db:0,it:-1}, edu:'bachelor', env:'desk', people:'small_team', tags:['lead','analysis'], blurb:"Owns the 'what and why' of a product without directly controlling the people who build it.", day:"Roadmap prioritization, cross-team coordination, user research, stakeholder updates.", path:"Bachelor's in any field plus product experience; an MBA sometimes helps.", pay:"$95k–$150k"}),
+    C({n:"Robotics Engineer", code:{R:1,I:0.9,A:0.1,S:0,E:0,C:0.3}, w:{pt:-2,sf:1,rs:0,ls:0,pc:0,cp:1,db:1,it:1}, edu:'bachelor', env:'hands_on', people:'small_team', tags:['build','analysis'], blurb:"Mechanical, electrical, and software engineering collide in one very literal machine.", day:"Designing, building, and debugging physical and software systems together.", path:"Bachelor's in robotics, mechatronics, or electrical/mechanical engineering.", pay:"$80k–$120k"}),
+    C({n:"Web Developer", code:{R:0.3,I:0.7,A:0.6,S:0,E:0.1,C:0.2}, w:{pt:-1,sf:0,rs:0,ls:-1,pc:0,cp:1,db:1,it:1}, edu:'cert', env:'desk', people:'small_team', tags:['build','creative'], blurb:"Half logic, half visual craft — code that also has to look right.", day:"Building and maintaining sites or apps, fixing bugs, handling client or team requests.", path:"A coding bootcamp, a self-taught portfolio, or a CS degree.", pay:"$55k–$95k"}),
+    C({n:"Graphic Designer", code:{R:0,I:0,A:1,S:0,E:0.4,C:0.1}, w:{pt:0,sf:-1,rs:1,ls:-1,pc:0,cp:2,db:1,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['creative'], blurb:"Turns a brief into something people actually stop and look at.", day:"Concepting, designing, revising based on client or stakeholder feedback.", path:"Bachelor's in design, or a strong self-built portfolio.", pay:"$45k–$70k"}),
+    C({n:"Video Editor / Filmmaker", code:{R:0.2,I:0.4,A:1,S:0,E:0.1,C:0.1}, w:{pt:-1,sf:-1,rs:1,ls:0,pc:0,cp:2,db:1,it:1}, edu:'none', env:'mixed', people:'small_team', tags:['creative'], blurb:"Builds the emotional pacing of a story after the footage already exists.", day:"Editing, color and sound work, client revisions, exporting for delivery.", path:"Portfolio-based; film school is optional.", pay:"$40k–$80k"}),
+    C({n:"Photographer", code:{R:0.3,I:0,A:1,S:0.2,E:0.4,C:0}, w:{pt:1,sf:-1,rs:2,ls:0,pc:0,cp:2,db:1,it:2}, edu:'none', env:'mixed', people:'public', tags:['creative'], blurb:"Owns the whole business — art, client relations, and equipment logistics.", day:"Shoots, editing, client communication, marketing yourself.", path:"Portfolio-based; equipment and reputation matter more than a degree.", pay:"$35k–$70k (often freelance, highly variable)"}),
+    C({n:"Copywriter / Content Writer", code:{R:0,I:0.3,A:1,S:0,E:0.4,C:0.1}, w:{pt:-1,sf:0,rs:0,ls:-1,pc:0,cp:2,db:0,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['creative','analysis'], blurb:"Sells or explains an idea using nothing but the right words in the right order.", day:"Drafting and editing copy, aligning it to brand voice and goals.", path:"Bachelor's in English, marketing, or journalism, or a strong portfolio.", pay:"$45k–$75k"}),
+    C({n:"Social Media Manager / Creator", code:{R:0,I:0.1,A:0.9,S:0.4,E:0.7,C:0}, w:{pt:1,sf:-1,rs:1,ls:0,pc:2,cp:1,db:0,it:0}, edu:'none', env:'mixed', people:'public', tags:['creative','lead'], blurb:"Runs a brand's voice and community in public, in real time, forever.", day:"Content creation, scheduling, community management, performance tracking.", path:"No fixed degree; portfolio and platform results matter most.", pay:"$40k–$75k (creator income highly variable)"}),
+    C({n:"Musician / Music Producer", code:{R:0,I:0.2,A:1,S:0,E:0.3,C:0}, w:{pt:0,sf:-2,rs:2,ls:0,pc:0,cp:2,db:1,it:1}, edu:'none', env:'mixed', people:'public', tags:['creative'], blurb:"Craft and business, split roughly fifty-fifty once you're doing it for a living.", day:"Writing, recording, or performing — plus constant self-promotion.", path:"No fixed path; independent skill-building or a music program.", pay:"Highly variable — $0 to well into six figures"}),
+    C({n:"Interior Designer", code:{R:0.2,I:0,A:1,S:0.2,E:0.4,C:0.4}, w:{pt:1,sf:0,rs:0,ls:0,pc:-1,cp:2,db:1,it:0}, edu:'bachelor', env:'mixed', people:'public', tags:['creative','organize'], blurb:"Balances a client's taste, a budget, and building code, and makes it look effortless.", day:"Client consults, space planning, sourcing materials, project management.", path:"Bachelor's in interior design; NCIDQ certification for advancement.", pay:"$50k–$80k"}),
+    C({n:"Architect", code:{R:0.5,I:0.7,A:1,S:0,E:0.1,C:0.3}, w:{pt:-1,sf:1,rs:-1,ls:0,pc:-1,cp:2,db:2,it:0}, edu:'grad', env:'mixed', people:'small_team', tags:['creative','analysis','build'], blurb:"Where art has to survive contact with physics, budgets, and building codes.", day:"Design development, drafting, client meetings, construction coordination.", path:"Bachelor's, often a master's, in architecture, plus licensure over several years.", pay:"$65k–$100k"}),
+    C({n:"Art Director", code:{R:0,I:0.1,A:1,S:0,E:0.7,C:0.2}, w:{pt:1,sf:0,rs:1,ls:2,pc:0,cp:2,db:0,it:-1}, edu:'bachelor', env:'desk', people:'small_team', tags:['creative','lead'], blurb:"Sets the creative vision and pushes a whole team to hit it.", day:"Reviewing creative work, giving direction, aligning with strategy and clients.", path:"Bachelor's in design plus years building a design track record.", pay:"$75k–$120k"}),
+    C({n:"Elementary School Teacher", code:{R:0,I:0.1,A:0.4,S:1,E:0.1,C:0.3}, w:{pt:2,sf:1,rs:-1,ls:0,pc:1,cp:0,db:0,it:-1}, edu:'bachelor', env:'hands_on', people:'public', tags:['care'], blurb:"Shapes how kids feel about learning before they're old enough to know it matters.", day:"Lesson delivery, classroom management, grading, parent communication.", path:"Bachelor's in education, plus a teaching license.", pay:"$45k–$65k"}),
+    C({n:"High School Teacher", code:{R:0,I:0.5,A:0.2,S:1,E:0.1,C:0.2}, w:{pt:2,sf:1,rs:-1,ls:0,pc:1,cp:0,db:0,it:-1}, edu:'bachelor', env:'hands_on', people:'public', tags:['care'], blurb:"Teaches a subject you actually love to people who don't always want to be there.", day:"Lesson planning, teaching, grading, coaching or advising extracurriculars.", path:"Bachelor's in education or a subject area, plus a teaching license.", pay:"$48k–$70k"}),
+    C({n:"College Professor", code:{R:0,I:1,A:0.3,S:0.7,E:0,C:0.1}, w:{pt:1,sf:0,rs:0,ls:0,pc:-1,cp:1,db:1,it:1}, edu:'grad', env:'mixed', people:'public', tags:['analysis','care'], blurb:"Research you're passionate about, plus teaching it to people who chose to be there.", day:"Teaching, research, publishing, advising, committee work.", path:"A PhD in the field — a long, competitive path.", pay:"$60k–$110k (varies widely by field and institution)"}),
+    C({n:"School Counselor", code:{R:0,I:0.2,A:0,S:1,E:0.1,C:0.4}, w:{pt:2,sf:1,rs:-1,ls:0,pc:0,cp:-1,db:0,it:-1}, edu:'grad', env:'mixed', people:'public', tags:['care','organize'], blurb:"Part therapist, part academic advisor, part crisis manager.", day:"Student meetings, scheduling, crisis intervention, college and career advising.", path:"Master's in school counseling plus a state credential.", pay:"$50k–$70k"}),
+    C({n:"Corporate Trainer / L&D Specialist", code:{R:0,I:0.2,A:0.4,S:1,E:0.6,C:0.2}, w:{pt:2,sf:0,rs:0,ls:1,pc:0,cp:1,db:0,it:-1}, edu:'bachelor', env:'mixed', people:'public', tags:['care','lead','creative'], blurb:"Builds the training that's supposed to make everyone else better at their job.", day:"Designing curriculum, facilitating sessions, measuring training impact.", path:"Bachelor's in education, HR, or communications, plus instructional design skills.", pay:"$55k–$85k"}),
+    C({n:"Environmental Scientist", code:{R:0.6,I:1,A:0,S:0.1,E:0,C:0.2}, w:{pt:-1,sf:1,rs:-1,ls:-1,pc:-1,cp:0,db:1,it:1}, edu:'bachelor', env:'mixed', people:'small_team', tags:['analysis','build'], blurb:"Fieldwork and lab data in service of understanding a changing environment.", day:"Field sampling, lab analysis, report writing, regulatory compliance.", path:"Bachelor's in environmental science or biology; a master's helps advancement.", pay:"$55k–$80k"}),
+    C({n:"Research Scientist (Bio/Chem)", code:{R:0.4,I:1,A:0,S:0,E:0,C:0.4}, w:{pt:-2,sf:1,rs:-1,ls:-1,pc:-1,cp:1,db:2,it:1}, edu:'grad', env:'mixed', people:'small_team', tags:['analysis'], blurb:"Spends years testing a hypothesis that might not pan out, for the chance that it does.", day:"Experiment design, lab work, data analysis, writing papers and grants.", path:"A PhD in the relevant science — a long path.", pay:"$70k–$110k"}),
+    C({n:"Data Analyst", code:{R:0,I:0.9,A:0,S:0,E:0.1,C:0.6}, w:{pt:-1,sf:1,rs:-1,ls:-1,pc:0,cp:0,db:1,it:1}, edu:'bachelor', env:'desk', people:'small_team', tags:['analysis','organize'], blurb:"Turns raw numbers into the answer someone actually asked for.", day:"Querying data, building reports and dashboards, presenting findings.", path:"Bachelor's in stats, business, or a related field; SQL goes a long way.", pay:"$55k–$85k"}),
+    C({n:"Statistician", code:{R:0,I:1,A:0,S:0,E:0,C:0.7}, w:{pt:-2,sf:1,rs:-1,ls:-1,pc:-1,cp:0,db:2,it:1}, edu:'grad', env:'desk', people:'alone', tags:['analysis'], blurb:"Rigorous quantitative reasoning applied to whatever question needs answering.", day:"Statistical modeling, study design, consulting with other teams.", path:"Master's or PhD in statistics.", pay:"$75k–$110k"}),
+    C({n:"Electrician", code:{R:1,I:0.3,A:0,S:0,E:0,C:0.5}, w:{pt:-1,sf:1,rs:0,ls:-1,pc:0,cp:-1,db:2,it:1}, edu:'cert', env:'hands_on', people:'small_team', tags:['build'], blurb:"A skilled trade with real independence, real pay, and no shortage of demand.", day:"Wiring, troubleshooting electrical systems, code compliance, client sites.", path:"A paid apprenticeship (about 4 years) plus licensure.", pay:"$55k–$90k"}),
+    C({n:"Plumber", code:{R:1,I:0.2,A:0,S:0,E:0,C:0.4}, w:{pt:-1,sf:1,rs:0,ls:-1,pc:0,cp:-1,db:1,it:1}, edu:'cert', env:'hands_on', people:'public', tags:['build'], blurb:"An always-in-demand trade — nobody can put this off when it breaks.", day:"Installations, repairs, diagnosing leaks and clogs, client sites.", path:"A paid apprenticeship plus licensure.", pay:"$55k–$90k"}),
+    C({n:"HVAC Technician", code:{R:1,I:0.3,A:0,S:0,E:0,C:0.4}, w:{pt:-1,sf:1,rs:0,ls:-1,pc:0,cp:-1,db:1,it:1}, edu:'cert', env:'hands_on', people:'public', tags:['build'], blurb:"Heating and cooling systems fail on the worst possible day — you're who fixes it.", day:"Installing, maintaining, and repairing HVAC systems.", path:"Trade school or apprenticeship plus EPA 608 certification.", pay:"$50k–$80k"}),
+    C({n:"Automotive Technician", code:{R:1,I:0.5,A:0,S:0,E:0,C:0.3}, w:{pt:-1,sf:1,rs:0,ls:-1,pc:0,cp:-1,db:1,it:1}, edu:'cert', env:'hands_on', people:'public', tags:['build'], blurb:"Diagnostic problem-solving where the bug is a physical machine, not code.", day:"Diagnosing issues, repairs, maintenance, and customer explanations.", path:"Trade school plus ASE certifications.", pay:"$45k–$70k"}),
+    C({n:"Construction Project Manager", code:{R:0.8,I:0.2,A:0,S:0,E:0.9,C:0.6}, w:{pt:0,sf:1,rs:0,ls:2,pc:1,cp:-1,db:1,it:0}, edu:'bachelor', env:'hands_on', people:'small_team', tags:['build','lead','organize'], blurb:"Keeps a job site, a budget, and a dozen subcontractors all moving the same direction.", day:"Scheduling, budget tracking, site walks, subcontractor coordination.", path:"Bachelor's in construction management, or field experience up the ranks.", pay:"$70k–$105k"}),
+    C({n:"Welder", code:{R:1,I:0.2,A:0.1,S:0,E:0,C:0.3}, w:{pt:-2,sf:1,rs:0,ls:-1,pc:0,cp:-1,db:2,it:1}, edu:'cert', env:'hands_on', people:'small_team', tags:['build'], blurb:"A precise physical craft that's in short supply and pays like it.", day:"Reading blueprints, welding and fabricating, quality checks.", path:"Trade school or apprenticeship — months to about two years.", pay:"$45k–$70k"}),
+    C({n:"Police Officer", code:{R:0.6,I:0.2,A:0,S:0.8,E:0.5,C:0.3}, w:{pt:2,sf:2,rs:1,ls:1,pc:1,cp:-1,db:0,it:0}, edu:'cert', env:'hands_on', people:'public', tags:['care','lead'], blurb:"Public safety work with real authority and real risk, day to day.", day:"Patrol, responding to calls, reports, community interaction.", path:"Police academy — some departments want an associate or bachelor's degree.", pay:"$50k–$80k"}),
+    C({n:"Firefighter", code:{R:0.9,I:0.1,A:0,S:0.7,E:0.1,C:0.2}, w:{pt:1,sf:2,rs:1,ls:0,pc:1,cp:-1,db:0,it:-1}, edu:'cert', env:'hands_on', people:'public', tags:['care','build'], blurb:"Physical, team-based, high-stakes work most people only see on their worst day.", day:"Emergency response, training, equipment maintenance, station duties.", path:"Fire academy; EMT certification is often required.", pay:"$45k–$75k"}),
+    C({n:"Lawyer / Attorney", code:{R:0,I:0.9,A:0,S:0.3,E:0.9,C:0.3}, w:{pt:1,sf:1,rs:0,ls:1,pc:0,cp:0,db:2,it:0}, edu:'grad', env:'desk', people:'public', tags:['analysis','lead'], blurb:"Builds arguments for a living — research and rhetoric with real stakes attached.", day:"Research, drafting, client meetings, negotiation or court appearances.", path:"Bachelor's, then law school (JD), then the bar exam.", pay:"$75k–$150k+ (varies enormously by practice area)"}),
+    C({n:"Paralegal", code:{R:0,I:0.6,A:0,S:0,E:0,C:1}, w:{pt:-1,sf:2,rs:-1,ls:-1,pc:0,cp:-1,db:2,it:0}, edu:'cert', env:'desk', people:'small_team', tags:['organize','analysis'], blurb:"Does the legal research and document work that keeps a case on track.", day:"Drafting documents, legal research, case file organization.", path:"An associate degree or a paralegal certificate.", pay:"$45k–$65k"}),
+    C({n:"Social Worker", code:{R:0,I:0.5,A:0,S:1,E:0.1,C:0.2}, w:{pt:2,sf:0,rs:0,ls:0,pc:0,cp:0,db:0,it:-1}, edu:'bachelor', env:'mixed', people:'public', tags:['care'], blurb:"Advocates for people navigating the hardest systems and circumstances in their lives.", day:"Case management, home visits, connecting clients to resources, documentation.", path:"Bachelor's in social work (BSW); an MSW is needed for clinical practice.", pay:"$45k–$65k"}),
+    C({n:"Urban Planner", code:{R:0,I:0.8,A:0.4,S:0.1,E:0,C:0.6}, w:{pt:-1,sf:1,rs:-1,ls:0,pc:-1,cp:1,db:1,it:0}, edu:'grad', env:'desk', people:'small_team', tags:['analysis','organize'], blurb:"Shapes how a city actually functions, years before anyone notices the decision was made.", day:"Zoning analysis, community meetings, drafting plans and proposals.", path:"Bachelor's, often a master's, in urban planning.", pay:"$60k–$85k"}),
+    C({n:"Nonprofit Program Manager", code:{R:0,I:0.2,A:0.1,S:1,E:0.7,C:0.4}, w:{pt:2,sf:0,rs:0,ls:1,pc:0,cp:0,db:0,it:0}, edu:'bachelor', env:'mixed', people:'public', tags:['care','lead','organize'], blurb:"Runs the mission-driven work on a budget that's always tighter than it should be.", day:"Program design, grant reporting, community partnerships, staff coordination.", path:"Bachelor's in nonprofit management or a related field.", pay:"$45k–$70k"}),
+    C({n:"Event Planner", code:{R:0,I:0,A:0.4,S:0.4,E:1,C:0.6}, w:{pt:2,sf:0,rs:1,ls:1,pc:2,cp:1,db:1,it:0}, edu:'none', env:'mixed', people:'public', tags:['lead','organize','creative'], blurb:"Makes a hundred moving logistical parts look effortless in front of a live audience.", day:"Vendor coordination, timelines, budgets, day-of problem-solving.", path:"No fixed degree; a portfolio of successful events matters most.", pay:"$45k–$75k"}),
+    C({n:"Chef / Culinary Professional", code:{R:0.8,I:0.1,A:0.7,S:0,E:0.3,C:0.1}, w:{pt:0,sf:1,rs:1,ls:1,pc:2,cp:1,db:1,it:0}, edu:'cert', env:'hands_on', people:'small_team', tags:['build','creative'], blurb:"Creative work under real physical and time pressure, service after service.", day:"Prep, cooking, managing the line, menu development.", path:"Culinary school or ground-up kitchen experience.", pay:"$40k–$70k (executive chefs earn more)"}),
+    C({n:"Personal Trainer / Fitness Coach", code:{R:0.6,I:0.1,A:0,S:1,E:0.4,C:0}, w:{pt:2,sf:0,rs:1,ls:0,pc:1,cp:0,db:0,it:1}, edu:'cert', env:'hands_on', people:'public', tags:['care','build'], blurb:"Part coach, part motivator, part small-business owner if you go independent.", day:"Client sessions, program design, tracking progress, building a client base.", path:"A personal training certification (NASM, ACE) — no degree required.", pay:"$35k–$65k (independent trainers vary more)"}),
+    C({n:"Flight Attendant", code:{R:0.2,I:0,A:0,S:1,E:0.3,C:0.2}, w:{pt:2,sf:1,rs:1,ls:0,pc:1,cp:-1,db:0,it:0}, edu:'none', env:'hands_on', people:'public', tags:['care'], blurb:"Safety professional first, hospitality second, frequent flyer third.", day:"Safety checks, passenger service, handling in-flight situations.", path:"Airline-provided training — weeks, not years; no degree required.", pay:"$40k–$65k"})
+  ];
+
+  var TOTAL_RIASEC = RIASEC_Q.length;
+  var TOTAL_WS = WS_Q.length;
+  var TOTAL_EXP_SCREENS = EXPERIENCE_CATS.length;
+  var TOTAL_PRACTICAL = PRACTICAL_Q.length;
+  var TOTAL_STEPS = TOTAL_RIASEC + TOTAL_WS + TOTAL_EXP_SCREENS + TOTAL_PRACTICAL;
+
+  /* =========================================================
+     STATE
+     ========================================================= */
+  var state = {
+    pos: -1, // -1 = intro, TOTAL_STEPS = results
+    riasec: {},   // idx -> 1..5
+    ws: {},       // idx -> 1..5
+    exp: {},      // catIdx -> Set of item idx (as object map)
+    practical: {} // key -> value
+  };
+
+  var STORAGE_KEY = 'career-signature-v1';
+  function saveProgress(){
+    try{
+      var payload = JSON.stringify({riasec:state.riasec, ws:state.ws, exp:state.exp, practical:state.practical, pos:state.pos});
+      window.localStorage.setItem(STORAGE_KEY, payload);
+    }catch(e){ /* storage unavailable — silently continue in-memory only */ }
+  }
+  function loadProgress(){
+    try{
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      if(!raw) return false;
+      var data = JSON.parse(raw);
+      state.riasec = data.riasec || {};
+      state.ws = data.ws || {};
+      state.exp = data.exp || {};
+      state.practical = data.practical || {};
+      return true;
+    }catch(e){ return false; }
+  }
+  function clearProgress(){
+    try{ window.localStorage.removeItem(STORAGE_KEY); }catch(e){}
+  }
+
+  /* build ordered step list */
+  var STEPS = [];
+  RIASEC_Q.forEach(function(q,i){ STEPS.push({type:'riasec', idx:i}); });
+  WS_Q.forEach(function(q,i){ STEPS.push({type:'ws', idx:i}); });
+  EXPERIENCE_CATS.forEach(function(cat,i){ STEPS.push({type:'exp', idx:i}); });
+  PRACTICAL_Q.forEach(function(q,i){ STEPS.push({type:'practical', idx:i}); });
+
+  function sectionOf(stepIndex){
+    if(stepIndex < TOTAL_RIASEC) return {n:1, total:4, name:'Interests'};
+    if(stepIndex < TOTAL_RIASEC+TOTAL_WS) return {n:2, total:4, name:'Work Style'};
+    if(stepIndex < TOTAL_RIASEC+TOTAL_WS+TOTAL_EXP_SCREENS) return {n:3, total:4, name:'Experience'};
+    return {n:4, total:4, name:'Practical'};
+  }
+
+  /* =========================================================
+     SCORING ENGINE
+     ========================================================= */
+  function computeRiasec(){
+    var raw = {R:0,I:0,A:0,S:0,E:0,C:0};
+    RIASEC_Q.forEach(function(q,i){ raw[q[1]] += (state.riasec[i] || 3); });
+    EXPERIENCE_CATS.forEach(function(cat, ci){
+      var checked = state.exp[ci] || {};
+      var count = 0;
+      Object.keys(checked).forEach(function(k){ if(checked[k]) count++; });
+      raw[cat.bumpLetter] += count; // up to +6 per category
+    });
+    var min = TOTAL_RIASEC/6 * 1; // 5 questions * min 1
+    var max = TOTAL_RIASEC/6 * 5 + 6; // 5 questions * max 5, plus max bump
+    var norm = {};
+    Object.keys(raw).forEach(function(k){
+      var pct = (raw[k]-min)/(max-min)*100;
+      norm[k] = Math.max(0, Math.min(100, Math.round(pct)));
+    });
+    return {raw:raw, norm:norm};
+  }
+
+  function computeWorkStyle(){
+    var vals = {};
+    AXES.forEach(function(axis){
+      var sum=0, cnt=0;
+      WS_Q.forEach(function(q,i){ if(q[1]===axis){ sum += (state.ws[i]||3); cnt++; } });
+      vals[axis] = cnt ? (sum/cnt - 3) : 0; // -2..2
+    });
+    return vals;
+  }
+
+  function computeExpTags(){
+    var tagCounts = {};
+    EXPERIENCE_CATS.forEach(function(cat, ci){
+      var checked = state.exp[ci] || {};
+      var count = 0;
+      Object.keys(checked).forEach(function(k){ if(checked[k]) count++; });
+      tagCounts[cat.tag] = count;
+    });
+    return tagCounts;
+  }
+
+  var EDU_LEVEL = {none:0, cert:1, bachelor:2, grad:3};
+
+  function scoreCareer(career, userNorm, userWs, tagCounts, practical){
+    var letters = ['R','I','A','S','E','C'];
+    var wSum = 0, weighted = 0;
+    letters.forEach(function(l){
+      wSum += career.code[l];
+      weighted += (userNorm[l]/100) * career.code[l];
+    });
+    var riasecFit = wSum > 0 ? weighted / wSum : 0.5;
+
+    var totalDiff = 0;
+    AXES.forEach(function(a){ totalDiff += Math.abs((userWs[a]||0) - (career.w[a]||0)); });
+    var wsFit = 1 - (totalDiff / (AXES.length * 4));
+    if(wsFit < 0) wsFit = 0;
+
+    var expFit;
+    if(career.tags.length){
+      var sum = 0;
+      career.tags.forEach(function(t){ sum += Math.min(1, (tagCounts[t]||0)/3); });
+      expFit = sum / career.tags.length;
+    } else { expFit = 0.5; }
+
+    var practicalFit = 1;
+    if(practical.edu){
+      var userMax = EDU_LEVEL[practical.edu];
+      var need = EDU_LEVEL[career.edu];
+      if(need > userMax) practicalFit -= (need-userMax) * 0.12;
+    }
+    if(practical.env && practical.env !== 'remote_ok' && practical.env !== 'mixed' && career.env !== 'mixed' && practical.env !== career.env){
+      practicalFit -= 0.08;
+    }
+    if(practical.people && career.people){
+      if((practical.people==='alone' && career.people==='public') || (practical.people==='public' && career.people==='alone')){
+        practicalFit -= 0.08;
+      }
+    }
+    if(practicalFit < 0) practicalFit = 0;
+
+    var score = 0.45*riasecFit + 0.25*wsFit + 0.15*expFit + 0.15*practicalFit;
+    return Math.round(Math.max(0, Math.min(1, score)) * 100);
+  }
+
+  function topLetters(norm, n){
+    return Object.keys(norm).sort(function(a,b){ return norm[b]-norm[a]; }).slice(0,n);
+  }
+
+  function whyItFits(career, userNorm, userWs, tagCounts, axisUsage){
+    var myTop = topLetters(userNorm, 3);
+    var theirTop = Object.keys(career.code).sort(function(a,b){ return career.code[b]-career.code[a]; }).slice(0,2);
+    var overlap = myTop.filter(function(l){ return theirTop.indexOf(l) > -1; });
+    var bits = [];
+    if(overlap.length){
+      var words = overlap.slice(0,2).map(function(l){ return LETTER_SHORT[l]; });
+      bits.push("Your " + words.join(" and ") + " streak lines up with this field");
+    } else {
+      bits.push("This field draws on " + LETTER_SHORT[theirTop[0]] + " strengths");
+    }
+    // gather every axis where the user's stated preference genuinely matches this career's profile,
+    // then — among the closest matches — prefer whichever axis hasn't been used in an earlier card yet,
+    // so nine cards in a row don't all lean on the same one trait.
+    var candidates = [];
+    AXES.forEach(function(a){
+      var uv = userWs[a]||0, cv = career.w[a]||0;
+      if(Math.abs(uv) >= 1 && Math.sign(uv) === Math.sign(cv) && Math.abs(cv) >= 1){
+        candidates.push({axis:a, diff:Math.abs(uv-cv), sign: uv>0?'pos':'neg'});
+      }
+    });
+    candidates.sort(function(a,b){ return a.diff-b.diff; });
+    var bestAxis = null;
+    if(candidates.length){
+      var minDiff = candidates[0].diff;
+      var close = candidates.filter(function(c){ return c.diff <= minDiff + 0.6; });
+      close.sort(function(a,b){ return (axisUsage[a.axis]||0) - (axisUsage[b.axis]||0); });
+      bestAxis = close[0];
+      if(axisUsage) axisUsage[bestAxis.axis] = (axisUsage[bestAxis.axis]||0) + 1;
+    }
+    if(bestAxis){
+      bits.push("it fits your pull toward " + AXIS_PHRASE[bestAxis.axis][bestAxis.sign]);
+    }
+    var bestTag = null, bestCount = 0;
+    career.tags.forEach(function(t){
+      if((tagCounts[t]||0) > bestCount){ bestCount = tagCounts[t]; bestTag = t; }
+    });
+    var sentence = bits.join(", and ") + ".";
+    if(bestTag && bestCount > 0){
+      sentence += " Your experience " + TAG_PHRASE[bestTag] + " backs it up.";
+    }
+    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+  }
+
+  function computeResults(){
+    var r = computeRiasec();
+    var ws = computeWorkStyle();
+    var tagCounts = computeExpTags();
+    var practical = state.practical;
+    var axisUsage = {};
+    var scored = CAREERS.map(function(career){
+      return {
+        career: career,
+        score: scoreCareer(career, r.norm, ws, tagCounts, practical),
+        rawWhy: career
+      };
+    });
+    scored.sort(function(a,b){ return b.score - a.score; });
+    var top = scored.slice(0,9);
+    top.forEach(function(item){
+      item.why = whyItFits(item.career, r.norm, ws, tagCounts, axisUsage);
+    });
+    return { riasec:r, ws:ws, tagCounts:tagCounts, ranked: top };
+  }
+
+  /* =========================================================
+     RENDER HELPERS
+     ========================================================= */
+  var app = document.getElementById('app');
+
+  function el(html){
+    var t = document.createElement('template');
+    t.innerHTML = html.trim();
+    return t.content.firstElementChild;
+  }
+
+  function hexIcon(size, strokeOnly){
+    return '<svg class="brand-hex" width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+      '<polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="currentColor" stroke-width="1.6" fill="'+(strokeOnly?'none':'currentColor')+'"/>' +
+      '</svg>';
+  }
+
+  function heroHexSVG(){
+    // decorative hexagon with 6 unfilled axis lines
+    var cx=100, cy=100, R=78;
+    var pts = [];
+    for(var k=0;k<6;k++){
+      var angle = (-90 + k*60) * Math.PI/180;
+      pts.push([cx + R*Math.cos(angle), cy + R*Math.sin(angle)]);
+    }
+    var poly = pts.map(function(p){ return p[0].toFixed(1)+','+p[1].toFixed(1); }).join(' ');
+    var lines = pts.map(function(p){ return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="var(--line-strong)" stroke-width="1"/>'; }).join('');
+    var letters = ['R','I','A','S','E','C'];
+    var labelPts = pts.map(function(p,i){
+      var lx = cx + (p[0]-cx)*1.22, ly = cy + (p[1]-cy)*1.22;
+      return '<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-faint)">'+letters[i]+'</text>';
+    }).join('');
+    return '<svg viewBox="0 0 200 200" role="img" aria-label="An unfilled hexagon representing the six RIASEC dimensions">' +
+      '<circle cx="'+cx+'" cy="'+cy+'" r="3" fill="var(--accent)"/>' +
+      lines +
+      '<polygon points="'+poly+'" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="4 4"/>' +
+      labelPts +
+      '</svg>';
+  }
+
+  function radarSVG(norm){
+    var cx=140, cy=140, R=104;
+    var letters = ['R','I','A','S','E','C'];
+    var colorVar = {R:'--c-r',I:'--c-i',A:'--c-a',S:'--c-s',E:'--c-e',C:'--c-c'};
+    var pts = [], full = [];
+    letters.forEach(function(l,k){
+      var angle = (-90 + k*60) * Math.PI/180;
+      var val = norm[l]/100;
+      pts.push([cx + R*val*Math.cos(angle), cy + R*val*Math.sin(angle)]);
+      full.push([cx + R*Math.cos(angle), cy + R*Math.sin(angle)]);
+    });
+    var poly = pts.map(function(p){ return p[0].toFixed(1)+','+p[1].toFixed(1); }).join(' ');
+    var rings = [0.25,0.5,0.75,1].map(function(f){
+      var rp = full.map(function(p){ return [cx+(p[0]-cx)*f, cy+(p[1]-cy)*f]; });
+      return '<polygon points="'+rp.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ')+'" fill="none" stroke="var(--line)" stroke-width="1"/>';
+    }).join('');
+    var spokes = full.map(function(p){ return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="var(--line)" stroke-width="1"/>'; }).join('');
+    var dots = pts.map(function(p,i){
+      return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="4" fill="var('+colorVar[letters[i]]+')" stroke="var(--surface)" stroke-width="1.5"/>';
+    }).join('');
+    var labels = full.map(function(p,i){
+      var lx = cx + (p[0]-cx)*1.2, ly = cy + (p[1]-cy)*1.2;
+      var l = letters[i];
+      return '<g>' +
+        '<text x="'+lx.toFixed(1)+'" y="'+(ly-4).toFixed(1)+'" text-anchor="middle" font-family="Fraunces, serif" font-size="16" fill="var('+colorVar[l]+')">'+l+'</text>' +
+        '<text x="'+lx.toFixed(1)+'" y="'+(ly+12).toFixed(1)+'" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-faint)">'+norm[l]+'</text>' +
+        '</g>';
+    }).join('');
+    return '<svg viewBox="0 0 280 280" role="img" aria-label="Radar chart of your Realistic, Investigative, Artistic, Social, Enterprising, and Conventional scores">' +
+      rings + spokes +
+      '<polygon points="'+poly+'" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="2"/>' +
+      dots + labels +
+      '</svg>';
+  }
+
+  function toast(msg){
+    var t = document.querySelector('.toast');
+    if(!t){ t = el('<div class="toast"></div>'); document.body.appendChild(t); }
+    t.textContent = msg;
+    requestAnimationFrame(function(){ t.classList.add('show'); });
+    clearTimeout(t._hideTimer);
+    t._hideTimer = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+  }
+
+  /* =========================================================
+     RENDER: INTRO
+     ========================================================= */
+  function renderIntro(){
+    app.innerHTML =
+      '<header class="topbar"><div class="progress-track"></div>' +
+      '<div class="topbar-row"><span class="brand-mark">'+hexIcon(12,true)+' Career Signature</span><span></span></div></header>' +
+      '<main>' +
+        '<section class="hero">' +
+          '<div>' +
+            '<h1>What kind of work<br>are you actually<br><em>built for?</em></h1>' +
+            '<p class="hero-sub">A 78-question instrument that reads your interests, your work style, and what you\'ve actually done — then matches you against '+CAREERS.length+' real career paths, ranked and explained.</p>' +
+            '<div class="hero-meta">' +
+              '<span><strong>'+TOTAL_STEPS+'</strong> questions</span>' +
+              '<span><strong>~10</strong> minutes</span>' +
+              '<span><strong>'+CAREERS.length+'</strong> careers mapped</span>' +
+            '</div>' +
+            '<div class="hero-actions">' +
+              '<button class="btn btn-primary" id="start-btn">Begin assessment</button>' +
+              (state.__hasSaved ? '<button class="btn btn-ghost" id="resume-btn">Resume where I left off</button>' : '') +
+            '</div>' +
+          '</div>' +
+          '<div class="hero-figure">'+heroHexSVG()+'</div>' +
+        '</section>' +
+        '<section class="about-strip">' +
+          '<div class="about-cell"><div class="eyebrow">01 — Interests</div><p>Thirty statements mapped to the Holland (RIASEC) model — the same framework career centers use.</p></div>' +
+          '<div class="about-cell"><div class="eyebrow">02 — Work Style</div><p>Sixteen questions on pace, risk, structure, and leadership — the stuff that makes two similar jobs feel completely different.</p></div>' +
+          '<div class="about-cell"><div class="eyebrow">03 — Experience</div><p>What you\'ve actually built, led, fixed, or cared for — real signal, not just self-image.</p></div>' +
+        '</section>' +
+      '</main>';
+    document.getElementById('start-btn').addEventListener('click', function(){
+      clearProgress();
+      state.riasec={}; state.ws={}; state.exp={}; state.practical={};
+      state.pos = 0;
+      render();
+    });
+    var resumeBtn = document.getElementById('resume-btn');
+    if(resumeBtn){
+      resumeBtn.addEventListener('click', function(){
+        var answered = Object.keys(state.riasec).length + Object.keys(state.ws).length;
+        var expAnswered = 0;
+        Object.keys(state.exp).forEach(function(k){ expAnswered++; });
+        state.pos = Math.min(answered + expAnswered, TOTAL_STEPS-1);
+        render();
+      });
+    }
+  }
+
+  /* =========================================================
+     RENDER: QUESTION SHELL
+     ========================================================= */
+  function renderTopbar(){
+    var pct = state.pos <= 0 ? 0 : Math.round((state.pos/TOTAL_STEPS)*100);
+    var sec = sectionOf(Math.max(state.pos,0));
+    return '<header class="topbar"><div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>' +
+      '<div class="topbar-row">' +
+        '<button class="back-link" id="back-btn" '+(state.pos<=0?'disabled':'')+'>&larr; Back</button>' +
+        '<span>Section '+sec.n+' / '+sec.total+' — '+sec.name.toUpperCase()+' &middot; '+pct+'%</span>' +
+      '</div></header>';
+  }
+
+  function bindBack(){
+    var b = document.getElementById('back-btn');
+    if(b) b.addEventListener('click', function(){ if(state.pos>0){ state.pos--; render(); } });
+  }
+
+  function goNext(){
+    saveProgress();
+    state.pos++;
+    render();
+  }
+
+  function renderLikertStep(step){
+    var isRiasec = step.type === 'riasec';
+    var q = isRiasec ? RIASEC_Q[step.idx] : WS_Q[step.idx];
+    var store = isRiasec ? state.riasec : state.ws;
+    var current = store[step.idx];
+    var name = 'likert-'+step.type+'-'+step.idx;
+    var sec = sectionOf(state.pos);
+
+    var dials = '';
+    for(var v=1; v<=5; v++){
+      dials += '<label class="dial">' +
+        '<input type="radio" name="'+name+'" value="'+v+'" '+(current===v?'checked':'')+' aria-label="'+v+' of 5">' +
+        '<span class="dial-num">'+v+'</span>' +
+        '</label>';
+    }
+
+    app.innerHTML =
+      renderTopbar() +
+      '<div class="quiz-shell"><div class="card">' +
+        '<div class="eyebrow"><span class="dot"></span>'+sec.name.toUpperCase()+' &middot; '+(isRiasec ? (step.idx+1)+' / '+TOTAL_RIASEC : (step.idx+1)+' / '+TOTAL_WS)+'</div>' +
+        '<h2 class="q-text">'+q[0]+'</h2>' +
+        '<p class="q-hint">Choose the number that feels closest — you can use keys 1&ndash;5.</p>' +
+        '<div class="likert-track">' +
+          '<fieldset class="likert" role="radiogroup" aria-label="Agreement scale"><div class="dial-row">'+dials+'</div></fieldset>' +
+          '<div class="likert-labels"><span>Strongly disagree</span><span>Strongly agree</span></div>' +
+        '</div>' +
+        '<div class="card-footer"><span class="step-count mono">Question '+(state.pos+1)+' of '+TOTAL_STEPS+'</span></div>' +
+      '</div></div>';
+
+    bindBack();
+
+    var inputs = app.querySelectorAll('input[name="'+name+'"]');
+    inputs.forEach(function(inp){
+      inp.addEventListener('change', function(){
+        store[step.idx] = parseInt(inp.value, 10);
+        setTimeout(goNext, 260);
+      });
+    });
+    var keyHandler = function(e){
+      var n = parseInt(e.key, 10);
+      if(n>=1 && n<=5){
+        var target = app.querySelector('input[name="'+name+'"][value="'+n+'"]');
+        if(target){ target.checked = true; target.dispatchEvent(new Event('change')); }
+      }
+    };
+    document.addEventListener('keydown', keyHandler, {once:true});
+  }
+
+  function renderChecklistStep(step){
+    var cat = EXPERIENCE_CATS[step.idx];
+    var stored = state.exp[step.idx] || {};
+    var sec = sectionOf(state.pos);
+
+    var chips = cat.items.map(function(item, i){
+      var checked = !!stored[i];
+      return '<label class="chip"><input type="checkbox" data-i="'+i+'" '+(checked?'checked':'')+'><span>'+item+'</span></label>';
+    }).join('');
+
+    app.innerHTML =
+      renderTopbar() +
+      '<div class="quiz-shell"><div class="card">' +
+        '<div class="eyebrow"><span class="dot"></span>EXPERIENCE &middot; '+(step.idx+1)+' / '+TOTAL_EXP_SCREENS+'</div>' +
+        '<h2 class="q-text">'+cat.name+'</h2>' +
+        '<p class="q-hint">Check anything that\'s genuinely true for you. None of these are required.</p>' +
+        '<div class="chip-grid">'+chips+'</div>' +
+        '<div class="card-footer"><span class="step-count mono">Question '+(state.pos+1)+' of '+TOTAL_STEPS+'</span>' +
+        '<button class="btn btn-primary" id="continue-btn">Continue</button></div>' +
+      '</div></div>';
+
+    bindBack();
+
+    app.querySelectorAll('.chip input').forEach(function(inp){
+      inp.addEventListener('change', function(){
+        if(!state.exp[step.idx]) state.exp[step.idx] = {};
+        state.exp[step.idx][inp.getAttribute('data-i')] = inp.checked;
+      });
+    });
+    document.getElementById('continue-btn').addEventListener('click', goNext);
+  }
+
+  function renderPracticalStep(step){
+    var q = PRACTICAL_Q[step.idx];
+    var current = state.practical[q.key];
+    var name = 'practical-'+step.idx;
+    var sec = sectionOf(state.pos);
+
+    var rows = q.options.map(function(opt){
+      var checked = current === opt[1];
+      return '<label class="choice-row"><input type="radio" name="'+name+'" value="'+opt[1]+'" '+(checked?'checked':'')+'><span>'+opt[0]+'</span></label>';
+    }).join('');
+
+    app.innerHTML =
+      renderTopbar() +
+      '<div class="quiz-shell"><div class="card">' +
+        '<div class="eyebrow"><span class="dot"></span>PRACTICAL &middot; '+(step.idx+1)+' / '+TOTAL_PRACTICAL+'</div>' +
+        '<h2 class="q-text">'+q.prompt+'</h2>' +
+        '<div class="choice-list">'+rows+'</div>' +
+        '<div class="card-footer"><span class="step-count mono">Question '+(state.pos+1)+' of '+TOTAL_STEPS+'</span></div>' +
+      '</div></div>';
+
+    bindBack();
+    app.querySelectorAll('input[name="'+name+'"]').forEach(function(inp){
+      inp.addEventListener('change', function(){
+        state.practical[q.key] = inp.value;
+        setTimeout(goNext, 260);
+      });
+    });
+  }
+
+  /* =========================================================
+     RENDER: RESULTS
+     ========================================================= */
+  function axisBar(axis, val){
+    var pct = ((val+2)/4)*100;
+    return '<div class="axis">' +
+      '<div class="axis-labels"><span>'+AXIS_LABEL[axis][0]+'</span><span class="hi">'+AXIS_NAME[axis]+'</span><span>'+AXIS_LABEL[axis][1]+'</span></div>' +
+      '<div class="axis-bar"><div class="mid"></div><div class="marker" style="left:'+pct+'%"></div></div>' +
+      '</div>';
+  }
+
+  function renderResults(){
+    var results = computeResults();
+    var norm = results.riasec.norm;
+    var top2 = topLetters(norm, 2);
+    var codeStr = topLetters(norm,3).join('');
+
+    function axisPhraseLetter(l){
+      var map = {R:'physical, tangible results', I:'careful analysis', A:'original creative work', S:'direct work with people', E:'leading and persuading', C:'clear structure and precision'};
+      return map[l];
+    }
+    var sigPara = "Your signature leads with <b>"+LETTER_FULL[top2[0]]+"</b> — "+LETTER_DESC[top2[0]]+" — with a strong secondary pull toward <b>"+LETTER_FULL[top2[1]]+"</b>. Together, that combination shows up most in careers that blend "+axisPhraseLetter(top2[0])+" with "+axisPhraseLetter(top2[1])+".";
+
+    var axesHtml = AXES.map(function(a){ return axisBar(a, results.ws[a]); }).join('');
+
+    var cards = results.ranked.map(function(r, i){
+      var c = r.career;
+      var pills = [
+        '<span class="pill">'+({none:'No degree needed',cert:'Cert / associate',bachelor:"Bachelor's",grad:'Grad / professional'})[c.edu]+'</span>',
+        '<span class="pill">'+({desk:'Desk-based',hands_on:'Hands-on',mixed:'Mixed setting',remote_ok:'Flexible'})[c.env]+'</span>',
+        '<span class="pill">'+({alone:'Mostly solo',small_team:'Small team',public:'Public-facing'})[c.people]+'</span>'
+      ].join('');
+      return '<div class="match-card">' +
+        '<div class="match-top"><div><div class="match-rank mono">MATCH '+(i+1).toString().padStart(2,'0')+'</div><div class="match-name">'+c.n+'</div></div>' +
+        '<div class="match-score"><b>'+r.score+'</b><i>PCT</i></div></div>' +
+        '<p class="match-blurb">'+c.blurb+'</p>' +
+        '<div class="match-why">'+r.why+'</div>' +
+        '<div class="match-detail"><b>A typical day:</b> '+c.day+'<br><b>Path:</b> '+c.path+'<br><b>Pay:</b> '+c.pay+'</div>' +
+        '<div class="pill-row">'+pills+'</div>' +
+      '</div>';
+    }).join('');
+
+    app.innerHTML =
+      '<header class="topbar"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>' +
+      '<div class="topbar-row"><span class="brand-mark">'+hexIcon(12,true)+' Career Signature</span><span>RESULTS</span></div></header>' +
+      '<main><div class="results-wrap">' +
+        '<div class="results-head">' +
+          '<div>' +
+            '<div class="eyebrow">Your Signature</div>' +
+            '<div class="sig-code">'+topLetters(norm,3).map(function(l,i){ return i===0 ? '<b>'+l+'</b>' : l; }).join(' &middot; ')+'</div>' +
+            '<div class="sig-names">'+topLetters(norm,3).map(function(l){return LETTER_FULL[l];}).join(' / ')+'</div>' +
+            '<p class="sig-para">'+sigPara+'</p>' +
+          '</div>' +
+          '<div class="hex-wrap">'+radarSVG(norm)+'<span class="hex-caption">Your RIASEC shape</span></div>' +
+        '</div>' +
+
+        '<div class="section-title"><h2>Work style</h2><span class="eyebrow">8 axes</span></div>' +
+        '<div class="axis-grid">'+axesHtml+'</div>' +
+
+        '<div class="section-title"><h2>Top matches</h2><span class="eyebrow">'+results.ranked.length+' of '+CAREERS.length+'</span></div>' +
+        '<div class="match-grid">'+cards+'</div>' +
+
+        '<div class="results-footer">' +
+          '<p class="disclaimer">Pay figures are broad, general U.S. estimates and vary a lot by location, employer, and experience — treat them as a starting point, not a quote. This tool is a structured self-assessment, not a substitute for talking to people actually working in a field you\'re serious about.</p>' +
+          '<div class="footer-actions">' +
+            '<button class="btn btn-ghost" id="copy-btn">Copy summary</button>' +
+            '<button class="btn btn-primary" id="retake-btn">Recalibrate</button>' +
+          '</div>' +
+        '</div>' +
+      '</div></main>';
+
+    document.getElementById('retake-btn').addEventListener('click', function(){
+      clearProgress();
+      state.riasec={}; state.ws={}; state.exp={}; state.practical={};
+      state.pos = -1;
+      render();
+    });
+    document.getElementById('copy-btn').addEventListener('click', function(){
+      var lines = ['CAREER SIGNATURE: ' + topLetters(norm,3).join(''), ''];
+      results.ranked.slice(0,9).forEach(function(r,i){
+        lines.push((i+1)+'. '+r.career.n+' — '+r.score+'% match');
+      });
+      var text = lines.join('\\n');
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ toast('Summary copied'); }).catch(function(){ toast('Could not copy — select and copy manually'); });
+      } else {
+        toast('Clipboard unavailable in this view');
+      }
+    });
+
+    saveProgress();
+  }
+
+  /* =========================================================
+     ROUTER
+     ========================================================= */
+  function render(){
+    if(state.pos < 0){ renderIntro(); return; }
+    if(state.pos >= TOTAL_STEPS){ renderResults(); return; }
+    var step = STEPS[state.pos];
+    if(step.type === 'riasec' || step.type === 'ws') renderLikertStep(step);
+    else if(step.type === 'exp') renderChecklistStep(step);
+    else if(step.type === 'practical') renderPracticalStep(step);
+    window.scrollTo(0,0);
+  }
+
+  state.__hasSaved = loadProgress();
+  render();
+})();
+</script>

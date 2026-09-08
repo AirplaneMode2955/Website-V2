@@ -23,6 +23,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://jettiverson.com'),
   title: {
     default: 'Jett Iverson',
     template: '%s — Jett Iverson',
@@ -33,6 +34,14 @@ export const metadata: Metadata = {
     title: 'Jett Iverson',
     description: 'Performance marketing, technical SEO, and AI systems. Based in Utah.',
     type: 'website',
+    url: 'https://jettiverson.com',
+    images: [{ url: '/og/default.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jett Iverson',
+    description: 'Performance marketing, technical SEO, and AI systems. Based in Utah.',
+    images: ['/og/default.png'],
   },
 };
 

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
 import { articles } from '@/lib/articles';
+import OnSiteArticles from './OnSiteArticles';
+import Subscribe from '@/components/Subscribe';
 
 export const metadata: Metadata = {
   title: 'Content',
@@ -59,62 +61,7 @@ export default function ContentPage() {
             </p>
           </FadeIn>
 
-          <div className="space-y-6">
-            {onSite.map((article, i) => (
-              <FadeIn key={article.slug} delay={i * 0.1}>
-                <Link
-                  href={`/content/${article.slug}`}
-                  className="group block bg-surface-container-highest rounded-[1.25rem] p-8 border border-white/[0.08] shadow-soft hover:border-primary/20 transition-colors"
-                >
-                  <div className="flex flex-wrap items-center gap-4 mb-4">
-                    <span className="font-label text-[10px] uppercase tracking-luxe px-2 py-0.5 bg-primary/10 text-primary rounded-full">
-                      On-Site
-                    </span>
-                    {article.date && (
-                      <>
-                        <span className="text-outline/40">·</span>
-                        <span className="font-label text-[10px] uppercase tracking-luxe text-outline">
-                          {article.date}
-                        </span>
-                      </>
-                    )}
-                    {article.readTime && (
-                      <>
-                        <span className="text-outline/40">·</span>
-                        <span className="font-label text-[10px] uppercase tracking-luxe text-outline">
-                          {article.readTime}
-                        </span>
-                      </>
-                    )}
-                  </div>
-
-                  <h3 className="font-headline italic text-2xl md:text-3xl text-primary mb-3 group-hover:text-primary-fixed transition-colors">
-                    {article.title}
-                  </h3>
-
-                  <p className="text-on-surface-variant leading-relaxed mb-5 max-w-3xl">
-                    {article.excerpt}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-2">
-                      {article.topics.map((topic) => (
-                        <span
-                          key={topic}
-                          className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
-                        >
-                          {topic}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="text-primary font-label text-xs uppercase tracking-luxe group-hover:text-primary-fixed transition-colors hidden md:block">
-                      Read Article →
-                    </span>
-                  </div>
-                </Link>
-              </FadeIn>
-            ))}
-          </div>
+          <OnSiteArticles articles={onSite} />
         </div>
       </section>
 
@@ -257,6 +204,8 @@ export default function ContentPage() {
           </FadeIn>
         </div>
       </section>
+
+      <Subscribe />
     </>
   );
 }
