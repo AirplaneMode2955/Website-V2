@@ -3,7 +3,6 @@ import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
 import { articles } from '@/lib/articles';
 import OnSiteArticles from './OnSiteArticles';
-import Subscribe from '@/components/Subscribe';
 
 export const metadata: Metadata = {
   title: 'Content',
@@ -204,8 +203,6 @@ export default function ContentPage() {
           </FadeIn>
         </div>
       </section>
-
-      <Subscribe />
     </>
   );
 }

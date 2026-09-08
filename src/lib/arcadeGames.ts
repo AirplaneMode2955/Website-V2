@@ -40,11 +40,11 @@ export const arcadeGames: ArcadeGame[] = [
     mode: 'hosted',
   },
   {
-    slug: 'remuda-round',
-    title: 'Remuda Round',
+    slug: 'world-cup-striker',
+    title: 'World Cup Striker',
     blurb:
-      'A score tracker for the golf side-games my group actually plays for money. It replaced the napkin math.',
-    tags: ['Golf', 'Utility', 'Vanilla JS'],
+      'Pick a nation, slingshot penalty kicks past the keeper, best of five to advance. A canvas game built to run the World Cup 2026 bracket the fun way.',
+    tags: ['Game', 'Canvas', 'Soccer'],
     year: '2025',
     mode: 'hosted',
   },

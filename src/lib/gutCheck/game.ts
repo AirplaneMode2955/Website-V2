@@ -225,10 +225,14 @@ export function recordArchive(
 
 /* ────────────────────────────── share ───────────────────────────── */
 
-const SITE = 'https://jettiverson.com/play/gut-check';
+export const SITE = 'https://jettiverson.com/play/gut-check';
 
 export function shareText(dateKey: string, correctFlags: boolean[]): string {
   const grid = correctFlags.map((c) => (c ? '🟩' : '⬜')).join('');
   const n = score(correctFlags);
-  return `Gut Check · ${prettyDate(dateKey)}\n${n}/${correctFlags.length}\n${grid}\n${SITE}`;
+  return (
+    `Gut Check · ${prettyDate(dateKey)} — ${n}/${correctFlags.length}\n` +
+    `${grid}\n` +
+    `Think your marketing instinct is better? Try it: ${SITE}`
+  );
 }

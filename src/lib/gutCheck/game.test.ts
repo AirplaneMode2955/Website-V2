@@ -179,15 +179,17 @@ describe('recordArchive', () => {
 });
 
 describe('shareText', () => {
-  it('formats the card for each score', () => {
+  const CTA = 'Think your marketing instinct is better? Try it: https://jettiverson.com/play/gut-check';
+
+  it('formats the card for each score with the invite link', () => {
     expect(shareText('2026-09-08', [true, true, true, true, true])).toBe(
-      'Gut Check · Sep 8\n5/5\n🟩🟩🟩🟩🟩\nhttps://jettiverson.com/play/gut-check',
+      `Gut Check · Sep 8 — 5/5\n🟩🟩🟩🟩🟩\n${CTA}`,
     );
     expect(shareText('2026-09-08', [true, false, true, false, true])).toBe(
-      'Gut Check · Sep 8\n3/5\n🟩⬜🟩⬜🟩\nhttps://jettiverson.com/play/gut-check',
+      `Gut Check · Sep 8 — 3/5\n🟩⬜🟩⬜🟩\n${CTA}`,
     );
     expect(shareText('2026-09-08', [false, false, false, false, false])).toBe(
-      'Gut Check · Sep 8\n0/5\n⬜⬜⬜⬜⬜\nhttps://jettiverson.com/play/gut-check',
+      `Gut Check · Sep 8 — 0/5\n⬜⬜⬜⬜⬜\n${CTA}`,
     );
   });
 });

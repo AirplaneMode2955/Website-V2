@@ -82,6 +82,19 @@ const projects: Project[] = [
     status: 'completed',
   },
   {
+    title: 'Premier League Command Center',
+    description:
+      'A live, one-screen Premier League dashboard — fixtures, results, standings, and match detail, all visible without scrolling.',
+    longDescription:
+      'Built for match days: a dark, data-forward control room for the Premier League. A LIVE pill appears only when a match is actually in progress, live fixtures pulse and show the minute, and clicking any match swaps in a detail panel with possession, shots, xG, and key events. Data comes from FotMob\'s public JSON through a server-side proxy that caches every 35 seconds and normalizes a 743 KB payload down to the 12 KB the screen actually renders. If the upstream fails, the last good response is served with a "stale" chip so the screen never blanks.',
+    tags: ['Next.js', 'TypeScript', 'API Proxy', 'Data Viz'],
+    image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80',
+    imageAlt: 'Football stadium under floodlights',
+    github: 'https://github.com/AirplaneMode2955/premier-league-command-center',
+    link: 'https://plcc-live.vercel.app',
+    status: 'live',
+  },
+  {
     title: 'Google Reviews Workflow',
     description:
       'An internal workflow system that tracks Google Review performance across agents. Making getting reviews a competitive, trackable team activity.',

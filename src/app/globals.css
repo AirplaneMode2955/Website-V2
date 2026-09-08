@@ -41,3 +41,27 @@ html {
   line-height: 1;
   vertical-align: middle;
 }
+
+/* Arcade banner accent — drifting pixel tiles */
+@keyframes arcade-tile {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-6px);
+  }
+}
+
+.arcade-tile {
+  animation: arcade-tile 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade-tile {
+    animation: none;
+    opacity: 0.5;
+  }
+}

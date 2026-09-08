@@ -141,10 +141,19 @@ export default function GutCheck() {
     });
   }
 
-  async function copyShare() {
+  async function shareResult() {
     const text = shareText(runDate, results);
+    const nav = typeof navigator !== 'undefined' ? navigator : undefined;
+    if (nav && typeof nav.share === 'function') {
+      try {
+        await nav.share({ title: 'Gut Check', text });
+        return;
+      } catch {
+        /* user dismissed the share sheet — fall through to copy */
+      }
+    }
     try {
-      await navigator.clipboard.writeText(text);
+      await nav!.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -248,12 +257,21 @@ export default function GutCheck() {
           )}
 
           {mode !== 'practice' && (
-            <button
-              onClick={copyShare}
-              className="w-full border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-luxe text-sm hover:bg-primary hover:text-on-primary transition-all mb-3"
-            >
-              {copied ? 'Copied' : 'Share result'}
-            </button>
+            <>
+              <button
+                onClick={shareResult}
+                className="w-full border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-luxe text-sm hover:bg-primary hover:text-on-primary transition-all mb-2"
+              >
+                {copied ? 'Copied — paste it anywhere' : 'Share my score'}
+              </button>
+              <p className="text-outline text-xs mb-6">
+                Sends your grid plus{' '}
+                <span className="text-on-surface-variant">
+                  &ldquo;Think your marketing instinct is better? Try it&rdquo;
+                </span>{' '}
+                and the link.
+              </p>
+            </>
           )}
 
           <div className="flex gap-3">
