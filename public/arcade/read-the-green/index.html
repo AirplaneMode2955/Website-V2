@@ -118,8 +118,9 @@
   <div class="win" id="win"></div>
 
   <div class="hint" id="hint">
-    Drag back from the ball to aim and set power — like a slingshot. The slope
-    pulls the ball as it rolls. Sink it in as few strokes as you can.
+    Drag back from the ball to aim and set power — like a slingshot; you can pull
+    right off the green. The slope bends every putt. Sand kills your pace,
+    water costs a stroke. Fewest strokes wins.
   </div>
 
   <div class="row">
@@ -176,10 +177,53 @@
     var ball = { x: W * (0.28 + rand() * 0.44), y: H * (0.78 + rand() * 0.08), vx: 0, vy: 0 };
     var dist = Math.hypot(hole.x - ball.x, hole.y - ball.y);
     var par = dist > 340 ? 3 : 2;
+
+    // hazards — kept clear of the ball, the hole, and the direct line between them
+    var hazards = [];
+    var wantWater = rand() < 0.8;
+    var wantBunkers = 1 + (rand() < 0.55 ? 1 : 0);
+    var plan = [];
+    if (wantWater) plan.push('water');
+    for (var bi = 0; bi < wantBunkers; bi++) plan.push('bunker');
+
+    function farFromLine(px, py, pad) {
+      // distance from point to the ball->hole segment
+      var vx = hole.x - ball.x, vy = hole.y - ball.y;
+      var wx = px - ball.x, wy = py - ball.y;
+      var t = Math.max(0, Math.min(1, (wx * vx + wy * vy) / (vx * vx + vy * vy || 1)));
+      var cx = ball.x + t * vx, cy = ball.y + t * vy;
+      return Math.hypot(px - cx, py - cy) >= pad;
+    }
+
+    for (var pi = 0; pi < plan.length; pi++) {
+      var type = plan[pi];
+      var r = type === 'water' ? 30 + rand() * 26 : 22 + rand() * 20;
+      var placed = null;
+      for (var tries = 0; tries < 60; tries++) {
+        var hx = 26 + r + rand() * (W - 52 - 2 * r);
+        var hy = 60 + r + rand() * (H - 120 - 2 * r);
+        if (Math.hypot(hx - ball.x, hy - ball.y) < r + 46) continue;
+        if (Math.hypot(hx - hole.x, hy - hole.y) < r + 60) continue;
+        // let ~40% of hazards sit on the aggressive line, the rest off it
+        var pad = rand() < 0.4 ? r - 8 : r + 22;
+        if (!farFromLine(hx, hy, pad)) continue;
+        var clash = false;
+        for (var hj = 0; hj < hazards.length; hj++) {
+          if (Math.hypot(hx - hazards[hj].x, hy - hazards[hj].y) < r + hazards[hj].r + 10) { clash = true; break; }
+        }
+        if (clash) continue;
+        placed = { x: hx, y: hy, r: r, type: type };
+        break;
+      }
+      if (placed) hazards.push(placed);
+    }
+
     return {
       slope: { x: Math.cos(slopeAng) * slopeMag, y: Math.sin(slopeAng) * slopeMag },
       hole: hole, ball: ball, start: { x: ball.x, y: ball.y },
-      par: par, strokes: 0, holed: false, rolling: false,
+      shotStart: { x: ball.x, y: ball.y },
+      hazards: hazards,
+      par: par, strokes: 0, penalties: 0, holed: false, rolling: false,
       aim: null // {x,y} drag current point
     };
   }
@@ -235,6 +279,38 @@
     }
     ctx.restore();
 
+    // hazards
+    for (var hi = 0; hi < state.hazards.length; hi++) {
+      var hz = state.hazards[hi];
+      ctx.save();
+      if (hz.type === 'water') {
+        var wg = ctx.createRadialGradient(hz.x, hz.y - hz.r * 0.3, 4, hz.x, hz.y, hz.r);
+        wg.addColorStop(0, '#3f7fb0');
+        wg.addColorStop(1, '#2b5c86');
+        ctx.fillStyle = wg;
+        ctx.beginPath();
+        ctx.arc(hz.x, hz.y, hz.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(223,234,219,0.5)';
+        ctx.lineWidth = 1;
+        for (var wr = 0; wr < 3; wr++) {
+          ctx.beginPath();
+          ctx.arc(hz.x, hz.y, hz.r * (0.35 + wr * 0.22), Math.PI * 0.15, Math.PI * 0.85);
+          ctx.stroke();
+        }
+      } else {
+        ctx.fillStyle = '#d8c690';
+        ctx.beginPath();
+        ctx.arc(hz.x, hz.y, hz.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(120,96,52,0.22)';
+        ctx.beginPath();
+        ctx.arc(hz.x - hz.r * 0.22, hz.y + hz.r * 0.24, hz.r * 0.55, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
     // hole
     ctx.beginPath();
     ctx.fillStyle = '#0c140c';
@@ -258,7 +334,8 @@
     if (state.aim && !state.rolling && !state.holed) {
       var dx = state.ball.x - state.aim.x;
       var dy = state.ball.y - state.aim.y;
-      var pw = Math.min(Math.hypot(dx, dy), 150);
+      var pw = Math.min(Math.hypot(dx, dy), PULL_MAX);
+      var frac = pw / PULL_MAX;
       var ang = Math.atan2(dy, dx);
       ctx.save();
       ctx.strokeStyle = 'rgba(201,219,195,0.85)';
@@ -266,12 +343,14 @@
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(state.ball.x, state.ball.y);
-      ctx.lineTo(state.ball.x + Math.cos(ang) * pw * 1.6, state.ball.y + Math.sin(ang) * pw * 1.6);
+      ctx.lineTo(state.ball.x + Math.cos(ang) * pw * 2, state.ball.y + Math.sin(ang) * pw * 2);
       ctx.stroke();
       ctx.restore();
-      // power pip
-      ctx.fillStyle = 'rgba(201,219,195,0.9)';
-      ctx.fillRect(10, H - 16 - (pw / 150) * 80, 6, (pw / 150) * 80);
+      // power meter
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      ctx.fillRect(10, H - 96, 6, 80);
+      ctx.fillStyle = frac > 0.92 ? '#d94f3d' : 'rgba(201,219,195,0.95)';
+      ctx.fillRect(10, H - 16 - frac * 80, 6, frac * 80);
     }
 
     // ball
@@ -308,6 +387,30 @@
     b.x += b.vx;
     b.y += b.vy;
 
+    // hazards
+    for (var zi = 0; zi < state.hazards.length; zi++) {
+      var z = state.hazards[zi];
+      if (Math.hypot(b.x - z.x, b.y - z.y) > z.r) continue;
+      if (z.type === 'water') {
+        state.penalties++;
+        b.x = state.shotStart.x; b.y = state.shotStart.y; b.vx = b.vy = 0;
+        state.rolling = false;
+        elStrokes.textContent = totalStrokes();
+        elWin.textContent = 'In the water — one-stroke penalty.';
+        draw();
+        return;
+      } else {
+        // sand: kills pace fast; a ball that enters slow usually plugs
+        b.vx *= 0.80;
+        b.vy *= 0.80;
+        var ss = Math.hypot(b.vx, b.vy);
+        if (ss > 0) {
+          var sk = Math.max(0, ss - 0.5) / ss;
+          b.vx *= sk; b.vy *= sk;
+        }
+      }
+    }
+
     // hole capture
     var d = Math.hypot(b.x - state.hole.x, b.y - state.hole.y);
     spd = Math.hypot(b.vx, b.vy);
@@ -335,24 +438,33 @@
     if (state.rolling) requestAnimationFrame(step);
   }
 
+  function totalStrokes() {
+    return state.strokes + state.penalties;
+  }
+
   function finish() {
-    var n = state.strokes;
+    var n = totalStrokes();
     var rel = n - state.par;
     var word = rel <= -2 ? 'Eagle.' : rel === -1 ? 'Birdie.' : rel === 0 ? 'Par.' : rel === 1 ? 'Bogey.' : 'In the hole.';
-    elWin.textContent = word + ' ' + n + (n === 1 ? ' stroke.' : ' strokes.');
+    var pen = state.penalties ? ' (' + state.penalties + ' penalty)' : '';
+    elWin.textContent = word + ' ' + n + (n === 1 ? ' stroke.' : ' strokes.') + pen;
   }
 
   // ---- input: slingshot drag ----
+  // full power at PULL_MAX px of drag — kept short so you can still reach it
+  // when the ball sits against a fringe. Tracking is on window, so the pointer
+  // can leave the canvas entirely and the pull keeps registering.
+  var PULL_MAX = 120;
   var dragging = false;
   function pos(e) {
     var r = cv.getBoundingClientRect();
-    var p = e.touches ? e.touches[0] : e;
+    var p = e.touches && e.touches.length ? e.touches[0] : e;
     return { x: (p.clientX - r.left) * (W / r.width), y: (p.clientY - r.top) * (H / r.height) };
   }
   function down(e) {
     if (state.rolling || state.holed) return;
     var p = pos(e);
-    if (Math.hypot(p.x - state.ball.x, p.y - state.ball.y) > 60) return;
+    if (Math.hypot(p.x - state.ball.x, p.y - state.ball.y) > 64) return;
     dragging = true;
     state.aim = p;
     e.preventDefault();
@@ -361,7 +473,7 @@
   function move(e) {
     if (!dragging) return;
     state.aim = pos(e);
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
     draw();
   }
   function up() {
@@ -369,31 +481,34 @@
     dragging = false;
     var dx = state.ball.x - state.aim.x;
     var dy = state.ball.y - state.aim.y;
-    var pw = Math.min(Math.hypot(dx, dy), 150);
+    var pw = Math.min(Math.hypot(dx, dy), PULL_MAX);
     state.aim = null;
     if (pw < 6) { draw(); return; }
     var ang = Math.atan2(dy, dx);
-    var speed = 2.2 + (pw / 150) * 8;
+    var speed = 2.2 + (pw / PULL_MAX) * 8;
+    state.shotStart = { x: state.ball.x, y: state.ball.y };
     state.ball.vx = Math.cos(ang) * speed;
     state.ball.vy = Math.sin(ang) * speed;
     state.strokes++;
-    elStrokes.textContent = state.strokes;
+    elStrokes.textContent = totalStrokes();
+    elWin.textContent = '';
     state.rolling = true;
     requestAnimationFrame(step);
   }
 
   cv.addEventListener('mousedown', down);
-  cv.addEventListener('mousemove', move);
+  window.addEventListener('mousemove', move);
   window.addEventListener('mouseup', up);
   cv.addEventListener('touchstart', down, { passive: false });
-  cv.addEventListener('touchmove', move, { passive: false });
+  window.addEventListener('touchmove', move, { passive: false });
   window.addEventListener('touchend', up);
 
   document.getElementById('again').addEventListener('click', function () { reset(false); });
   document.getElementById('share').addEventListener('click', function () {
     var label = state.daily ? 'Read the Green · ' + prettyToday() : 'Read the Green · practice';
+    var t = totalStrokes();
     var line = state.holed
-      ? label + ' — ' + state.strokes + (state.strokes === 1 ? ' stroke' : ' strokes')
+      ? label + ' — ' + t + (t === 1 ? ' stroke' : ' strokes')
       : label + ' — in progress';
     var text = line + '\nThink you can read a break? jettiverson.com/play/read-the-green';
     if (navigator.share) { navigator.share({ title: 'Read the Green', text: text }).catch(function () {}); }
