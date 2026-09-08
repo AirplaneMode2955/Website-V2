@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Read the Green</title>
+<style>
+  :root {
+    --bg: #141c14;
+    --panel: #1b231b;
+    --panel-hi: #323631;
+    --line: rgba(255, 255, 255, 0.09);
+    --primary: #c9dbc3;
+    --muted: #8d9289;
+    --text: #e7e9e4;
+    --flag: #d94f3d;
+    --green: #2f5233;
+    --green-lo: #274626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    height: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 40px;
+    gap: 14px;
+  }
+  .head { text-align: center; }
+  .kick {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 30px;
+    color: var(--primary);
+    margin-top: 2px;
+  }
+  .sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .readout {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .readout b { color: var(--text); font-weight: 600; }
+  .stage {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--panel);
+    touch-action: none;
+  }
+  canvas { display: block; }
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 340px;
+    line-height: 1.5;
+  }
+  .row { display: flex; gap: 10px; }
+  button {
+    font: inherit;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--primary);
+    background: transparent;
+    border: 1px solid rgba(201, 219, 195, 0.4);
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  button:hover { background: var(--primary); color: #172417; }
+  button.ghost { border-color: var(--line); color: rgba(231, 233, 228, 0.7); }
+  button.ghost:hover { border-color: rgba(201, 219, 195, 0.4); color: var(--primary); background: transparent; }
+  .win {
+    color: var(--primary);
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 20px;
+    min-height: 26px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="kick">The Arcade · Daily</div>
+    <h1>Read the Green</h1>
+    <div class="sub" id="sub">Green · —</div>
+  </div>
+
+  <div class="readout">
+    <span>Break <b id="break">—</b></span>
+    <span>Strokes <b id="strokes">0</b></span>
+    <span>Par <b id="par">2</b></span>
+  </div>
+
+  <div class="stage">
+    <canvas id="c" width="360" height="520"></canvas>
+  </div>
+
+  <div class="win" id="win"></div>
+
+  <div class="hint" id="hint">
+    Drag back from the ball to aim and set power — like a slingshot. The slope
+    pulls the ball as it rolls. Sink it in as few strokes as you can.
+  </div>
+
+  <div class="row">
+    <button id="share" class="ghost">Share</button>
+    <button id="again" class="ghost">New green</button>
+  </div>
+
+<script>
+(function () {
+  var cv = document.getElementById('c');
+  var ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height;
+
+  var elBreak = document.getElementById('break');
+  var elStrokes = document.getElementById('strokes');
+  var elPar = document.getElementById('par');
+  var elWin = document.getElementById('win');
+  var elSub = document.getElementById('sub');
+
+  // ---- deterministic daily RNG ----
+  function todayKey() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function seedFrom(str) {
+    var h = 1779033703 ^ str.length;
+    for (var i = 0; i < str.length; i++) {
+      h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+      h = (h << 13) | (h >>> 19);
+    }
+    var a = (h ^= h >>> 16) >>> 0;
+    return function () {
+      a |= 0; a = (a + 0x6d2b79f5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function prettyToday() {
+    var d = new Date();
+    return MONTHS[d.getMonth()] + ' ' + d.getDate();
+  }
+
+  var HOLE_R = 9;
+  var state;
+
+  function makeGreen(rand) {
+    var slopeAng = rand() * Math.PI * 2;
+    var slopeMag = 0.010 + rand() * 0.022;
+    var hole = { x: W * (0.3 + rand() * 0.4), y: H * (0.14 + rand() * 0.12) };
+    var ball = { x: W * (0.3 + rand() * 0.4), y: H * (0.80 + rand() * 0.08), vx: 0, vy: 0 };
+    var dist = Math.hypot(hole.x - ball.x, hole.y - ball.y);
+    var par = dist > 330 ? 3 : 2;
+    return {
+      slope: { x: Math.cos(slopeAng) * slopeMag, y: Math.sin(slopeAng) * slopeMag },
+      hole: hole, ball: ball, start: { x: ball.x, y: ball.y },
+      par: par, strokes: 0, holed: false, rolling: false,
+      aim: null // {x,y} drag current point
+    };
+  }
+
+  function breakLabel(s) {
+    var a = Math.atan2(s.y, s.x) * 180 / Math.PI; // 0 = right, 90 = down(toward player)
+    var horiz = s.x > 0.004 ? 'right' : s.x < -0.004 ? 'left' : '';
+    var vert = s.y < -0.004 ? 'uphill' : s.y > 0.004 ? 'downhill' : '';
+    var parts = [];
+    if (vert) parts.push(vert);
+    if (horiz) parts.push(horiz + ' to ' + (horiz === 'right' ? 'left' : 'right'));
+    return parts.join(', ') || 'flat';
+  }
+
+  function reset(daily) {
+    var rand = daily ? seedFrom('read-the-green:' + todayKey()) : seedFrom('rtg:' + Math.random());
+    state = makeGreen(rand);
+    state.daily = !!daily;
+    elBreak.textContent = breakLabel(state.slope);
+    elStrokes.textContent = '0';
+    elPar.textContent = state.par;
+    elWin.textContent = '';
+    elSub.textContent = daily ? 'Green · ' + prettyToday() : 'Green · practice';
+    draw();
+  }
+
+  // ---- rendering ----
+  function draw() {
+    // felt
+    var g = ctx.createRadialGradient(W / 2, H * 0.4, 40, W / 2, H * 0.5, H * 0.75);
+    g.addColorStop(0, '#356138');
+    g.addColorStop(1, '#20401f');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    // slope contour arrows
+    ctx.save();
+    ctx.globalAlpha = 0.16;
+    ctx.strokeStyle = '#dfeadb';
+    ctx.lineWidth = 1.5;
+    var sa = Math.atan2(state.slope.y, state.slope.x);
+    for (var gx = 30; gx < W; gx += 46) {
+      for (var gy = 30; gy < H; gy += 46) {
+        ctx.save();
+        ctx.translate(gx, gy);
+        ctx.rotate(sa);
+        ctx.beginPath();
+        ctx.moveTo(-9, 0); ctx.lineTo(9, 0);
+        ctx.moveTo(4, -4); ctx.lineTo(9, 0); ctx.lineTo(4, 4);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+    ctx.restore();
+
+    // hole
+    ctx.beginPath();
+    ctx.fillStyle = '#0c140c';
+    ctx.arc(state.hole.x, state.hole.y, HOLE_R, 0, Math.PI * 2);
+    ctx.fill();
+    // flag
+    ctx.strokeStyle = '#e7e9e4';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(state.hole.x, state.hole.y);
+    ctx.lineTo(state.hole.x, state.hole.y - 40);
+    ctx.stroke();
+    ctx.fillStyle = '#d94f3d';
+    ctx.beginPath();
+    ctx.moveTo(state.hole.x, state.hole.y - 40);
+    ctx.lineTo(state.hole.x + 22, state.hole.y - 33);
+    ctx.lineTo(state.hole.x, state.hole.y - 26);
+    ctx.fill();
+
+    // aim line
+    if (state.aim && !state.rolling && !state.holed) {
+      var dx = state.ball.x - state.aim.x;
+      var dy = state.ball.y - state.aim.y;
+      var pw = Math.min(Math.hypot(dx, dy), 150);
+      var ang = Math.atan2(dy, dx);
+      ctx.save();
+      ctx.strokeStyle = 'rgba(201,219,195,0.85)';
+      ctx.setLineDash([5, 5]);
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(state.ball.x, state.ball.y);
+      ctx.lineTo(state.ball.x + Math.cos(ang) * pw * 1.6, state.ball.y + Math.sin(ang) * pw * 1.6);
+      ctx.stroke();
+      ctx.restore();
+      // power pip
+      ctx.fillStyle = 'rgba(201,219,195,0.9)';
+      ctx.fillRect(10, H - 16 - (pw / 150) * 80, 6, (pw / 150) * 80);
+    }
+
+    // ball
+    ctx.beginPath();
+    ctx.fillStyle = '#f2f4ef';
+    ctx.arc(state.ball.x, state.ball.y, 6, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // ---- physics ----
+  var FRICTION = 0.985;
+  var STOP = 0.12;
+
+  function step() {
+    if (!state.rolling) return;
+    var b = state.ball;
+    b.vx += state.slope.x;
+    b.vy += state.slope.y;
+    b.vx *= FRICTION;
+    b.vy *= FRICTION;
+    b.x += b.vx;
+    b.y += b.vy;
+
+    // hole capture
+    var d = Math.hypot(b.x - state.hole.x, b.y - state.hole.y);
+    var spd = Math.hypot(b.vx, b.vy);
+    if (d < HOLE_R - 1 && spd < 3.4) {
+      state.holed = true;
+      state.rolling = false;
+      b.x = state.hole.x; b.y = state.hole.y; b.vx = b.vy = 0;
+      finish();
+      draw();
+      return;
+    }
+
+    // walls (soft bounce inside rounded field)
+    var m = 10;
+    if (b.x < m) { b.x = m; b.vx = -b.vx * 0.5; }
+    if (b.x > W - m) { b.x = W - m; b.vx = -b.vx * 0.5; }
+    if (b.y < m) { b.y = m; b.vy = -b.vy * 0.5; }
+    if (b.y > H - m) { b.y = H - m; b.vy = -b.vy * 0.5; }
+
+    if (spd < STOP) {
+      b.vx = b.vy = 0;
+      state.rolling = false;
+    }
+    draw();
+    if (state.rolling) requestAnimationFrame(step);
+  }
+
+  function finish() {
+    var n = state.strokes;
+    var rel = n - state.par;
+    var word = rel <= -2 ? 'Eagle.' : rel === -1 ? 'Birdie.' : rel === 0 ? 'Par.' : rel === 1 ? 'Bogey.' : 'In the hole.';
+    elWin.textContent = word + ' ' + n + (n === 1 ? ' stroke.' : ' strokes.');
+  }
+
+  // ---- input: slingshot drag ----
+  var dragging = false;
+  function pos(e) {
+    var r = cv.getBoundingClientRect();
+    var p = e.touches ? e.touches[0] : e;
+    return { x: (p.clientX - r.left) * (W / r.width), y: (p.clientY - r.top) * (H / r.height) };
+  }
+  function down(e) {
+    if (state.rolling || state.holed) return;
+    var p = pos(e);
+    if (Math.hypot(p.x - state.ball.x, p.y - state.ball.y) > 60) return;
+    dragging = true;
+    state.aim = p;
+    e.preventDefault();
+    draw();
+  }
+  function move(e) {
+    if (!dragging) return;
+    state.aim = pos(e);
+    e.preventDefault();
+    draw();
+  }
+  function up() {
+    if (!dragging) return;
+    dragging = false;
+    var dx = state.ball.x - state.aim.x;
+    var dy = state.ball.y - state.aim.y;
+    var pw = Math.min(Math.hypot(dx, dy), 150);
+    state.aim = null;
+    if (pw < 6) { draw(); return; }
+    var ang = Math.atan2(dy, dx);
+    var speed = 2 + (pw / 150) * 9;
+    state.ball.vx = Math.cos(ang) * speed;
+    state.ball.vy = Math.sin(ang) * speed;
+    state.strokes++;
+    elStrokes.textContent = state.strokes;
+    state.rolling = true;
+    requestAnimationFrame(step);
+  }
+
+  cv.addEventListener('mousedown', down);
+  cv.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', up);
+  cv.addEventListener('touchstart', down, { passive: false });
+  cv.addEventListener('touchmove', move, { passive: false });
+  window.addEventListener('touchend', up);
+
+  document.getElementById('again').addEventListener('click', function () { reset(false); });
+  document.getElementById('share').addEventListener('click', function () {
+    var label = state.daily ? 'Read the Green · ' + prettyToday() : 'Read the Green · practice';
+    var line = state.holed
+      ? label + ' — ' + state.strokes + (state.strokes === 1 ? ' stroke' : ' strokes')
+      : label + ' — in progress';
+    var text = line + '\nThink you can read a break? jettiverson.com/play/read-the-green';
+    if (navigator.share) { navigator.share({ title: 'Read the Green', text: text }).catch(function () {}); }
+    else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function () {
+        var b = document.getElementById('share'); b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Share'; }, 1500);
+      });
+    } else { window.prompt('Copy', text); }
+  });
+
+  reset(true);
+})();
+</script>
+</body>
+</html>

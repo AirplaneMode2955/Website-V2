@@ -13,6 +13,24 @@ export type ArcadeGame = {
 
 export const arcadeGames: ArcadeGame[] = [
   {
+    slug: 'read-the-green',
+    title: 'Read the Green',
+    blurb:
+      'A daily putting puzzle. Slingshot the ball, read the slope, sink it in as few strokes as you can. Prototype — tell me if it stays.',
+    tags: ['Game', 'Canvas', 'Golf', 'Daily'],
+    year: '2026',
+    mode: 'hosted',
+  },
+  {
+    slug: 'table-talk',
+    title: 'Table Talk',
+    blurb:
+      'Order five Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day. Prototype — tell me if it stays.',
+    tags: ['Game', 'Soccer', 'Daily'],
+    year: '2026',
+    mode: 'hosted',
+  },
+  {
     slug: 'birthdle',
     title: 'Birthdle',
     blurb:
