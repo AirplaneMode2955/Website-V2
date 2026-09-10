@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { hostedGames, getHostedGame } from '@/lib/arcadeGames';
+import ArcadeFrame from '@/components/ArcadeFrame';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -44,12 +45,7 @@ export default async function ArcadeGamePage({ params }: Props) {
         </div>
 
         <div className="rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft bg-surface-container-lowest">
-          <iframe
-            src={`/arcade/${game.slug}/index.html`}
-            title={game.title}
-            className="w-full h-[calc(100vh-11rem)] min-h-[520px] border-0"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-          />
+          <ArcadeFrame slug={game.slug} title={game.title} />
         </div>
 
         <p className="text-outline text-xs mt-4 text-center">
