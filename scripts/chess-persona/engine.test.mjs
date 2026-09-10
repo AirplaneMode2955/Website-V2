@@ -42,12 +42,12 @@ const ok = (name, cond, extra = '') => cond ? (pass++, console.log('  ok  ' + na
   ok('depth 4 respects the time cap (<2200ms)', Date.now() - t < 2200, Date.now() - t + 'ms');
 }
 {
-  const fen = '4k3/3n4/8/8/8/8/8/3RK3 w - - 0 1'; // Rxd7 wins a knight, not a check
+  const fen = '4k3/8/3n4/8/8/8/8/3RK3 w - - 0 1'; // Rxd6 wins a clean, undefended knight (not check)
   let worse = 0;
-  for (let i = 0; i < 40; i++) { const r = await ask({ ...base, fen, depth: 2, slipP: 1, slipCp: 2000 }); if (r.san !== 'Rxd7') worse++; }
+  for (let i = 0; i < 40; i++) { const r = await ask({ ...base, fen, depth: 2, slipP: 1, slipCp: 2000 }); if (r.san !== 'Rxd6') worse++; }
   ok('slipP=1 sometimes avoids the best move', worse > 0, 'worse=' + worse);
   let always = true;
-  for (let i = 0; i < 15; i++) { const r = await ask({ ...base, fen, depth: 2, slipP: 0 }); if (r.san !== 'Rxd7') always = false; }
+  for (let i = 0; i < 15; i++) { const r = await ask({ ...base, fen, depth: 2, slipP: 0 }); if (r.san !== 'Rxd6') always = false; }
   ok('slipP=0 always grabs the free knight', always);
 }
 {

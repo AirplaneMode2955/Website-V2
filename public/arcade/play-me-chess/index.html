@@ -13,8 +13,16 @@
   :root{
     --bg:#0f150f; --panel:#18201a; --panel-2:#1f291f; --line:rgba(255,255,255,.08);
     --ink:#e7ece6; --dim:#9aa79a; --gold:#c9a96e; --good:#7fd493; --bad:#e2725b;
-    --sq-light:#b7c3a6; --sq-dark:#5b6f51; --sel:#c9a96e; --hint:rgba(201,169,110,.55);
-    --last:rgba(201,169,110,.32); --check:rgba(226,114,91,.55);
+    /* wooden board */
+    --wood-light:#c07a4c;   /* alder / red-wood */
+    --wood-light-2:#a8663c;
+    --wood-dark:#4a3121;    /* walnut */
+    --wood-dark-2:#38241733;
+    --frame:#2f1e12;        /* board surround */
+    --piece-light:#f0dcb8;  /* boxwood / maple */
+    --piece-dark:#241206;   /* dark walnut piece */
+    --sel:#f2c879; --hint:rgba(242,200,121,.6);
+    --last:rgba(242,200,121,.34); --check:rgba(214,72,54,.6);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;min-height:100%;background:var(--bg);color:var(--ink);
@@ -59,25 +67,51 @@
   @keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
   .cap{font-size:13px;color:var(--dim);letter-spacing:1px;min-height:18px;}
 
-  /* board */
-  #boardWrap{margin:10px 0;touch-action:manipulation;}
+  /* board — wooden */
+  #boardWrap{margin:12px 0;touch-action:manipulation;}
   #board{width:100%;aspect-ratio:1/1;display:grid;grid-template-columns:repeat(8,1fr);
-    grid-template-rows:repeat(8,1fr);border-radius:12px;overflow:hidden;border:1px solid var(--line);
-    user-select:none;}
-  .sq{position:relative;display:flex;align-items:center;justify-content:center;}
-  .sq.l{background:var(--sq-light);} .sq.d{background:var(--sq-dark);}
+    grid-template-rows:repeat(8,1fr);overflow:hidden;user-select:none;
+    border:12px solid var(--frame);border-radius:8px;
+    background:var(--frame);
+    box-shadow:0 18px 40px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.04),
+      inset 0 0 22px rgba(0,0,0,.55);
+  }
+  .sq{position:relative;display:flex;align-items:center;justify-content:center;
+    background-blend-mode:multiply,normal,normal;}
+  /* grain: fine end-grain streaks + a broad sheen; direction alternates like real inlay */
+  .sq.l{
+    background-color:var(--wood-light);
+    background-image:
+      repeating-linear-gradient(var(--g,88deg), rgba(60,20,0,.10) 0 1px, transparent 1px 3px,
+        rgba(70,25,0,.07) 3px 4px, transparent 4px 9px),
+      linear-gradient(115deg, rgba(255,225,190,.14), rgba(80,35,10,.14));
+  }
+  .sq.d{
+    background-color:var(--wood-dark);
+    background-image:
+      repeating-linear-gradient(var(--g,88deg), rgba(0,0,0,.16) 0 1px, transparent 1px 3px,
+        rgba(0,0,0,.10) 3px 4px, transparent 4px 10px),
+      linear-gradient(115deg, rgba(255,220,180,.07), rgba(0,0,0,.22));
+  }
+  #board .sq:nth-child(2n){--g:2deg;}
+  #board .sq:nth-child(2n+1){--g:92deg;}
   .sq.sel::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 3px var(--sel);}
-  .sq.last::before{content:"";position:absolute;inset:0;background:var(--last);}
+  .sq.last::before{content:"";position:absolute;inset:0;background:var(--last);mix-blend-mode:screen;}
   .sq.chk::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,var(--check),transparent 70%);}
-  .sq .dot{position:absolute;width:26%;height:26%;border-radius:50%;background:var(--hint);}
+  .sq .dot{position:absolute;width:26%;height:26%;border-radius:50%;background:var(--hint);
+    box-shadow:0 0 6px rgba(242,200,121,.5);}
   .sq .ring{position:absolute;inset:8%;border-radius:50%;box-shadow:inset 0 0 0 4px var(--hint);}
-  .pc{font-size:min(9vw,44px);line-height:1;cursor:grab;position:relative;z-index:2;
-    filter:drop-shadow(0 2px 2px rgba(0,0,0,.45));}
-  .pc.w{color:#f4f1e8;text-shadow:0 0 2px rgba(0,0,0,.9),0 0 1px rgba(0,0,0,.9);}
-  .pc.b{color:#20241f;text-shadow:0 0 2px rgba(255,255,255,.35);}
+  .pc{font-size:min(9vw,44px);line-height:1;cursor:grab;position:relative;z-index:2;}
+  /* carved-wood pieces: bevelled highlight + shadow, sitting a touch above the board */
+  .pc.w{color:var(--piece-light);
+    text-shadow:0 1px 0 rgba(255,255,255,.55), 0 -1px 0 rgba(120,70,30,.55),
+      1px 2px 1px rgba(60,25,0,.5), 0 3px 5px rgba(0,0,0,.4);}
+  .pc.b{color:var(--piece-dark);
+    text-shadow:0 1px 0 rgba(120,80,50,.45), 0 -1px 1px rgba(0,0,0,.6),
+      1px 2px 1px rgba(0,0,0,.55), 0 3px 5px rgba(0,0,0,.45);}
   .pc.drag{opacity:.4;}
   #ghost{position:fixed;font-size:44px;line-height:1;pointer-events:none;z-index:99;
-    transform:translate(-50%,-50%);filter:drop-shadow(0 3px 4px rgba(0,0,0,.5));display:none;}
+    transform:translate(-50%,-50%);filter:drop-shadow(0 4px 5px rgba(0,0,0,.55));display:none;}
 
   .controls{display:flex;gap:8px;margin-top:10px;}
   .controls button{flex:1;font-size:13px;}
@@ -231,7 +265,7 @@ var PST = {
       -30,-20,-10,0,0,-10,-20,-30, -50,-40,-30,-20,-20,-30,-40,-50]
 };
 var MATE = 300000;
-var LIMIT_MS = 1200;
+var LIMIT_MS = 1500;
 
 function idxFor(sq, color) {
   var f = sq.charCodeAt(0) - 97, r = +sq[1] - 1;
@@ -332,10 +366,14 @@ function quiesce(g, alpha, beta, botColor, qd) {
 }
 function negamax(g, depth, alpha, beta, botColor, ply) {
   if (timeUp()) throw { abort: 1 };
-  if (g.in_checkmate()) return -MATE + ply;
-  if (g.in_stalemate() || g.in_threefold_repetition() || g.insufficient_material() || g.in_draw()) return 0;
-  if (depth <= 0) return quiesce(g, alpha, beta, botColor, 4);
+  // cheap draw checks only (in_checkmate/in_stalemate each re-generate moves — do it once below)
+  if (g.insufficient_material()) return 0;
+  if (ply < 8 && g.in_threefold_repetition()) return 0;
+  var inChk = g.in_check();
+  if (inChk && ply < 24) depth++; // check extension
+  if (depth <= 0) return quiesce(g, alpha, beta, botColor, 6);
   var ms = orderMoves(g.moves({ verbose: true }));
+  if (ms.length === 0) return inChk ? -MATE + ply : 0; // checkmate / stalemate
   for (var i = 0; i < ms.length; i++) {
     g.move(ms[i]);
     var sc = -negamax(g, depth - 1, -beta, -alpha, botColor, ply + 1);
@@ -353,14 +391,24 @@ function enemyKingSq(g, botColor) {
   }
   return { f: 4, r: botColor === 'w' ? 8 : 1 };
 }
+function hangsToRecapture(g, m) {
+  // shallow SEE: does the move drop material to an immediate recapture on m.to?
+  var given = m.captured ? VAL[m.captured] : 0;
+  g.move(m);
+  var recap = g.moves({ verbose: true }).some(function (x) { return x.to === m.to; });
+  g.undo();
+  return recap && given < VAL[m.piece] - 40;
+}
 function styleBonus(g, m, botColor, ply) {
+  // never let personality talk the bot into a losing sac
+  if (m.san.indexOf('#') < 0 && hangsToRecapture(g, m)) return -80;
   var b = 0;
   var eks = enemyKingSq(g, botColor);
   var tf = m.to.charCodeAt(0) - 97, tr = +m.to[1];
   var nearKing = Math.abs(tf - eks.f) <= 2 && Math.abs(tr - eks.r) <= 2;
-  if (m.san.indexOf('+') >= 0 || m.san.indexOf('#') >= 0) b += 18;
-  if (m.flags.indexOf('c') >= 0) b += nearKing ? 16 : 6;
-  else if (nearKing) b += 8;
+  if (m.san.indexOf('+') >= 0 || m.san.indexOf('#') >= 0) b += 12;
+  if (m.flags.indexOf('c') >= 0) b += nearKing ? 10 : 5;
+  else if (nearKing) b += 6;
   // Jett's structures
   if (m.piece === 'p' && ((botColor === 'w' && m.to === 'e3') || (botColor === 'b' && m.to === 'e6'))) b += 14;
   if (m.piece === 'p' && ((botColor === 'w' && m.to === 'c4') || (botColor === 'b' && m.to === 'c5'))) b += 12;
@@ -433,7 +481,7 @@ onmessage = function (ev) {
   var ply = g.history().length;
 
   // 3) style re-rank among near-best moves
-  var styleWindow = 45;
+  var styleWindow = 28;
   var pool = rootScores.filter(function (x) { return bestScore - x.s <= styleWindow; });
   var styled = pool.map(function (x) { return { m: x.m, s: x.s + styleBonus(g, x.m, d.botColor, ply) }; });
   styled.sort(function (a, b) { return b.s - a.s; });
@@ -445,12 +493,21 @@ onmessage = function (ev) {
     if (slipPool.length > 1) chosen = slipPool[(Math.random() * slipPool.length) | 0].m;
   }
 
-  // 5) persona tag
+  // 5) sanity net — don't toss a piece unless the search actually calculated a win.
+  // (The shallow eval can't always see a trapped/lost piece a few quiet moves out.)
+  if (hangsToRecapture(g, chosen) && bestScore < 180) {
+    var safe = null;
+    for (var si = 0; si < rootScores.length; si++) {
+      if (!hangsToRecapture(g, rootScores[si].m)) { safe = rootScores[si].m; break; }
+    }
+    if (safe) chosen = safe;
+  }
+
+  // 6) persona tag — bestScore is already from the bot's point of view
   var tag = null;
-  var botPovBest = d.botColor === g.turn() ? bestScore : bestScore; // bestScore already from side-to-move (bot) POV
   if (chosen.san.indexOf('+') >= 0 || chosen.san.indexOf('#') >= 0 || chosen.flags.indexOf('c') >= 0) tag = 'attack';
-  if (botPovBest > 150) tag = 'better';
-  else if (botPovBest < -150) tag = 'worse';
+  if (bestScore > 220) tag = 'better';
+  else if (bestScore < -220) tag = 'worse';
 
   postMessage({ san: chosen.san, tag: tag });
 };
@@ -487,9 +544,9 @@ const youTurn = $('#youTurn'), youCap = $('#youCap'), youName = $('#youName');
 const movesEl = $('#moves'), toastEl = $('#toast');
 
 const DIFF = [
-  { name: 'Casual Jett', elo: '~750', depth: 2, book: 0.70, slipP: 0.35, slipCp: 130 },
-  { name: 'Jett', elo: '~1000', depth: 3, book: 0.90, slipP: 0.18, slipCp: 90 },
-  { name: 'Jett on a good day', elo: '~1250', depth: 4, book: 1.0, slipP: 0.06, slipCp: 50 }
+  { name: 'Casual Jett', elo: '~950', depth: 3, book: 0.75, slipP: 0.22, slipCp: 110 },
+  { name: 'Jett', elo: '~1200', depth: 4, book: 0.92, slipP: 0.10, slipCp: 65 },
+  { name: 'Jett on a good day', elo: '~1450', depth: 5, book: 1.0, slipP: 0.02, slipCp: 30 }
 ];
 
 let game, human = 'w', diff = 1, flipped = false, busy = false, worker = null, selected = null, lastMove = null;
@@ -616,8 +673,8 @@ boardEl.addEventListener('pointerdown', e => {
   if (piece && piece.color === game.turn() && piece.color === window._humanColor) {
     selected = sq; render();
     const g = $('#ghost'); g.textContent = GLYPH[piece.type];
-    g.className = piece.color === 'w' ? 'w' : 'b';
-    g.style.color = piece.color === 'w' ? '#f4f1e8' : '#20241f';
+    g.className = 'pc ' + (piece.color === 'w' ? 'w' : 'b');
+    g.style.color = piece.color === 'w' ? 'var(--piece-light)' : 'var(--piece-dark)';
     dragInfo = { from: sq, moved: false };
     moveGhost(e);
     const pcEl = cell.querySelector('.pc'); if (pcEl) pcEl.classList.add('drag');
@@ -723,15 +780,15 @@ function speakForState(tag) {
   const hist = game.history();
   const botMoves = hist.filter((_, i) => (i % 2 === (game.turn() === 'w' ? 1 : 0)));
   let bucket = 'developed';
-  if (hist.length <= 8) bucket = 'open';
   const lastSan = hist[hist.length - 1] || '';
   if (lastSan.includes('#')) bucket = 'winning';
+  else if (tag === 'worse') bucket = 'losing';               // eval trumps flavour: it knows it's lost
+  else if (tag === 'better') bucket = 'winning';
+  else if (hist.length <= 8) bucket = 'open';
   else if (lastSan.includes('+')) bucket = 'check';
   else if (lastSan === 'O-O') bucket = 'castledShort';
   else if (lastSan === 'O-O-O') bucket = 'noCastle';
   else if (tag === 'attack' || lastSan.includes('x')) bucket = Math.random() < 0.5 ? 'attacking' : 'trading';
-  else if (tag === 'better') bucket = 'winning';
-  else if (tag === 'worse') bucket = 'losing';
   else if (hist.length > 44) bucket = 'endgame';
   if (Math.random() < 0.72) say(pick(FLAVOR[bucket] || FLAVOR.developed));
   else say('&nbsp;');
@@ -762,9 +819,10 @@ function finish(kind) {
   $('#endKicker').textContent = draw ? 'Drawn' : youWin ? 'You won' : 'You lost';
   $('#endTitle').textContent = reason;
   let share;
-  if (draw) { $('#endBlurb').textContent = pick(["He'll take it. Barely.", 'Honours even after ' + n + ' moves.']); share = `I drew The Eldrick — Jett's chess bot — in ${n} moves. ${location.origin}/play/play-me-chess`; }
-  else if (youWin) { $('#endBlurb').textContent = pick(['Well played.', 'The Eldrick is not pleased.', 'That one stings.']); share = `Beat The Eldrick — Jett's chess bot trained on 311 of his real games — in ${n} moves. ${location.origin}/play/play-me-chess`; }
-  else { $('#endBlurb').textContent = pick(['Run it back.', 'Skill issue (mine, historically).', 'Get him next time.']); share = `The Eldrick — Jett's chess bot — got me in ${n} moves. Think you can beat it? ${location.origin}/play/play-me-chess`; }
+  const url = `${location.origin}/play/play-me-chess`;
+  if (draw) { $('#endBlurb').textContent = pick(["He'll take it. Barely.", 'Honours even after ' + n + ' moves.']); share = `Beat me at chess — held The Eldrick, Jett Iverson's bot trained on 311 of his real games, to a draw in ${n} moves. ${url}`; }
+  else if (youWin) { $('#endBlurb').textContent = pick(['Well played.', 'The Eldrick is not pleased.', 'That one stings.']); share = `Beat me at chess — done. Took down The Eldrick, Jett Iverson's bot trained on 311 of his real games, in ${n} moves. ${url}`; }
+  else { $('#endBlurb').textContent = pick(['Run it back.', 'Skill issue (mine, historically).', 'Get him next time.']); share = `Beat me at chess? The Eldrick — Jett Iverson's bot, trained on 311 of his real games — got me in ${n} moves. Your turn: ${url}`; }
   $('#shareBtn').onclick = () => {
     navigator.clipboard && navigator.clipboard.writeText(share).then(() => toast('Copied — go flex')).catch(() => toast(share));
     if (navigator.share) navigator.share({ text: share }).catch(() => {});

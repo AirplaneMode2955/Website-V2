@@ -25,7 +25,7 @@ var PST = {
       -30,-20,-10,0,0,-10,-20,-30, -50,-40,-30,-20,-20,-30,-40,-50]
 };
 var MATE = 300000;
-var LIMIT_MS = 1200;
+var LIMIT_MS = 1500;
 
 function idxFor(sq, color) {
   var f = sq.charCodeAt(0) - 97, r = +sq[1] - 1;
@@ -126,10 +126,14 @@ function quiesce(g, alpha, beta, botColor, qd) {
 }
 function negamax(g, depth, alpha, beta, botColor, ply) {
   if (timeUp()) throw { abort: 1 };
-  if (g.in_checkmate()) return -MATE + ply;
-  if (g.in_stalemate() || g.in_threefold_repetition() || g.insufficient_material() || g.in_draw()) return 0;
-  if (depth <= 0) return quiesce(g, alpha, beta, botColor, 4);
+  // cheap draw checks only (in_checkmate/in_stalemate each re-generate moves — do it once below)
+  if (g.insufficient_material()) return 0;
+  if (ply < 8 && g.in_threefold_repetition()) return 0;
+  var inChk = g.in_check();
+  if (inChk && ply < 24) depth++; // check extension
+  if (depth <= 0) return quiesce(g, alpha, beta, botColor, 6);
   var ms = orderMoves(g.moves({ verbose: true }));
+  if (ms.length === 0) return inChk ? -MATE + ply : 0; // checkmate / stalemate
   for (var i = 0; i < ms.length; i++) {
     g.move(ms[i]);
     var sc = -negamax(g, depth - 1, -beta, -alpha, botColor, ply + 1);
@@ -147,14 +151,24 @@ function enemyKingSq(g, botColor) {
   }
   return { f: 4, r: botColor === 'w' ? 8 : 1 };
 }
+function hangsToRecapture(g, m) {
+  // shallow SEE: does the move drop material to an immediate recapture on m.to?
+  var given = m.captured ? VAL[m.captured] : 0;
+  g.move(m);
+  var recap = g.moves({ verbose: true }).some(function (x) { return x.to === m.to; });
+  g.undo();
+  return recap && given < VAL[m.piece] - 40;
+}
 function styleBonus(g, m, botColor, ply) {
+  // never let personality talk the bot into a losing sac
+  if (m.san.indexOf('#') < 0 && hangsToRecapture(g, m)) return -80;
   var b = 0;
   var eks = enemyKingSq(g, botColor);
   var tf = m.to.charCodeAt(0) - 97, tr = +m.to[1];
   var nearKing = Math.abs(tf - eks.f) <= 2 && Math.abs(tr - eks.r) <= 2;
-  if (m.san.indexOf('+') >= 0 || m.san.indexOf('#') >= 0) b += 18;
-  if (m.flags.indexOf('c') >= 0) b += nearKing ? 16 : 6;
-  else if (nearKing) b += 8;
+  if (m.san.indexOf('+') >= 0 || m.san.indexOf('#') >= 0) b += 12;
+  if (m.flags.indexOf('c') >= 0) b += nearKing ? 10 : 5;
+  else if (nearKing) b += 6;
   // Jett's structures
   if (m.piece === 'p' && ((botColor === 'w' && m.to === 'e3') || (botColor === 'b' && m.to === 'e6'))) b += 14;
   if (m.piece === 'p' && ((botColor === 'w' && m.to === 'c4') || (botColor === 'b' && m.to === 'c5'))) b += 12;
@@ -227,7 +241,7 @@ onmessage = function (ev) {
   var ply = g.history().length;
 
   // 3) style re-rank among near-best moves
-  var styleWindow = 45;
+  var styleWindow = 28;
   var pool = rootScores.filter(function (x) { return bestScore - x.s <= styleWindow; });
   var styled = pool.map(function (x) { return { m: x.m, s: x.s + styleBonus(g, x.m, d.botColor, ply) }; });
   styled.sort(function (a, b) { return b.s - a.s; });
@@ -239,12 +253,21 @@ onmessage = function (ev) {
     if (slipPool.length > 1) chosen = slipPool[(Math.random() * slipPool.length) | 0].m;
   }
 
-  // 5) persona tag
+  // 5) sanity net — don't toss a piece unless the search actually calculated a win.
+  // (The shallow eval can't always see a trapped/lost piece a few quiet moves out.)
+  if (hangsToRecapture(g, chosen) && bestScore < 180) {
+    var safe = null;
+    for (var si = 0; si < rootScores.length; si++) {
+      if (!hangsToRecapture(g, rootScores[si].m)) { safe = rootScores[si].m; break; }
+    }
+    if (safe) chosen = safe;
+  }
+
+  // 6) persona tag — bestScore is already from the bot's point of view
   var tag = null;
-  var botPovBest = d.botColor === g.turn() ? bestScore : bestScore; // bestScore already from side-to-move (bot) POV
   if (chosen.san.indexOf('+') >= 0 || chosen.san.indexOf('#') >= 0 || chosen.flags.indexOf('c') >= 0) tag = 'attack';
-  if (botPovBest > 150) tag = 'better';
-  else if (botPovBest < -150) tag = 'worse';
+  if (bestScore > 220) tag = 'better';
+  else if (bestScore < -220) tag = 'worse';
 
   postMessage({ san: chosen.san, tag: tag });
 };

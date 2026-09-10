@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
-import { arcadeGames } from '@/lib/arcadeGames';
+import { featuredGames, archivedGames } from '@/lib/arcadeGames';
 
 export const metadata: Metadata = {
   title: 'Play',
@@ -101,7 +101,7 @@ export default function PlayPage() {
         <div className="max-w-screen-2xl mx-auto">
           <FadeIn>
             <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-              {arcadeGames.length} to play
+              {featuredGames.length} to play
             </span>
             <h2 className="font-headline italic text-5xl md:text-7xl text-primary mb-4">
               The Arcade
@@ -113,7 +113,7 @@ export default function PlayPage() {
           </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {arcadeGames.map((game, i) => {
+            {featuredGames.map((game, i) => {
               const isHosted = game.mode === 'hosted';
               const href = isHosted ? `/play/${game.slug}` : game.href ?? '#';
               const cardClass =
@@ -173,6 +173,21 @@ export default function PlayPage() {
               );
             })}
           </div>
+
+          {archivedGames.length > 0 && (
+            <FadeIn>
+              <p className="text-on-surface-variant/70 text-sm mt-14">
+                A couple of earlier experiments that didn&apos;t earn their spot.{' '}
+                <Link
+                  href="/play/archived"
+                  className="inline-flex items-center gap-1 text-primary/80 hover:text-primary font-label text-xs uppercase tracking-luxe transition-colors align-middle"
+                >
+                  Archived games
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </p>
+            </FadeIn>
+          )}
         </div>
       </section>
     </>

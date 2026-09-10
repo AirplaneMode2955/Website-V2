@@ -15,7 +15,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { articles } from '../src/lib/articles.ts';
 import { caseStudies } from '../src/lib/caseStudies.ts';
-import { hostedGames } from '../src/lib/arcadeGames.ts';
+import { featuredGames } from '../src/lib/arcadeGames.ts';
 
 const SITE = 'https://jettiverson.com';
 const PUBLIC = path.join(import.meta.dirname, '..', 'public');
@@ -38,7 +38,9 @@ const staticEntries: Entry[] = [
 const dynamicEntries: Entry[] = [
   ...articles.map((a) => ({ path: `/content/${a.slug}`, priority: 0.6, changefreq: 'monthly' })),
   ...caseStudies.map((c) => ({ path: `/case-studies/${c.slug}`, priority: 0.6, changefreq: 'monthly' })),
-  ...hostedGames.map((g) => ({ path: `/play/${g.slug}`, priority: 0.3, changefreq: 'monthly' })),
+  ...featuredGames
+    .filter((g) => g.mode === 'hosted')
+    .map((g) => ({ path: `/play/${g.slug}`, priority: 0.3, changefreq: 'monthly' })),
 ];
 
 const entries = [...staticEntries, ...dynamicEntries];

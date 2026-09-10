@@ -9,36 +9,11 @@ export type ArcadeGame = {
   mode: 'hosted' | 'link';
   /** hosted: ignored (wrapper route is derived). link: the external URL. */
   href?: string;
+  /** Kept playable by direct link + listed on /play/archived, but off the main shelf. */
+  archived?: boolean;
 };
 
 export const arcadeGames: ArcadeGame[] = [
-  {
-    slug: 'play-me-chess',
-    title: 'Play Me in Chess',
-    blurb:
-      "A chess bot trained on 311 of my real games — it plays my openings, at my strength, with my habits. Beat 'The Eldrick' if you can.",
-    tags: ['Game', 'Chess', 'AI'],
-    year: '2026',
-    mode: 'hosted',
-  },
-  {
-    slug: 'read-the-green',
-    title: 'Read the Green',
-    blurb:
-      'A daily putting puzzle. Slingshot the ball, read the slope, sink it in as few strokes as you can. Prototype — tell me if it stays.',
-    tags: ['Game', 'Canvas', 'Golf', 'Daily'],
-    year: '2026',
-    mode: 'hosted',
-  },
-  {
-    slug: 'table-talk',
-    title: 'Table Talk',
-    blurb:
-      'Order five Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day. Prototype — tell me if it stays.',
-    tags: ['Game', 'Soccer', 'Daily'],
-    year: '2026',
-    mode: 'hosted',
-  },
   {
     slug: 'birthdle',
     title: 'Birthdle',
@@ -49,12 +24,31 @@ export const arcadeGames: ArcadeGame[] = [
     mode: 'hosted',
   },
   {
-    slug: 'retro-world-cup',
-    title: 'Retro Cup',
+    slug: 'play-me-chess',
+    title: 'Play Me in Chess',
     blurb:
-      'A pixel-art World Cup bracket simulator — made in the run-up to 2026 to play with tournament probability somewhere more fun than a spreadsheet.',
-    tags: ['Game', 'Simulation', 'Soccer'],
+      "A chess bot trained on 311 of my real games — it plays my openings, at my strength, with my habits. Beat 'The Eldrick' if you can.",
+    tags: ['Game', 'Chess', 'AI'],
+    year: '2026',
+    mode: 'hosted',
+  },
+  {
+    slug: 'utah-golf-tinder',
+    title: 'Utah Golf Tinder',
+    blurb:
+      "Log every Utah course you've played and watch your percentage of the whole state tick up.",
+    tags: ['React', 'Maps', 'Golf'],
     year: '2025',
+    mode: 'link',
+    href: 'https://utah-golf-tinder.vercel.app/',
+  },
+  {
+    slug: 'table-talk',
+    title: 'Table Talk',
+    blurb:
+      'Order five Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day. Prototype — tell me if it stays.',
+    tags: ['Game', 'Soccer', 'Daily'],
+    year: '2026',
     mode: 'hosted',
   },
   {
@@ -75,18 +69,34 @@ export const arcadeGames: ArcadeGame[] = [
     year: '2025',
     mode: 'hosted',
   },
+
+  // ── archived ──────────────────────────────────────────────
   {
-    slug: 'utah-golf-tinder',
-    title: 'Utah Golf Tinder',
+    slug: 'read-the-green',
+    title: 'Read the Green',
     blurb:
-      "Log every Utah course you've played and watch your percentage of the whole state tick up.",
-    tags: ['React', 'Maps', 'Golf'],
+      'A daily putting puzzle. Slingshot the ball, read the slope, sink it in as few strokes as you can. An early prototype.',
+    tags: ['Game', 'Canvas', 'Golf', 'Daily'],
+    year: '2026',
+    mode: 'hosted',
+    archived: true,
+  },
+  {
+    slug: 'retro-world-cup',
+    title: 'Retro Cup',
+    blurb:
+      'A pixel-art World Cup bracket simulator — made in the run-up to 2026 to play with tournament probability somewhere more fun than a spreadsheet.',
+    tags: ['Game', 'Simulation', 'Soccer'],
     year: '2025',
-    mode: 'link',
-    href: 'https://utah-golf-tinder.vercel.app/',
+    mode: 'hosted',
+    archived: true,
   },
 ];
 
+export const featuredGames = arcadeGames.filter((g) => !g.archived);
+export const archivedGames = arcadeGames.filter((g) => g.archived);
+
+/** Every game with an in-site wrapper route — featured and archived alike. */
 export const hostedGames = arcadeGames.filter((g) => g.mode === 'hosted');
 
 export function getHostedGame(slug: string): ArcadeGame | undefined {
