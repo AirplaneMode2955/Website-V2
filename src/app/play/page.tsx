@@ -124,8 +124,11 @@ export default function PlayPage() {
                     <span className="font-label text-xs uppercase tracking-luxe text-outline">
                       {game.year}
                     </span>
-                    <span className="material-symbols-outlined text-primary/40 text-xl">
-                      {isHosted ? 'sports_esports' : 'open_in_new'}
+                    <span
+                      className="material-symbols-outlined text-primary/40 text-xl"
+                      aria-hidden="true"
+                    >
+                      {game.icon}
                     </span>
                   </div>
                   <h3 className="font-headline italic text-3xl md:text-4xl text-primary mb-4 group-hover:text-primary-fixed transition-colors">
