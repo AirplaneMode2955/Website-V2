@@ -166,6 +166,7 @@ export default function ProjectsPage() {
                       src={project.image}
                       alt={project.imageAlt}
                       fill
+                      sizes="(max-width: 768px) 100vw, 360px"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container/20" />

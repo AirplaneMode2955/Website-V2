@@ -62,6 +62,7 @@ export default function Home() {
                 src="/Golf.JPEG"
                 alt="Jett golfing in Hawaii"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </FadeIn>
@@ -186,6 +187,7 @@ export default function Home() {
                       src={project.image}
                       alt={project.imageAlt}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
                     />
                   </div>
@@ -468,6 +470,7 @@ export default function Home() {
                     alt={photo.alt}
                     width={600}
                     height={800}
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="w-full h-auto object-cover"
                   />
                 </div>

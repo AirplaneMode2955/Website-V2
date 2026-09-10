@@ -1,6 +1,6 @@
 'use client';
 
-import { useScroll, useTransform, motion } from 'framer-motion';
+import { useScroll, useTransform, motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,18 +9,20 @@ const container = {
   show: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
 };
 
-const line = {
-  hidden: { opacity: 0, y: 36 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
-  },
-};
-
 export default function HeroSection() {
+  const reduce = useReducedMotion();
   const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 800], [0, 160]);
+  const parallax = useTransform(scrollY, [0, 800], [0, 160]);
+  const bgY = reduce ? 0 : parallax;
+
+  const line = {
+    hidden: { opacity: 0, y: reduce ? 0 : 36 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduce ? 0.3 : 0.7, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
 
   return (
     <section className="relative -mt-24 px-8 pt-32 pb-20 overflow-hidden min-h-[940px] flex items-center grain bg-background">
@@ -31,6 +33,7 @@ export default function HeroSection() {
             src="/IMG_1120.JPEG"
             alt=""
             fill
+            sizes="100vw"
             className="object-cover"
             style={{ objectPosition: '30% center' }}
             priority
@@ -96,15 +99,16 @@ export default function HeroSection() {
         {/* Right: portrait */}
         <motion.div
           className="col-span-12 md:col-span-5 relative mt-12 md:mt-0"
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: reduce ? 0 : 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduce ? 0.3 : 0.9, delay: reduce ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="relative w-full aspect-[4/5] rounded-[1.25rem] overflow-hidden shadow-premium border border-white/10 bg-surface-container-high">
             <Image
               src="/wedding.jpg.JPEG"
               alt="Jett Iverson"
               fill
+              sizes="(max-width: 768px) 100vw, 40vw"
               className="object-cover object-top"
               priority
             />

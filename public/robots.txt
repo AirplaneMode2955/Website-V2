@@ -1,0 +1,6 @@
+# https://jettiverson.com
+User-agent: *
+Allow: /
+
+Sitemap: https://jettiverson.com/sitemap.xml
+Host: https://jettiverson.com

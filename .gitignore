@@ -25,3 +25,6 @@ docs/superpowers/
 
 # Build artifacts
 tsconfig.tsbuildinfo
+
+# Pre-compression image backups (kept locally, not deployed)
+image-originals/

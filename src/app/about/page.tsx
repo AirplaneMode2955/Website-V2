@@ -171,6 +171,7 @@ export default function AboutPage() {
             src="/IMG_0085.JPG"
             alt=""
             fill
+            sizes="100vw"
             className="object-cover object-top"
             aria-hidden="true"
           />
@@ -230,6 +231,7 @@ export default function AboutPage() {
                               src={event.image}
                               alt={event.title}
                               fill
+                              sizes="(max-width: 768px) 100vw, 480px"
                               className="object-cover"
                             />
                           </div>
@@ -265,6 +267,7 @@ export default function AboutPage() {
                                     src={event.image}
                                     alt={event.title}
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 384px"
                                     className="object-cover"
                                   />
                                 </div>
@@ -312,6 +315,7 @@ export default function AboutPage() {
                                     src={event.image}
                                     alt={event.title}
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 384px"
                                     className="object-cover"
                                   />
                                 </div>
@@ -445,6 +449,7 @@ export default function AboutPage() {
                     src={photo.src}
                     alt={photo.alt}
                     fill
+                    sizes="(max-width: 768px) 50vw, 33vw"
                     className="object-cover"
                   />
                 </div>

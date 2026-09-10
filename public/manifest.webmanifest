@@ -1,0 +1,27 @@
+{
+  "name": "Jett Iverson",
+  "short_name": "Jett Iverson",
+  "description": "Jett Iverson — Marketer, husband, and AI strategist based in Utah. Performance marketing, SEO, GEO, and AI systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#141c14",
+  "theme_color": "#141c14",
+  "icons": [
+    {
+      "src": "/favicon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

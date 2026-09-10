@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Newsreader, Manrope } from 'next/font/google';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
@@ -43,6 +43,39 @@ export const metadata: Metadata = {
     description: 'Performance marketing, technical SEO, and AI systems. Based in Utah.',
     images: ['/og/default.png'],
   },
+  alternates: {
+    canonical: '/',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#141c14',
+  colorScheme: 'dark',
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Jett Iverson',
+  url: 'https://jettiverson.com',
+  jobTitle: 'Acting Director of Marketing',
+  worksFor: { '@type': 'Organization', name: 'The Insurance Center' },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Utah State University — Jon M. Huntsman School of Business',
+  },
+  knowsAbout: [
+    'Performance Marketing',
+    'Search Engine Optimization',
+    'Generative Engine Optimization',
+    'Google Ads',
+    'AI systems',
+  ],
+  sameAs: [
+    'https://www.linkedin.com/in/jettiverson',
+    'https://www.instagram.com/jett_iverson/',
+    'https://github.com/AirplaneMode2955',
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -51,9 +84,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="icon" type="image/png" href="/favicon-64.png" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=optional"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
       <body

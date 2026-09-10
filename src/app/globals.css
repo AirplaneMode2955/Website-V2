@@ -7,8 +7,10 @@ body {
 }
 
 
-html {
-  scroll-behavior: smooth;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Grain texture overlay */
@@ -63,5 +65,14 @@ html {
   .arcade-tile {
     animation: none;
     opacity: 0.5;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
