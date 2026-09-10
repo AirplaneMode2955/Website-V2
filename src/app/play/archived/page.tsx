@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
 import { archivedGames } from '@/lib/arcadeGames';
+import { GameIcon } from '@/components/icons/ArcadeIcons';
 
 export const metadata: Metadata = {
   title: 'Archived — The Arcade',
@@ -42,12 +43,7 @@ export default function ArchivedArcadePage() {
                   <span className="font-label text-xs uppercase tracking-luxe text-outline">
                     {game.year}
                   </span>
-                  <span
-                    className="material-symbols-outlined text-primary/30 text-lg"
-                    aria-hidden="true"
-                  >
-                    {game.icon}
-                  </span>
+                  <GameIcon slug={game.slug} className="w-9 h-9" />
                 </div>
                 <h2 className="font-headline italic text-2xl md:text-3xl text-primary/90 mb-3 group-hover:text-primary transition-colors">
                   {game.title}
