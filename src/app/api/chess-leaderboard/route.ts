@@ -36,6 +36,7 @@ export async function GET() {
   const url = `${AIRTABLE_API_URL}?maxRecords=${MAX_ENTRIES}&sort[0][field]=Moves&sort[0][direction]=asc&fields[]=Name&fields[]=Moves&fields[]=Difficulty&fields[]=Color&fields[]=PlayedAt`;
   const res = await fetch(url, { headers, cache: 'no-store' });
   if (!res.ok) {
+    console.error('chess-leaderboard GET: Airtable request failed', res.status, await res.text().catch(() => '<no body>'));
     return NextResponse.json({ scores: [], error: 'leaderboard unavailable' }, { status: 200 });
   }
   const data = await res.json();
@@ -97,6 +98,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (!createRes.ok) {
+    console.error('chess-leaderboard POST: Airtable request failed', createRes.status, await createRes.text().catch(() => '<no body>'));
     return NextResponse.json({ ok: false, error: 'could not save score' }, { status: 502 });
   }
 
