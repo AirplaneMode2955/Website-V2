@@ -43,15 +43,6 @@ export const arcadeGames: ArcadeGame[] = [
     href: 'https://utah-golf-tinder.vercel.app/',
   },
   {
-    slug: 'table-talk',
-    title: 'Table Talk',
-    blurb:
-      'Order five Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day. Prototype — tell me if it stays.',
-    tags: ['Game', 'Soccer', 'Daily'],
-    year: '2026',
-    mode: 'hosted',
-  },
-  {
     slug: 'career-signature',
     title: 'Career Signature',
     blurb:
