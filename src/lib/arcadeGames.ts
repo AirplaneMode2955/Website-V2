@@ -13,6 +13,15 @@ export type ArcadeGame = {
 
 export const arcadeGames: ArcadeGame[] = [
   {
+    slug: 'play-me-chess',
+    title: 'Play Me in Chess',
+    blurb:
+      "A chess bot trained on 311 of my real games — it plays my openings, at my strength, with my habits. Beat 'The Eldrick' if you can.",
+    tags: ['Game', 'Chess', 'AI'],
+    year: '2026',
+    mode: 'hosted',
+  },
+  {
     slug: 'read-the-green',
     title: 'Read the Green',
     blurb:
@@ -54,15 +63,6 @@ export const arcadeGames: ArcadeGame[] = [
     blurb:
       "An interactive quiz that turns how you answer into a one-line 'signature' of your working style.",
     tags: ['Quiz', 'Interactive', 'Vanilla JS'],
-    year: '2025',
-    mode: 'hosted',
-  },
-  {
-    slug: 'world-cup-striker',
-    title: 'World Cup Striker',
-    blurb:
-      'Pick a nation, slingshot penalty kicks past the keeper, best of five to advance. A canvas game built to run the World Cup 2026 bracket the fun way.',
-    tags: ['Game', 'Canvas', 'Soccer'],
     year: '2025',
     mode: 'hosted',
   },

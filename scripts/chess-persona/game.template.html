@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Play Me in Chess — The Eldrick</title>
+<!--
+  Play Me in Chess — a chess bot tuned to play like Jett Iverson ("EldrickLover").
+  Opening book + style params derived from 311 real Chess.com games (2021-2026).
+  Self-contained: chess.js 0.13.4 (BSD-2) is inlined below; engine runs in a Blob Worker.
+-->
+<style>
+  :root{
+    --bg:#0f150f; --panel:#18201a; --panel-2:#1f291f; --line:rgba(255,255,255,.08);
+    --ink:#e7ece6; --dim:#9aa79a; --gold:#c9a96e; --good:#7fd493; --bad:#e2725b;
+    --sq-light:#b7c3a6; --sq-dark:#5b6f51; --sel:#c9a96e; --hint:rgba(201,169,110,.55);
+    --last:rgba(201,169,110,.32); --check:rgba(226,114,91,.55);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;min-height:100%;background:var(--bg);color:var(--ink);
+    font-family:'Manrope','Segoe UI',system-ui,-apple-system,Arial,sans-serif;}
+  body{display:flex;flex-direction:column;align-items:center;padding:16px 12px 28px;}
+  h1,h2,h3{font-family:'Newsreader','Iowan Old Style',Georgia,serif;font-style:italic;font-weight:600;margin:0;}
+  .wrap{width:100%;max-width:560px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;}
+  .muted{color:var(--dim);}
+  .kicker{font-family:'Manrope',sans-serif;font-style:normal;font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold);}
+  button{font:inherit;cursor:pointer;border:1px solid var(--line);border-radius:12px;
+    background:var(--panel-2);color:var(--ink);padding:11px 16px;transition:transform .08s,border-color .15s,background .15s;}
+  button:hover{border-color:var(--gold);}
+  button:active{transform:translateY(1px);}
+  button.primary{background:var(--gold);color:#20180c;border-color:var(--gold);font-weight:700;}
+  button.ghost{background:transparent;}
+  button:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+  .seg{display:flex;gap:6px;flex-wrap:wrap;}
+  .seg button{flex:1;min-width:88px;padding:9px 8px;font-size:13px;}
+  .seg button[aria-pressed="true"]{background:var(--gold);color:#20180c;border-color:var(--gold);font-weight:700;}
+  .row{display:flex;align-items:center;gap:12px;}
+  .spread{justify-content:space-between;}
+  .mt{margin-top:14px;} .mt-s{margin-top:8px;} .mt-l{margin-top:22px;}
+
+  /* scouting report */
+  .scout li{margin:6px 0;line-height:1.45;font-size:14px;}
+  .scout b{color:var(--ink);} .scout{padding-left:18px;margin:10px 0 0;}
+  .statline{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--dim);}
+  .statline span b{color:var(--gold);font-size:14px;}
+
+  /* opponent / player bars */
+  .pbar{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--panel);
+    border:1px solid var(--line);border-radius:14px;}
+  .pbar.me{border-radius:14px;}
+  .avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:var(--panel-2);flex:none;
+    border:1px solid var(--line);}
+  .pbar .nm{font-weight:700;font-size:14px;}
+  .pbar .sub{font-size:12px;color:var(--dim);min-height:16px;}
+  .think{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);
+    margin-right:6px;animation:pulse 1s infinite ease-in-out;vertical-align:middle;}
+  @keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+  .cap{font-size:13px;color:var(--dim);letter-spacing:1px;min-height:18px;}
+
+  /* board */
+  #boardWrap{margin:10px 0;touch-action:manipulation;}
+  #board{width:100%;aspect-ratio:1/1;display:grid;grid-template-columns:repeat(8,1fr);
+    grid-template-rows:repeat(8,1fr);border-radius:12px;overflow:hidden;border:1px solid var(--line);
+    user-select:none;}
+  .sq{position:relative;display:flex;align-items:center;justify-content:center;}
+  .sq.l{background:var(--sq-light);} .sq.d{background:var(--sq-dark);}
+  .sq.sel::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 3px var(--sel);}
+  .sq.last::before{content:"";position:absolute;inset:0;background:var(--last);}
+  .sq.chk::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,var(--check),transparent 70%);}
+  .sq .dot{position:absolute;width:26%;height:26%;border-radius:50%;background:var(--hint);}
+  .sq .ring{position:absolute;inset:8%;border-radius:50%;box-shadow:inset 0 0 0 4px var(--hint);}
+  .pc{font-size:min(9vw,44px);line-height:1;cursor:grab;position:relative;z-index:2;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.45));}
+  .pc.w{color:#f4f1e8;text-shadow:0 0 2px rgba(0,0,0,.9),0 0 1px rgba(0,0,0,.9);}
+  .pc.b{color:#20241f;text-shadow:0 0 2px rgba(255,255,255,.35);}
+  .pc.drag{opacity:.4;}
+  #ghost{position:fixed;font-size:44px;line-height:1;pointer-events:none;z-index:99;
+    transform:translate(-50%,-50%);filter:drop-shadow(0 3px 4px rgba(0,0,0,.5));display:none;}
+
+  .controls{display:flex;gap:8px;margin-top:10px;}
+  .controls button{flex:1;font-size:13px;}
+  .movelist{margin-top:12px;max-height:96px;overflow-y:auto;font-size:12px;color:var(--dim);
+    line-height:1.7;font-variant-numeric:tabular-nums;}
+  .movelist b{color:var(--ink);}
+
+  /* promotion */
+  #promo{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50;}
+  #promo .box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:8px;}
+  #promo button{font-size:34px;padding:6px 12px;}
+
+  .hidden{display:none !important;}
+  .end h2{font-size:26px;} .end .big{font-size:15px;margin-top:6px;}
+  a{color:var(--gold);}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--panel-2);
+    border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:12px;font-size:13px;
+    opacity:0;transition:opacity .2s;pointer-events:none;z-index:80;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ SETUP ============ -->
+  <section id="setup" class="card">
+    <div class="row spread">
+      <div>
+        <div class="kicker">Play Me in Chess</div>
+        <h1 style="font-size:30px;margin-top:4px;">The Eldrick</h1>
+      </div>
+      <img class="avatar" id="setupAvatar" alt="Jett" src="/Jett Headshot.jpg" style="width:56px;height:56px;" />
+    </div>
+    <p class="muted mt-s" style="font-size:14px;line-height:1.5;">
+      A bot trained on <b style="color:var(--ink)">311 of my real Chess.com games</b>. It plays my
+      openings, at roughly my strength, with my habits. Here's the scouting report on me:
+    </p>
+    <ul class="scout">
+      <li><b>1.d4 almost always</b> — slow system setups, e3 then c4. Not booked deep.</li>
+      <li>Meets <b>1.e4 with the French</b> or an open game. Scandinavian if I'm feeling it.</li>
+      <li>Castles short, or <b>not at all</b> (~1 game in 3). Comfortable in a mess.</li>
+      <li><b>Almost never takes a draw</b> — 4% of my games. I play for the win or get mated trying.</li>
+    </ul>
+    <div class="statline">
+      <span><b>1462</b> peak rapid</span>
+      <span><b>~1000</b> these days</span>
+      <span><b>~1550</b> puzzles</span>
+      <span><b>48%</b> career wins</span>
+    </div>
+
+    <div class="mt-l">
+      <div class="kicker">Play as</div>
+      <div class="seg mt-s" id="colorSeg">
+        <button data-v="w" aria-pressed="true">White</button>
+        <button data-v="b">Black</button>
+        <button data-v="r">Random</button>
+      </div>
+    </div>
+    <div class="mt">
+      <div class="kicker">Difficulty</div>
+      <div class="seg mt-s" id="diffSeg">
+        <button data-v="0">Casual Jett</button>
+        <button data-v="1" aria-pressed="true">Jett</button>
+        <button data-v="2">Jett on a good day</button>
+      </div>
+    </div>
+    <button class="primary mt-l" id="playBtn" style="width:100%;">Play</button>
+    <p class="muted mt" style="font-size:11px;text-align:center;">
+      <span id="record"></span>
+    </p>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section id="game" class="hidden">
+    <div class="pbar" id="oppBar">
+      <img class="avatar" alt="The Eldrick" src="/Jett Headshot.jpg" />
+      <div style="flex:1;min-width:0;">
+        <div class="nm">The Eldrick <span class="muted" style="font-weight:400;font-size:12px;" id="oppElo"></span></div>
+        <div class="sub" id="oppSay">&nbsp;</div>
+      </div>
+      <div class="cap" id="oppCap">&nbsp;</div>
+    </div>
+
+    <div id="boardWrap"><div id="board" aria-label="chess board"></div></div>
+
+    <div class="pbar me">
+      <div class="avatar" style="display:flex;align-items:center;justify-content:center;color:var(--dim);font-weight:700;">YOU</div>
+      <div style="flex:1;">
+        <div class="nm" id="youName">You</div>
+        <div class="sub" id="youTurn">&nbsp;</div>
+      </div>
+      <div class="cap" id="youCap">&nbsp;</div>
+    </div>
+
+    <div class="controls">
+      <button class="ghost" id="flipBtn">Flip</button>
+      <button class="ghost" id="resignBtn">Resign</button>
+      <button class="ghost" id="newBtn">New game</button>
+    </div>
+    <div class="movelist" id="moves"></div>
+  </section>
+
+  <!-- ============ END ============ -->
+  <section id="end" class="card end hidden">
+    <div class="kicker" id="endKicker">Result</div>
+    <h2 id="endTitle" class="mt-s">—</h2>
+    <p class="big muted" id="endBlurb"></p>
+    <div class="controls mt-l">
+      <button class="primary" id="shareBtn" style="flex:2;">Share result</button>
+      <button id="rematchBtn" style="flex:1;">Rematch</button>
+    </div>
+    <p class="muted mt" style="font-size:12px;line-height:1.5;">
+      The Eldrick is trained on 311 of my real games (2021–2026) on
+      <a href="https://www.chess.com/member/EldrickLover" target="_blank" rel="noopener">Chess.com</a>.
+      Opening book is literally my moves; strength and habits are tuned to my history.
+    </p>
+  </section>
+
+</div>
+
+<div id="promo"><div class="box"></div></div>
+<div id="ghost"></div>
+<div class="toast" id="toast"></div>
+
+<script type="text/plain" id="chesslib">/*__CHESSJS__*/</script>
+<script type="text/plain" id="enginesrc">/*__ENGINE__*/</script>
+<script>
+"use strict";
+/* ---- load chess.js into this scope ---- */
+(0, eval)(document.getElementById('chesslib').textContent);
+
+/* ---- Jett's opening book (from 311 games) ---- */
+const BOOK = /*__BOOK__*/;
+
+/* ---- persona voice ---- */
+const FLAVOR = {
+  open: ["classic setup, let's build", "you know the drill — d4, e3, c4", "nice and slow", "book move, obviously"],
+  developed: ["ok now we play", "pieces out, plan next", "I like my position"],
+  castledShort: ["king's tucked in", "castled, now I come at you"],
+  noCastle: ["not castling, we ball", "king stays, sue me", "who needs castling"],
+  attacking: ["here it comes", "take the pawn, I'll take the game", "pressure's on your king now", "I smell mate"],
+  trading: ["happy to trade", "queens off? in this economy?", "sure, take it"],
+  winning: ["this is going my way", "just technique from here", "don't resign yet, it's rude"],
+  losing: ["alright, alright, you're better", "hmm. I've been worse.", "still swinging", "one cheap trick left..."],
+  endgame: ["endgame is where I live", "count the pawns", "this rook ending is drawn and you know it"],
+  check: ["check.", "check — deal with it", "ahem. check."]
+};
+const pick = a => a[(Math.random() * a.length) | 0];
+
+/* ---- DOM ---- */
+const $ = s => document.querySelector(s);
+const boardEl = $('#board');
+const setupEl = $('#setup'), gameEl = $('#game'), endEl = $('#end');
+const oppSay = $('#oppSay'), oppCap = $('#oppCap'), oppElo = $('#oppElo');
+const youTurn = $('#youTurn'), youCap = $('#youCap'), youName = $('#youName');
+const movesEl = $('#moves'), toastEl = $('#toast');
+
+const DIFF = [
+  { name: 'Casual Jett', elo: '~750', depth: 2, book: 0.70, slipP: 0.35, slipCp: 130 },
+  { name: 'Jett', elo: '~1000', depth: 3, book: 0.90, slipP: 0.18, slipCp: 90 },
+  { name: 'Jett on a good day', elo: '~1250', depth: 4, book: 1.0, slipP: 0.06, slipCp: 50 }
+];
+
+let game, human = 'w', diff = 1, flipped = false, busy = false, worker = null, selected = null, lastMove = null;
+
+/* ---- localStorage helpers ---- */
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem('pmc_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('pmc_' + k, JSON.stringify(v)); } catch {} }
+};
+function renderRecord() {
+  const r = LS.get('rec', { w: 0, l: 0, d: 0 });
+  $('#record').textContent = (r.w + r.l + r.d) ? `Your record vs The Eldrick: ${r.w}W · ${r.l}L · ${r.d}D` : '';
+}
+
+/* ---- setup UI ---- */
+function seg(id, cb) {
+  const el = $(id);
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    [...el.children].forEach(c => c.setAttribute('aria-pressed', c === b));
+    cb(b.dataset.v);
+  });
+}
+seg('#colorSeg', v => { human = v; });
+seg('#diffSeg', v => { diff = +v; });
+diff = LS.get('diff', 1); human = LS.get('color', 'w');
+[...$('#diffSeg').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.v == diff));
+[...$('#colorSeg').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.v === human));
+renderRecord();
+
+$('#playBtn').addEventListener('click', startGame);
+$('#rematchBtn').addEventListener('click', startGame);
+$('#newBtn').addEventListener('click', () => { endEl.classList.add('hidden'); gameEl.classList.add('hidden'); setupEl.classList.remove('hidden'); renderRecord(); });
+$('#flipBtn').addEventListener('click', () => { flipped = !flipped; render(); });
+$('#resignBtn').addEventListener('click', () => { if (!game || game.game_over()) return; finish('resign'); });
+
+/* ---- engine worker ---- */
+function makeWorker() {
+  const src = document.getElementById('chesslib').textContent + '\n' + document.getElementById('enginesrc').textContent;
+  const url = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
+  const w = new Worker(url);
+  return w;
+}
+
+function startGame() {
+  LS.set('diff', diff); LS.set('color', human);
+  let h = human; if (h === 'r') h = Math.random() < 0.5 ? 'w' : 'b';
+  window._humanColor = h;
+  game = new Chess();
+  flipped = h === 'b';
+  selected = null; lastMove = null; busy = false;
+  oppElo.textContent = DIFF[diff].elo;
+  youName.textContent = 'You';
+  setupEl.classList.add('hidden'); endEl.classList.add('hidden'); gameEl.classList.remove('hidden');
+  try { worker && worker.terminate(); } catch {}
+  worker = makeWorker();
+  worker.onmessage = onEngine;
+  worker.onerror = () => { worker = null; }; // fallback path handled in requestMove
+  say(pick(FLAVOR.open));
+  render();
+  if (game.turn() !== h) setTimeout(requestMove, 450);
+}
+
+/* ---- rendering ---- */
+const GLYPH = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛', k: '♚' };
+function render() {
+  const b = game.board();
+  boardEl.innerHTML = '';
+  // White view: rank 8 on top (board rows 0..7). Black view: mirror both axes.
+  const ranks = flipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()];
+  const files = flipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()];
+  let checkSq = null;
+  if (game.in_check()) {
+    const t = game.turn();
+    for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) {
+      const p = b[r][f]; if (p && p.type === 'k' && p.color === t) checkSq = 'abcdefgh'[f] + (8 - r);
+    }
+  }
+  const legalFrom = selected ? game.moves({ square: selected, verbose: true }) : [];
+  for (const r of ranks) for (const f of files) {
+    const sq = 'abcdefgh'[f] + (8 - r);
+    const cell = document.createElement('div');
+    cell.className = 'sq ' + ((r + f) % 2 === 0 ? 'l' : 'd');
+    cell.dataset.sq = sq;
+    if (selected === sq) cell.classList.add('sel');
+    if (lastMove && (lastMove.from === sq || lastMove.to === sq)) cell.classList.add('last');
+    if (checkSq === sq) cell.classList.add('chk');
+    const p = b[r][f];
+    if (p) {
+      const el = document.createElement('div');
+      el.className = 'pc ' + (p.color === 'w' ? 'w' : 'b');
+      el.textContent = GLYPH[p.type];
+      cell.appendChild(el);
+    }
+    const mv = legalFrom.find(m => m.to === sq);
+    if (mv) { const d = document.createElement('div'); d.className = p ? 'ring' : 'dot'; cell.appendChild(d); }
+    boardEl.appendChild(cell);
+  }
+  // turn labels
+  const over = game.game_over();
+  youTurn.textContent = over ? '' : (game.turn() === window._humanColor ? 'your move' : '');
+  renderMoves();
+}
+function renderMoves() {
+  const h = game.history();
+  let out = '';
+  for (let i = 0; i < h.length; i += 2) {
+    out += `${i / 2 + 1}. <b>${h[i]}</b> ${h[i + 1] ? h[i + 1] : ''} `;
+  }
+  movesEl.innerHTML = out;
+  movesEl.scrollTop = movesEl.scrollHeight;
+}
+
+/* ---- interaction: tap-tap + drag ---- */
+let dragInfo = null;
+boardEl.addEventListener('pointerdown', e => {
+  if (busy || game.game_over()) return;
+  const cell = e.target.closest('.sq'); if (!cell) return;
+  const sq = cell.dataset.sq;
+  const piece = game.get(sq);
+  if (selected && selected !== sq) {
+    if (tryMove(selected, sq)) { selected = null; return; }
+  }
+  if (piece && piece.color === game.turn() && piece.color === window._humanColor) {
+    selected = sq; render();
+    const g = $('#ghost'); g.textContent = GLYPH[piece.type];
+    g.className = piece.color === 'w' ? 'w' : 'b';
+    g.style.color = piece.color === 'w' ? '#f4f1e8' : '#20241f';
+    dragInfo = { from: sq, moved: false };
+    moveGhost(e);
+    const pcEl = cell.querySelector('.pc'); if (pcEl) pcEl.classList.add('drag');
+  } else {
+    selected = null; render();
+  }
+});
+function moveGhost(e) { const g = $('#ghost'); g.style.display = 'block'; g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px'; }
+window.addEventListener('pointermove', e => { if (dragInfo) { dragInfo.moved = true; moveGhost(e); } });
+window.addEventListener('pointerup', e => {
+  $('#ghost').style.display = 'none';
+  document.querySelectorAll('.pc.drag').forEach(el => el.classList.remove('drag'));
+  if (!dragInfo) return;
+  const info = dragInfo; dragInfo = null;
+  if (!info.moved) return; // treat as a tap, handled by pointerdown
+  const cell = document.elementFromPoint(e.clientX, e.clientY);
+  const t = cell && cell.closest('.sq');
+  if (t && tryMove(info.from, t.dataset.sq)) { selected = null; }
+  else { render(); }
+});
+
+function tryMove(from, to) {
+  const moves = game.moves({ square: from, verbose: true });
+  const m = moves.find(x => x.to === to);
+  if (!m) return false;
+  if (m.flags.includes('p')) { promptPromotion(from, to); return true; }
+  applyHuman({ from, to });
+  return true;
+}
+function promptPromotion(from, to) {
+  const box = $('#promo .box'); box.innerHTML = '';
+  const col = window._humanColor;
+  ['q', 'r', 'b', 'n'].forEach(pp => {
+    const btn = document.createElement('button');
+    btn.className = 'pc ' + (col === 'w' ? 'w' : 'b'); btn.textContent = GLYPH[pp];
+    btn.onclick = () => { $('#promo').style.display = 'none'; applyHuman({ from, to, promotion: pp }); };
+    box.appendChild(btn);
+  });
+  $('#promo').style.display = 'flex';
+}
+function applyHuman(mv) {
+  const res = game.move(mv);
+  if (!res) { render(); return; }
+  lastMove = res; selected = null;
+  render();
+  if (checkGameOver()) return;
+  busy = true;
+  say('<span class="think"></span>thinking…');
+  setTimeout(requestMove, 250);
+}
+
+/* ---- engine request / fallback ---- */
+function requestMove() {
+  if (game.game_over()) { busy = false; return; }
+  const payload = { fen: game.fen(), path: game.history().join(' '), botColor: game.turn(),
+    depth: DIFF[diff].depth, book: DIFF[diff].book, slipP: DIFF[diff].slipP, slipCp: DIFF[diff].slipCp,
+    bookData: BOOK };
+  if (worker) {
+    try { worker.postMessage(payload); return; } catch {}
+  }
+  // synchronous fallback (very rare): shallow greedy
+  const mv = fallbackMove();
+  applyEngine(mv, {});
+}
+function fallbackMove() {
+  const ms = game.moves({ verbose: true });
+  let best = ms[0], bs = -1e9;
+  for (const m of ms) {
+    game.move(m);
+    let s = -materialEval(game);
+    if (game.in_checkmate()) s = 1e6;
+    game.undo();
+    if (s > bs) { bs = s; best = m; }
+  }
+  return best.san;
+}
+function materialEval(g) {
+  const v = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+  let s = 0; g.board().forEach(row => row.forEach(p => { if (p) s += (p.color === 'w' ? 1 : -1) * v[p.type]; }));
+  return g.turn() === 'w' ? s : -s;
+}
+function onEngine(e) {
+  const { san, tag } = e.data || {};
+  if (!san) { const f = fallbackMove(); applyEngine(f, {}); return; }
+  applyEngine(san, { tag });
+}
+function applyEngine(san, meta) {
+  const res = game.move(san);
+  if (!res) { // desync guard
+    const alt = game.moves()[0]; if (alt) game.move(alt); else { busy = false; return; }
+  }
+  lastMove = game.history({ verbose: true }).slice(-1)[0];
+  busy = false;
+  render();
+  speakForState(meta.tag);
+  checkGameOver();
+}
+
+/* ---- persona status ---- */
+function say(html) { oppSay.innerHTML = html; }
+function speakForState(tag) {
+  if (game.game_over()) return;
+  const hist = game.history();
+  const botMoves = hist.filter((_, i) => (i % 2 === (game.turn() === 'w' ? 1 : 0)));
+  let bucket = 'developed';
+  if (hist.length <= 8) bucket = 'open';
+  const lastSan = hist[hist.length - 1] || '';
+  if (lastSan.includes('#')) bucket = 'winning';
+  else if (lastSan.includes('+')) bucket = 'check';
+  else if (lastSan === 'O-O') bucket = 'castledShort';
+  else if (lastSan === 'O-O-O') bucket = 'noCastle';
+  else if (tag === 'attack' || lastSan.includes('x')) bucket = Math.random() < 0.5 ? 'attacking' : 'trading';
+  else if (tag === 'better') bucket = 'winning';
+  else if (tag === 'worse') bucket = 'losing';
+  else if (hist.length > 44) bucket = 'endgame';
+  if (Math.random() < 0.72) say(pick(FLAVOR[bucket] || FLAVOR.developed));
+  else say('&nbsp;');
+}
+
+/* ---- game over ---- */
+function checkGameOver() { if (game.game_over()) { finish('natural'); return true; } return false; }
+function finish(kind) {
+  busy = true;
+  const h = window._humanColor;
+  let youWin = false, draw = false, reason = '';
+  if (kind === 'resign') { reason = 'You resigned.'; youWin = false; }
+  else if (game.in_checkmate()) {
+    const loser = game.turn();
+    youWin = loser !== h;
+    reason = youWin ? 'Checkmate — you got The Eldrick.' : 'Checkmate. The Eldrick got you.';
+  } else if (game.in_stalemate()) { draw = true; reason = 'Stalemate.'; }
+  else if (game.in_threefold_repetition()) { draw = true; reason = 'Draw by repetition.'; }
+  else if (game.insufficient_material()) { draw = true; reason = 'Draw — insufficient material.'; }
+  else if (game.in_draw()) { draw = true; reason = 'Draw (50-move rule).'; }
+
+  const rec = LS.get('rec', { w: 0, l: 0, d: 0 });
+  if (draw) rec.d++; else if (youWin) rec.w++; else rec.l++;
+  LS.set('rec', rec);
+
+  const n = Math.ceil(game.history().length / 2);
+  endEl.classList.remove('hidden'); gameEl.classList.add('hidden');
+  $('#endKicker').textContent = draw ? 'Drawn' : youWin ? 'You won' : 'You lost';
+  $('#endTitle').textContent = reason;
+  let share;
+  if (draw) { $('#endBlurb').textContent = pick(["He'll take it. Barely.", 'Honours even after ' + n + ' moves.']); share = `I drew The Eldrick — Jett's chess bot — in ${n} moves. ${location.origin}/play/play-me-chess`; }
+  else if (youWin) { $('#endBlurb').textContent = pick(['Well played.', 'The Eldrick is not pleased.', 'That one stings.']); share = `Beat The Eldrick — Jett's chess bot trained on 311 of his real games — in ${n} moves. ${location.origin}/play/play-me-chess`; }
+  else { $('#endBlurb').textContent = pick(['Run it back.', 'Skill issue (mine, historically).', 'Get him next time.']); share = `The Eldrick — Jett's chess bot — got me in ${n} moves. Think you can beat it? ${location.origin}/play/play-me-chess`; }
+  $('#shareBtn').onclick = () => {
+    navigator.clipboard && navigator.clipboard.writeText(share).then(() => toast('Copied — go flex')).catch(() => toast(share));
+    if (navigator.share) navigator.share({ text: share }).catch(() => {});
+  };
+}
+function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); setTimeout(() => toastEl.classList.remove('show'), 1800); }
+
+/* boot */
+render === undefined;
+</script>
+</body>
+</html>
