@@ -5,9 +5,14 @@ export type ArcadeGame = {
   blurb: string;
   tags: string[];
   year: string;
-  /** 'hosted' games are served from /public/arcade/<slug>/ and open in the /play/<slug> wrapper. */
-  mode: 'hosted' | 'link';
-  /** hosted: ignored (wrapper route is derived). link: the external URL. */
+  /**
+   * 'hosted' games are served from /public/arcade/<slug>/ and open in the generic
+   * /play/<slug> iframe wrapper. 'route' games have their own custom Next.js page
+   * at /play/<slug> (e.g. a daily game with real state). Both render as the same
+   * card here and link to /play/<slug> — only the destination differs.
+   */
+  mode: 'hosted' | 'route' | 'link';
+  /** hosted/route: ignored (route is derived from the slug). link: the external URL. */
   href?: string;
   /** Kept playable by direct link + listed on /play/archived, but off the main shelf. */
   archived?: boolean;
@@ -41,6 +46,15 @@ export const arcadeGames: ArcadeGame[] = [
     year: '2025',
     mode: 'link',
     href: 'https://utah-golf-tinder.vercel.app/',
+  },
+  {
+    slug: 'table-talk',
+    title: 'Table Talk',
+    blurb:
+      'Order five Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day, drag to rank, streak included.',
+    tags: ['Game', 'Soccer', 'Daily'],
+    year: '2026',
+    mode: 'route',
   },
   {
     slug: 'career-signature',
