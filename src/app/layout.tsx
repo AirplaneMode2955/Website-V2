@@ -85,9 +85,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" href="/favicon-64.png" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
+        {/* Icon font: must be `display=block` — its fallback glyphs are unusable ligature
+            text, so `swap`/`optional` would flash or permanently hide every icon. */}
+        {/* eslint-disable-next-line @next/next/google-font-display */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=optional"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
         />
         <script
           type="application/ld+json"
