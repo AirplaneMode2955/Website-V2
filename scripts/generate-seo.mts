@@ -33,6 +33,7 @@ const staticEntries: Entry[] = [
   { path: '/contact', priority: 0.5, changefreq: 'yearly' },
   { path: '/play', priority: 0.5, changefreq: 'monthly' },
   { path: '/play/gut-check', priority: 0.4, changefreq: 'monthly' },
+  { path: '/play/table-talk', priority: 0.4, changefreq: 'monthly' },
 ];
 
 const dynamicEntries: Entry[] = [

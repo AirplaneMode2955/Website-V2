@@ -7,11 +7,11 @@ import { GameIcon } from '@/components/icons/ArcadeIcons';
 export const metadata: Metadata = {
   title: 'Play',
   description:
-    "The Arcade — small games and toys Jett Iverson has built, plus Gut Check, a daily test of marketing instinct.",
+    'The Arcade — small games and toys Jett Iverson has built, plus two daily games: Gut Check and Table Talk.',
   openGraph: {
     title: 'Play — The Arcade',
     description:
-      'Small games and toys Jett Iverson built for the fun of it, plus Gut Check, a daily marketing-instinct test.',
+      'Small games and toys Jett Iverson built for the fun of it, plus two daily games: Gut Check and Table Talk.',
     images: [{ url: '/og/play.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image', images: ['/og/play.png'] },
@@ -21,6 +21,21 @@ const ACCENT_TILES = [
   '#c9dbc3', '#d94f3d', '#c9dbc3', '#8da68a', '#d5cbb5',
   '#c9dbc3', '#d94f3d', '#8da68a', '#c9dbc3', '#d5cbb5',
   '#c9dbc3', '#8da68a',
+];
+
+const DAILY_GAMES = [
+  {
+    slug: 'gut-check',
+    title: 'Gut Check',
+    grid: '🟩🟩🟩⬜🟩',
+    blurb: 'Which headline won? Which line did a machine write? Five rounds.',
+  },
+  {
+    slug: 'table-talk',
+    title: 'Table Talk',
+    grid: '🟩⬜🟩🟩⬜',
+    blurb: 'Order five Premier League clubs by a hidden stat. Drag to rank.',
+  },
 ];
 
 export default function PlayPage() {
@@ -64,36 +79,38 @@ export default function PlayPage() {
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
               Small things I&apos;ve built for the fun of building them — games, simulators,
-              and one daily test of marketing instinct.
+              and a couple of daily habits.
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* ── Gut Check — compact daily strip ── */}
+      {/* ── Daily games — compact strips ── */}
       <section className="px-8 pt-10 bg-background">
-        <div className="max-w-screen-2xl mx-auto">
-          <FadeIn>
-            <Link
-              href="/play/gut-check"
-              className="group flex flex-wrap items-center gap-x-5 gap-y-3 bg-surface-container-high rounded-2xl border border-white/[0.08] px-6 py-4 hover:border-primary/25 transition-colors"
-            >
-              <span className="text-2xl" aria-hidden="true">
-                🟩🟩🟩⬜🟩
-              </span>
-              <span className="font-label text-[10px] uppercase tracking-luxe px-2.5 py-1 bg-primary-container text-on-primary-container rounded-full">
-                Daily
-              </span>
-              <span className="font-headline italic text-xl text-primary">Gut Check</span>
-              <span className="text-on-surface-variant text-sm flex-1 min-w-[12rem]">
-                Which headline won? Which line did a machine write? Five rounds.
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-primary font-label text-xs uppercase tracking-luxe group-hover:text-primary-fixed transition-colors">
-                Play today
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </span>
-            </Link>
-          </FadeIn>
+        <div className="max-w-screen-2xl mx-auto flex flex-col gap-4">
+          {DAILY_GAMES.map((game, i) => (
+            <FadeIn key={game.slug} delay={i * 0.05}>
+              <Link
+                href={`/play/${game.slug}`}
+                className="group flex flex-wrap items-center gap-x-5 gap-y-3 bg-surface-container-high rounded-2xl border border-white/[0.08] px-6 py-4 hover:border-primary/25 transition-colors"
+              >
+                <span className="text-2xl" aria-hidden="true">
+                  {game.grid}
+                </span>
+                <span className="font-label text-[10px] uppercase tracking-luxe px-2.5 py-1 bg-primary-container text-on-primary-container rounded-full">
+                  Daily
+                </span>
+                <span className="font-headline italic text-xl text-primary">{game.title}</span>
+                <span className="text-on-surface-variant text-sm flex-1 min-w-[12rem]">
+                  {game.blurb}
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-primary font-label text-xs uppercase tracking-luxe group-hover:text-primary-fixed transition-colors">
+                  Play today
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </span>
+              </Link>
+            </FadeIn>
+          ))}
         </div>
       </section>
 
