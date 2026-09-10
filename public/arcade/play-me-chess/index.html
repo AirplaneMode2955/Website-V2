@@ -65,7 +65,26 @@
   .think{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);
     margin-right:6px;animation:pulse 1s infinite ease-in-out;vertical-align:middle;}
   @keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-  .cap{font-size:13px;color:var(--dim);letter-spacing:1px;min-height:18px;}
+  .cap{font-size:13px;color:var(--dim);letter-spacing:1px;min-height:18px;
+    display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:0;}
+  .capIcon{font-size:15px;line-height:1;margin-left:-2px;}
+  .capIcon svg{width:0.82em;height:0.82em;display:block;fill:currentColor;}
+  .capIcon.w{color:var(--piece-light);}
+  .capIcon.b{color:var(--piece-dark);}
+  .capAdv{font-size:11px;color:var(--gold);font-weight:700;margin-left:5px;}
+
+  /* leaderboard */
+  .lbList{list-style:none;margin:10px 0 0;padding:0;counter-reset:lb;}
+  .lbList li{counter-increment:lb;display:flex;align-items:center;gap:10px;padding:8px 2px;
+    border-bottom:1px solid var(--line);font-size:13px;}
+  .lbList li:last-child{border-bottom:none;}
+  .lbList li::before{content:counter(lb);width:20px;height:20px;border-radius:50%;
+    background:var(--panel-2);color:var(--gold);font-weight:700;font-size:11px;flex:none;
+    display:flex;align-items:center;justify-content:center;}
+  .lbList .lbName{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .lbList .lbMeta{color:var(--dim);font-size:11px;flex:none;}
+  .lbList .lbMoves{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:700;flex:none;}
+  .lbEmpty{color:var(--dim);font-size:13px;margin:8px 0 0;}
 
   /* board — wooden */
   #boardWrap{margin:12px 0;touch-action:manipulation;}
@@ -229,6 +248,21 @@
       <button class="primary" id="shareBtn" style="flex:2;">Share result</button>
       <button id="rematchBtn" style="flex:1;">Rematch</button>
     </div>
+
+    <div class="mt-l">
+      <div class="kicker">Leaderboard — fewest moves to beat me</div>
+      <ol class="lbList" id="lbList"></ol>
+      <div id="lbEntry" class="hidden mt">
+        <p style="font-size:13px;color:var(--good);font-weight:700;">Top 5! Add your name:</p>
+        <div class="row mt-s" style="gap:8px;">
+          <input id="lbName" maxlength="24" placeholder="Your name" autocomplete="off"
+            style="flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+              padding:9px 12px;color:var(--ink);font:inherit;font-size:14px;" />
+          <button class="primary" id="lbSubmit">Save</button>
+        </div>
+      </div>
+    </div>
+
     <p class="muted mt" style="font-size:12px;line-height:1.5;">
       The Eldrick is trained on 311 of my real games (2021–2026) on
       <a href="https://www.chess.com/member/EldrickLover" target="_blank" rel="noopener">Chess.com</a>.
@@ -548,6 +582,7 @@ const setupEl = $('#setup'), gameEl = $('#game'), endEl = $('#end');
 const oppSay = $('#oppSay'), oppCap = $('#oppCap'), oppElo = $('#oppElo');
 const youTurn = $('#youTurn'), youCap = $('#youCap'), youName = $('#youName');
 const movesEl = $('#moves'), toastEl = $('#toast');
+const lbList = $('#lbList'), lbEntry = $('#lbEntry'), lbName = $('#lbName'), lbSubmit = $('#lbSubmit');
 
 const DIFF = [
   { name: 'Casual Jett', elo: '~950', depth: 3, book: 0.75, slipP: 0.22, slipCp: 110 },
@@ -667,7 +702,43 @@ function render() {
   // turn labels
   const over = game.game_over();
   youTurn.textContent = over ? '' : (game.turn() === window._humanColor ? 'your move' : '');
+  renderCaptures();
   renderMoves();
+}
+const CAP_VAL = { p: 1, n: 3, b: 3, r: 5, q: 9 };
+const CAP_START = { p: 8, n: 2, b: 2, r: 2, q: 1 };
+const CAP_ORDER = ['q', 'r', 'b', 'n', 'p'];
+function renderCaptures() {
+  const remaining = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };
+  for (const row of game.board()) for (const sq of row) if (sq && sq.type !== 'k') remaining[sq.color][sq.type]++;
+  const capturedOf = (color) => {
+    const out = {};
+    for (const t of CAP_ORDER) out[t] = Math.max(0, CAP_START[t] - remaining[color][t]);
+    return out;
+  };
+  const matValue = (caps) => CAP_ORDER.reduce((s, t) => s + caps[t] * CAP_VAL[t], 0);
+  const h = window._humanColor, botColor = h === 'w' ? 'b' : 'w';
+  const takenFromYou = capturedOf(h);       // pieces of your color The Eldrick has captured
+  const takenByYou = capturedOf(botColor);  // pieces of Eldrick's color you have captured
+  const diff = matValue(takenByYou) - matValue(takenFromYou);
+  renderCapRow(oppCap, takenFromYou, h, diff < 0 ? -diff : 0);
+  renderCapRow(youCap, takenByYou, botColor, diff > 0 ? diff : 0);
+}
+function renderCapRow(el, caps, pieceColor, adv) {
+  el.innerHTML = '';
+  let any = false;
+  for (const t of CAP_ORDER) for (let i = 0; i < caps[t]; i++) {
+    any = true;
+    const s = document.createElement('span');
+    s.className = 'capIcon ' + pieceColor;
+    setPieceGlyph(s, t);
+    el.appendChild(s);
+  }
+  if (adv > 0) {
+    const b = document.createElement('span'); b.className = 'capAdv'; b.textContent = '+' + adv;
+    el.appendChild(b);
+  }
+  if (!any && !adv) el.innerHTML = '&nbsp;';
 }
 function renderMoves() {
   const h = game.history();
@@ -844,6 +915,71 @@ function finish(kind) {
   $('#shareBtn').onclick = () => {
     navigator.clipboard && navigator.clipboard.writeText(share).then(() => toast('Copied — go flex')).catch(() => toast(share));
     if (navigator.share) navigator.share({ text: share }).catch(() => {});
+  };
+  offerLeaderboard(youWin, n, diff, h);
+}
+
+/* ---- leaderboard ---- */
+async function fetchLeaderboard() {
+  try {
+    const res = await fetch('/api/chess-leaderboard', { cache: 'no-store' });
+    const data = await res.json();
+    return { scores: Array.isArray(data.scores) ? data.scores : [], error: data.error || null };
+  } catch { return { scores: [], error: 'network' }; }
+}
+function renderLeaderboardList(scores, error) {
+  lbList.innerHTML = '';
+  if (!scores.length) {
+    const msg = error ? "Leaderboard's offline right now." : "Nobody's beaten me yet. Be the first.";
+    lbList.innerHTML = `<p class="lbEmpty">${msg}</p>`;
+    return;
+  }
+  for (const s of scores) {
+    const li = document.createElement('li');
+    const name = document.createElement('span'); name.className = 'lbName'; name.textContent = s.name || '—';
+    const meta = document.createElement('span'); meta.className = 'lbMeta'; meta.textContent = s.difficulty || '';
+    const moves = document.createElement('span'); moves.className = 'lbMoves';
+    moves.textContent = s.moves + (s.moves === 1 ? ' move' : ' moves');
+    li.append(name, meta, moves);
+    lbList.appendChild(li);
+  }
+}
+async function offerLeaderboard(youWin, moves, diffIdx, humanColor) {
+  lbEntry.classList.add('hidden');
+  const { scores, error } = await fetchLeaderboard();
+  renderLeaderboardList(scores, error);
+  if (!youWin || error) return;
+  const qualifies = scores.length < 5 || moves <= scores[scores.length - 1].moves;
+  if (!qualifies) return;
+  lbEntry.classList.remove('hidden');
+  lbName.value = '';
+  lbSubmit.onclick = async () => {
+    const name = lbName.value.trim();
+    if (!name) { lbName.focus(); return; }
+    lbSubmit.disabled = true;
+    try {
+      const res = await fetch('/api/chess-leaderboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, moves,
+          difficulty: DIFF[diffIdx].name,
+          color: humanColor === 'w' ? 'White' : 'Black',
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        renderLeaderboardList(data.scores, null);
+        lbEntry.classList.add('hidden');
+        toast('Saved — nice game');
+      } else {
+        toast('Could not save — try again');
+      }
+    } catch {
+      toast('Could not save — try again');
+    } finally {
+      lbSubmit.disabled = false;
+    }
   };
 }
 function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); setTimeout(() => toastEl.classList.remove('show'), 1800); }
