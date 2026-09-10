@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-const AIRTABLE_BASE_ID = 'appdQv5ACTVH5etFw';
-const AIRTABLE_TABLE_ID = 'tblwTmdL4N8yMIHwF';
+const AIRTABLE_BASE_ID = 'app3bMurOKZmdWma0';
+const AIRTABLE_TABLE_ID = 'tblaixwlPauqAEpq2';
 const AIRTABLE_API_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
 
 const DIFFICULTIES = ['Casual Jett', 'Jett', 'Jett on a good day'];
