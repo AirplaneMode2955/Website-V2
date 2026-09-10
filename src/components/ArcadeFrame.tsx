@@ -13,6 +13,15 @@ type Props = {
  * viewport is tall relative to the game's actual content. Below md, size the
  * iframe to its real content height instead; desktop keeps the original
  * fixed height via the md: class.
+ *
+ * Each hosted game's own page carries public/arcade/_resize-reporter.js,
+ * which measures its own document (with a same-document ResizeObserver --
+ * always reliable) and posts the height up via postMessage. That's the
+ * primary signal here. A parent-side poll of iframe.contentDocument is kept
+ * only as a fallback for the rare case a game predates that script or the
+ * message never arrives; it is NOT relied on alone, because a parent-side
+ * ResizeObserver watching an element in a *different* document (the
+ * iframe's) is not reliably supported everywhere (notably Safari/WebKit).
  */
 export default function ArcadeFrame({ slug, title }: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -21,45 +30,44 @@ export default function ArcadeFrame({ slug, title }: Props) {
     const iframe = iframeRef.current;
     if (!iframe) return;
 
-    let ro: ResizeObserver | null = null;
+    let lastHeight = 0;
+    let heardFromChild = false;
 
-    const fitToContent = () => {
+    const applyHeight = (height: number) => {
       if (window.innerWidth >= 768) {
-        iframe.style.height = '';
+        if (iframe.style.height) iframe.style.height = '';
         return;
       }
+      if (height > 0 && height !== lastHeight) {
+        lastHeight = height;
+        iframe.style.height = `${height}px`;
+      }
+    };
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.source !== iframe.contentWindow) return;
+      if (!event.data || event.data.source !== 'arcade-frame' || event.data.type !== 'resize') return;
+      heardFromChild = true;
+      applyHeight(Number(event.data.height));
+    };
+
+    const handleWindowResize = () => applyHeight(lastHeight);
+
+    const pollFallback = () => {
+      if (heardFromChild) return;
       const doc = iframe.contentDocument;
       if (!doc?.documentElement) return;
-      const height = Math.max(doc.documentElement.scrollHeight, doc.body?.scrollHeight ?? 0);
-      if (height > 0) iframe.style.height = `${height}px`;
+      applyHeight(Math.max(doc.documentElement.scrollHeight, doc.body?.scrollHeight ?? 0));
     };
 
-    const handleLoad = () => {
-      fitToContent();
-      const doc = iframe.contentDocument;
-      if (doc?.body && 'ResizeObserver' in window) {
-        ro = new ResizeObserver(fitToContent);
-        ro.observe(doc.body);
-      }
-      doc?.fonts?.ready.then(fitToContent).catch(() => {});
-      setTimeout(fitToContent, 300);
-    };
-
-    // The iframe often finishes loading before this effect runs (React
-    // hydrates after the browser has already fetched the static HTML), so
-    // the 'load' event below never fires again — run the same setup now if
-    // the document is already there.
-    if (iframe.contentDocument?.readyState === 'complete') {
-      handleLoad();
-    }
-
-    iframe.addEventListener('load', handleLoad);
-    window.addEventListener('resize', fitToContent);
+    window.addEventListener('message', handleMessage);
+    window.addEventListener('resize', handleWindowResize);
+    const poll = window.setInterval(pollFallback, 400);
 
     return () => {
-      iframe.removeEventListener('load', handleLoad);
-      window.removeEventListener('resize', fitToContent);
-      ro?.disconnect();
+      window.removeEventListener('message', handleMessage);
+      window.removeEventListener('resize', handleWindowResize);
+      window.clearInterval(poll);
     };
   }, []);
 
