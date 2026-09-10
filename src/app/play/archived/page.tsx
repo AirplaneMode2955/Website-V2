@@ -42,8 +42,11 @@ export default function ArchivedArcadePage() {
                   <span className="font-label text-xs uppercase tracking-luxe text-outline">
                     {game.year}
                   </span>
-                  <span className="material-symbols-outlined text-primary/30 text-lg">
-                    {isHosted ? 'sports_esports' : 'open_in_new'}
+                  <span
+                    className="material-symbols-outlined text-primary/30 text-lg"
+                    aria-hidden="true"
+                  >
+                    {game.icon}
                   </span>
                 </div>
                 <h2 className="font-headline italic text-2xl md:text-3xl text-primary/90 mb-3 group-hover:text-primary transition-colors">
