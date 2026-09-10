@@ -244,6 +244,7 @@
     <div class="kicker" id="endKicker">Result</div>
     <h2 id="endTitle" class="mt-s">—</h2>
     <p class="big muted" id="endBlurb"></p>
+    <p class="mt-s" id="endMoves" style="font-size:13px;color:var(--gold);font-weight:700;"></p>
     <div class="controls mt-l">
       <button class="primary" id="shareBtn" style="flex:2;">Share result</button>
       <button id="rematchBtn" style="flex:1;">Rematch</button>
@@ -907,6 +908,7 @@ function finish(kind) {
   endEl.classList.remove('hidden'); gameEl.classList.add('hidden');
   $('#endKicker').textContent = draw ? 'Drawn' : youWin ? 'You won' : 'You lost';
   $('#endTitle').textContent = reason;
+  $('#endMoves').textContent = `${n} ${n === 1 ? 'move' : 'moves'}`;
   let share;
   const url = `${location.origin}/play/play-me-chess`;
   if (draw) { $('#endBlurb').textContent = pick(["He'll take it. Barely.", 'Honours even after ' + n + ' moves.']); share = `Beat me at chess — held The Eldrick, Jett Iverson's bot trained on 311 of his real games, to a draw in ${n} moves. ${url}`; }
