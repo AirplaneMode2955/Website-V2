@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
 import { featuredGames, archivedGames } from '@/lib/arcadeGames';
+import { GameIcon } from '@/components/icons/ArcadeIcons';
 
 export const metadata: Metadata = {
   title: 'Play',
@@ -124,12 +125,7 @@ export default function PlayPage() {
                     <span className="font-label text-xs uppercase tracking-luxe text-outline">
                       {game.year}
                     </span>
-                    <span
-                      className="material-symbols-outlined text-primary/40 text-xl"
-                      aria-hidden="true"
-                    >
-                      {game.icon}
-                    </span>
+                    <GameIcon slug={game.slug} className="w-11 h-11" />
                   </div>
                   <h3 className="font-headline italic text-3xl md:text-4xl text-primary mb-4 group-hover:text-primary-fixed transition-colors">
                     {game.title}
