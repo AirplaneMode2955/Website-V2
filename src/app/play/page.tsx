@@ -7,11 +7,11 @@ import { GameIcon } from '@/components/icons/ArcadeIcons';
 export const metadata: Metadata = {
   title: 'Play',
   description:
-    'The Arcade — small games and toys Jett Iverson has built, plus two daily games: Gut Check and Table Talk.',
+    "The Arcade — small games and toys Jett Iverson has built, plus Gut Check, a daily test of marketing instinct.",
   openGraph: {
     title: 'Play — The Arcade',
     description:
-      'Small games and toys Jett Iverson built for the fun of it, plus two daily games: Gut Check and Table Talk.',
+      'Small games and toys Jett Iverson built for the fun of it, plus Gut Check, a daily marketing-instinct test.',
     images: [{ url: '/og/play.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image', images: ['/og/play.png'] },
@@ -21,21 +21,6 @@ const ACCENT_TILES = [
   '#c9dbc3', '#d94f3d', '#c9dbc3', '#8da68a', '#d5cbb5',
   '#c9dbc3', '#d94f3d', '#8da68a', '#c9dbc3', '#d5cbb5',
   '#c9dbc3', '#8da68a',
-];
-
-const DAILY_GAMES = [
-  {
-    slug: 'gut-check',
-    title: 'Gut Check',
-    grid: '🟩🟩🟩⬜🟩',
-    blurb: 'Which headline won? Which line did a machine write? Five rounds.',
-  },
-  {
-    slug: 'table-talk',
-    title: 'Table Talk',
-    grid: '🟩⬜🟩🟩⬜',
-    blurb: 'Order five Premier League clubs by a hidden stat. Drag to rank.',
-  },
 ];
 
 export default function PlayPage() {
@@ -79,38 +64,36 @@ export default function PlayPage() {
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
               Small things I&apos;ve built for the fun of building them — games, simulators,
-              and a couple of daily habits.
+              and one daily test of marketing instinct.
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* ── Daily games — compact strips ── */}
+      {/* ── Gut Check — compact daily strip ── */}
       <section className="px-8 pt-10 bg-background">
-        <div className="max-w-screen-2xl mx-auto flex flex-col gap-4">
-          {DAILY_GAMES.map((game, i) => (
-            <FadeIn key={game.slug} delay={i * 0.05}>
-              <Link
-                href={`/play/${game.slug}`}
-                className="group flex flex-wrap items-center gap-x-5 gap-y-3 bg-surface-container-high rounded-2xl border border-white/[0.08] px-6 py-4 hover:border-primary/25 transition-colors"
-              >
-                <span className="text-2xl" aria-hidden="true">
-                  {game.grid}
-                </span>
-                <span className="font-label text-[10px] uppercase tracking-luxe px-2.5 py-1 bg-primary-container text-on-primary-container rounded-full">
-                  Daily
-                </span>
-                <span className="font-headline italic text-xl text-primary">{game.title}</span>
-                <span className="text-on-surface-variant text-sm flex-1 min-w-[12rem]">
-                  {game.blurb}
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-primary font-label text-xs uppercase tracking-luxe group-hover:text-primary-fixed transition-colors">
-                  Play today
-                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                </span>
-              </Link>
-            </FadeIn>
-          ))}
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <Link
+              href="/play/gut-check"
+              className="group flex flex-wrap items-center gap-x-5 gap-y-3 bg-surface-container-high rounded-2xl border border-white/[0.08] px-6 py-4 hover:border-primary/25 transition-colors"
+            >
+              <span className="text-2xl" aria-hidden="true">
+                🟩🟩🟩⬜🟩
+              </span>
+              <span className="font-label text-[10px] uppercase tracking-luxe px-2.5 py-1 bg-primary-container text-on-primary-container rounded-full">
+                Daily
+              </span>
+              <span className="font-headline italic text-xl text-primary">Gut Check</span>
+              <span className="text-on-surface-variant text-sm flex-1 min-w-[12rem]">
+                Which headline won? Which line did a machine write? Five rounds.
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-primary font-label text-xs uppercase tracking-luxe group-hover:text-primary-fixed transition-colors">
+                Play today
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </span>
+            </Link>
+          </FadeIn>
         </div>
       </section>
 
@@ -132,8 +115,8 @@ export default function PlayPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {featuredGames.map((game, i) => {
-              const isHosted = game.mode === 'hosted';
-              const href = isHosted ? `/play/${game.slug}` : game.href ?? '#';
+              const isInternal = game.mode === 'hosted' || game.mode === 'route';
+              const href = isInternal ? `/play/${game.slug}` : game.href ?? '#';
               const cardClass =
                 'group flex flex-col h-full bg-surface-container-highest rounded-[1.5rem] border border-white/[0.08] shadow-soft hover:border-primary/25 hover:shadow-premium transition-all p-10';
               const inner = (
@@ -161,9 +144,9 @@ export default function PlayPage() {
                     ))}
                   </div>
                   <span className="mt-8 inline-flex items-center gap-1.5 text-primary font-label text-xs uppercase tracking-luxe">
-                    {isHosted ? 'Play here' : 'Visit site'}
+                    {isInternal ? 'Play here' : 'Visit site'}
                     <span className="material-symbols-outlined text-sm">
-                      {isHosted ? 'arrow_forward' : 'open_in_new'}
+                      {isInternal ? 'arrow_forward' : 'open_in_new'}
                     </span>
                   </span>
                 </>
@@ -171,7 +154,7 @@ export default function PlayPage() {
 
               return (
                 <FadeIn key={game.slug} delay={i * 0.05} className="h-full">
-                  {isHosted ? (
+                  {isInternal ? (
                     <Link href={href} className={cardClass}>
                       {inner}
                     </Link>
