@@ -101,14 +101,20 @@
   .sq .dot{position:absolute;width:26%;height:26%;border-radius:50%;background:var(--hint);
     box-shadow:0 0 6px rgba(242,200,121,.5);}
   .sq .ring{position:absolute;inset:8%;border-radius:50%;box-shadow:inset 0 0 0 4px var(--hint);}
-  .pc{font-size:min(9vw,44px);line-height:1;cursor:grab;position:relative;z-index:2;}
+  .pc{font-size:min(9vw,44px);line-height:1;cursor:grab;position:relative;z-index:2;
+    display:flex;align-items:center;justify-content:center;}
+  .pc svg{width:0.82em;height:0.82em;display:block;}
   /* carved-wood pieces: bevelled highlight + shadow, sitting a touch above the board */
   .pc.w{color:var(--piece-light);
     text-shadow:0 1px 0 rgba(255,255,255,.55), 0 -1px 0 rgba(120,70,30,.55),
       1px 2px 1px rgba(60,25,0,.5), 0 3px 5px rgba(0,0,0,.4);}
+  .pc.w svg{filter:drop-shadow(0 1px 0 rgba(255,255,255,.55)) drop-shadow(0 -1px 0 rgba(120,70,30,.55))
+      drop-shadow(1px 2px 1px rgba(60,25,0,.5)) drop-shadow(0 3px 5px rgba(0,0,0,.4));}
   .pc.b{color:var(--piece-dark);
     text-shadow:0 1px 0 rgba(120,80,50,.45), 0 -1px 1px rgba(0,0,0,.6),
       1px 2px 1px rgba(0,0,0,.55), 0 3px 5px rgba(0,0,0,.45);}
+  .pc.b svg{filter:drop-shadow(0 1px 0 rgba(120,80,50,.45)) drop-shadow(0 -1px 1px rgba(0,0,0,.6))
+      drop-shadow(1px 2px 1px rgba(0,0,0,.55)) drop-shadow(0 3px 5px rgba(0,0,0,.45));}
   .pc.drag{opacity:.4;}
   #ghost{position:fixed;font-size:44px;line-height:1;pointer-events:none;z-index:99;
     transform:translate(-50%,-50%);filter:drop-shadow(0 4px 5px rgba(0,0,0,.55));display:none;}
@@ -612,6 +618,19 @@ function startGame() {
 
 /* ---- rendering ---- */
 const GLYPH = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛', k: '♚' };
+// The Unicode pawn glyph (U+265F) renders as an unrecognizable blob on iOS
+// Safari's fallback symbol font, unlike the other five piece glyphs (which
+// render fine there) -- draw the pawn as an inline SVG instead so its shape
+// doesn't depend on which font a given browser/OS substitutes it from.
+const PAWN_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="currentColor">'
+  + '<circle cx="50" cy="30" r="15"/>'
+  + '<path d="M50,45 C39,45 33,57 31,67 C29,75 25,79 23,83 L77,83 C75,79 71,75 69,67 C67,57 61,45 50,45 Z"/>'
+  + '<rect x="17" y="83" width="66" height="11" rx="5.5"/>'
+  + '</g></svg>';
+function setPieceGlyph(el, type) {
+  if (type === 'p') el.innerHTML = PAWN_SVG;
+  else el.textContent = GLYPH[type];
+}
 function render() {
   const b = game.board();
   boardEl.innerHTML = '';
@@ -638,7 +657,7 @@ function render() {
     if (p) {
       const el = document.createElement('div');
       el.className = 'pc ' + (p.color === 'w' ? 'w' : 'b');
-      el.textContent = GLYPH[p.type];
+      setPieceGlyph(el, p.type);
       cell.appendChild(el);
     }
     const mv = legalFrom.find(m => m.to === sq);
@@ -672,8 +691,7 @@ boardEl.addEventListener('pointerdown', e => {
   }
   if (piece && piece.color === game.turn() && piece.color === window._humanColor) {
     selected = sq; render();
-    const g = $('#ghost'); g.textContent = GLYPH[piece.type];
-    g.className = 'pc ' + (piece.color === 'w' ? 'w' : 'b');
+    const g = $('#ghost'); g.className = 'pc ' + (piece.color === 'w' ? 'w' : 'b'); setPieceGlyph(g, piece.type);
     g.style.color = piece.color === 'w' ? 'var(--piece-light)' : 'var(--piece-dark)';
     dragInfo = { from: sq, moved: false };
     moveGhost(e);
