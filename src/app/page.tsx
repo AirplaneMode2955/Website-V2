@@ -40,58 +40,120 @@ export default function Home() {
               <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
                 About
               </span>
-              <h2 className="font-headline italic text-4xl md:text-5xl text-primary mb-6 leading-tight">
-                AI systems builder.<br />Marketing strategist.
+              <h2 className="font-headline italic text-5xl text-primary mb-6 leading-tight">
+                Marketing student.<br />AI-driven.
               </h2>
               <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
-                I build the automations, dashboards, and AI-search systems that run marketing at
-                The Insurance Center — lead scoring, review workflows, content pipelines — then
-                apply the same playbook at SearchLight Digital, the SEO/GEO agency I founded on
-                the side.
+                Studying Marketing at Utah State University&apos;s Huntsman School of Business —
+                graduating December 2026 with a 3.74 GPA while working full time. Acting
+                Director of Marketing at The Insurance Center, where I lead SEO, GEO, and AI
+                innovation across the company&apos;s entire marketing operation.
               </p>
-
-              <div className="flex flex-wrap gap-x-8 gap-y-4 mb-8 pb-8 border-b border-white/[0.08]">
-                {[
-                  { value: '50', label: 'SEO/GEO pages built in 5 months' },
-                  { value: '203%', label: 'organic search growth' },
-                  { value: '12.5x', label: 'Search Console impressions growth' },
-                ].map((stat) => (
-                  <div key={stat.label}>
-                    <p className="font-headline italic text-2xl text-primary leading-none mb-1">
-                      {stat.value}
-                    </p>
-                    <p className="text-on-surface-variant text-xs">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
-                >
-                  My Story
-                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                </Link>
-                <Link
-                  href="/resume"
-                  className="inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors"
-                >
-                  Full resume
-                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                </Link>
-              </div>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
+              >
+                My Story
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
             </FadeIn>
             <FadeIn delay={0.1} className="relative aspect-[4/3] rounded-[1.25rem] overflow-hidden shadow-soft">
               <Image
-                src="/IMG_3561.JPEG"
-                alt="Jett golfing overlooking the ocean in Maui"
+                src="/Golf.JPEG"
+                alt="Jett golfing in Hawaii"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </FadeIn>
           </div>
+        </div>
+      </section>
+
+      {/* ── Background ── */}
+      <section className="py-20 px-8 bg-background border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              Background
+            </span>
+          </FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+            {/* Work */}
+            <FadeIn delay={0.05}>
+              <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
+                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block" aria-hidden="true">work</span>
+                <p className="font-label text-xs uppercase tracking-luxe text-outline mb-2">
+                  The Insurance Center
+                </p>
+                <h3 className="font-headline italic text-3xl text-primary mb-1">
+                  Acting Director of Marketing
+                </h3>
+                <p className="text-on-surface-variant text-sm mb-6">
+                  Farr West, UT &nbsp;·&nbsp; Jun 2024 – Present
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    'Lead SEO, GEO and AI implementation',
+                    'Licensed Insurance Agent (P&C)',
+                    '50%+ brand exposure growth',
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-on-surface-variant text-sm">
+                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0" aria-hidden="true">task_alt</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </FadeIn>
+
+            {/* Education */}
+            <FadeIn delay={0.1}>
+              <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
+                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block" aria-hidden="true">school</span>
+                <p className="font-label text-xs uppercase tracking-luxe text-outline mb-2">
+                  Utah State University
+                </p>
+                <h3 className="font-headline italic text-3xl text-primary mb-1">
+                  B.S. Marketing
+                </h3>
+                <p className="text-on-surface-variant text-sm mb-6">
+                  Jon M. Huntsman School of Business &nbsp;·&nbsp; Dec 2026
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    'GPA 3.74 · Academic Scholarship',
+                    'ProSales Member',
+                    'Google Ads Certified',
+                    'Meta Business Suite Certified',
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-on-surface-variant text-sm">
+                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0" aria-hidden="true">task_alt</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </FadeIn>
+
+          </div>
+
+          {/* Download Resume */}
+          <FadeIn delay={0.15}>
+            <div className="max-w-3xl mx-auto mt-6">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full border border-primary/40 text-primary px-6 py-4 rounded-md font-label uppercase tracking-luxe text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+              >
+                Download Resume
+                <span className="material-symbols-outlined text-sm" aria-hidden="true">download</span>
+              </a>
+            </div>
+          </FadeIn>
+
         </div>
       </section>
 
