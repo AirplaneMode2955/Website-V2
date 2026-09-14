@@ -34,54 +34,63 @@ export default function Home() {
 
       {/* ── About Teaser ── */}
       <section className="py-28 px-8 bg-surface-container-low">
-        <div className="max-w-2xl mx-auto text-center">
-          <FadeIn>
-            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-              About
-            </span>
-            <p className="font-headline italic text-3xl md:text-4xl text-primary mb-8 leading-snug">
-              &ldquo;Driven by the gap between what&apos;s possible and what most people
-              think is possible.&rdquo;
-            </p>
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
-            >
-              My Story
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </Link>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── Background ── */}
-      <section className="py-16 px-8 bg-background border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto">
-          <FadeIn>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 max-w-3xl mx-auto text-center">
-              {[
-                { value: '3.74', label: 'GPA at Utah State' },
-                { value: 'Dec 2026', label: 'B.S. Marketing, expected' },
-                { value: 'Director', label: 'of Marketing, The Insurance Center' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p className="font-headline italic text-4xl text-primary leading-none mb-2">
-                    {stat.value}
-                  </p>
-                  <p className="text-on-surface-variant text-sm">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-            <div className="text-center mt-10">
-              <Link
-                href="/resume"
-                className="inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors"
-              >
-                Full resume
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
-            </div>
-          </FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <FadeIn>
+              <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+                About
+              </span>
+              <h2 className="font-headline italic text-4xl md:text-5xl text-primary mb-6 leading-tight">
+                Marketing student.<br />AI-driven builder.
+              </h2>
+              <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
+                Acting Director of Marketing at The Insurance Center, founder of SearchLight
+                Digital on the side, and finishing a marketing degree at Utah State. Most of what
+                I build exists to make the repetitive parts of that work disappear.
+              </p>
+
+              <div className="flex flex-wrap gap-x-8 gap-y-4 mb-8 pb-8 border-b border-white/[0.08]">
+                {[
+                  { value: '3.74', label: 'GPA at Utah State' },
+                  { value: 'Dec 2026', label: 'B.S. Marketing' },
+                  { value: 'Director', label: 'of Marketing, TIC' },
+                ].map((stat) => (
+                  <div key={stat.label}>
+                    <p className="font-headline italic text-2xl text-primary leading-none mb-1">
+                      {stat.value}
+                    </p>
+                    <p className="text-on-surface-variant text-xs">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
+                >
+                  My Story
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+                <Link
+                  href="/resume"
+                  className="inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors"
+                >
+                  Full resume
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.1} className="relative aspect-[4/3] rounded-[1.25rem] overflow-hidden shadow-soft">
+              <Image
+                src="/IMG_3561.JPEG"
+                alt="Jett golfing overlooking the ocean in Maui"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </FadeIn>
+          </div>
         </div>
       </section>
 
