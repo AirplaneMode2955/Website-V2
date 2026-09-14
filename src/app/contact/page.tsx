@@ -135,6 +135,37 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* ── What I'm Open To ── */}
+      <section className="py-20 px-8 bg-background border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              Let&apos;s work together
+            </span>
+            <h2 className="font-headline italic text-4xl text-primary mb-10">
+              What I&apos;m open to
+            </h2>
+          </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
+            {[
+              { icon: 'search', text: 'SEO & GEO audits and strategy' },
+              { icon: 'bolt', text: 'Marketing systems & automation builds' },
+              { icon: 'edit_note', text: 'Writing or speaking on AI and marketing' },
+              { icon: 'lightbulb', text: 'Interesting side projects and consulting' },
+            ].map((item) => (
+              <FadeIn key={item.text}>
+                <div className="flex items-center gap-4 bg-surface-container-highest p-5 rounded-[1.25rem] border border-white/[0.08]">
+                  <span className="material-symbols-outlined text-primary text-xl flex-shrink-0" aria-hidden="true">
+                    {item.icon}
+                  </span>
+                  <p className="text-on-surface-variant text-sm">{item.text}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Availability Note ── */}
       <section className="py-16 px-8 bg-background border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto text-center">

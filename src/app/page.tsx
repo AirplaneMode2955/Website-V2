@@ -26,7 +26,7 @@ const featuredProjects = [
 ];
 
 export default function Home() {
-  const featuredArticles = getOnSiteArticles().slice(0, 2);
+  const [featuredArticle] = getOnSiteArticles();
   return (
     <>
       {/* ── Hero ── */}
@@ -34,126 +34,54 @@ export default function Home() {
 
       {/* ── About Teaser ── */}
       <section className="py-28 px-8 bg-surface-container-low">
-        <div className="max-w-screen-2xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <FadeIn>
-              <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-                About
-              </span>
-              <h2 className="font-headline italic text-5xl text-primary mb-6 leading-tight">
-                Marketing student.<br />AI-driven.
-              </h2>
-              <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
-                Studying Marketing at Utah State University&apos;s Huntsman School of Business —
-                graduating December 2026 with a 3.74 GPA while working full time. Acting
-                Director of Marketing at The Insurance Center, where I lead SEO, GEO, and AI
-                innovation across the company&apos;s entire marketing operation.
-              </p>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
-              >
-                My Story
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
-            </FadeIn>
-            <FadeIn delay={0.1} className="relative aspect-[4/3] rounded-[1.25rem] overflow-hidden shadow-soft">
-              <Image
-                src="/Golf.JPEG"
-                alt="Jett golfing in Hawaii"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </FadeIn>
-          </div>
+        <div className="max-w-2xl mx-auto text-center">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              About
+            </span>
+            <p className="font-headline italic text-3xl md:text-4xl text-primary mb-8 leading-snug">
+              &ldquo;Driven by the gap between what&apos;s possible and what most people
+              think is possible.&rdquo;
+            </p>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
+            >
+              My Story
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
+          </FadeIn>
         </div>
       </section>
 
       {/* ── Background ── */}
-      <section className="py-20 px-8 bg-background border-t border-white/5">
+      <section className="py-16 px-8 bg-background border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto">
           <FadeIn>
-            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-              Background
-            </span>
-          </FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-
-            {/* Work */}
-            <FadeIn delay={0.05}>
-              <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
-                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block" aria-hidden="true">work</span>
-                <p className="font-label text-xs uppercase tracking-luxe text-outline mb-2">
-                  The Insurance Center
-                </p>
-                <h3 className="font-headline italic text-3xl text-primary mb-1">
-                  Acting Director of Marketing
-                </h3>
-                <p className="text-on-surface-variant text-sm mb-6">
-                  Farr West, UT &nbsp;·&nbsp; Jun 2024 – Present
-                </p>
-                <ul className="space-y-3">
-                  {[
-                    'Lead SEO, GEO and AI implementation',
-                    'Licensed Insurance Agent (P&C)',
-                    '50%+ brand exposure growth',
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-on-surface-variant text-sm">
-                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0" aria-hidden="true">task_alt</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
-
-            {/* Education */}
-            <FadeIn delay={0.1}>
-              <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
-                <span className="material-symbols-outlined text-primary/60 text-2xl mb-4 block" aria-hidden="true">school</span>
-                <p className="font-label text-xs uppercase tracking-luxe text-outline mb-2">
-                  Utah State University
-                </p>
-                <h3 className="font-headline italic text-3xl text-primary mb-1">
-                  B.S. Marketing
-                </h3>
-                <p className="text-on-surface-variant text-sm mb-6">
-                  Jon M. Huntsman School of Business &nbsp;·&nbsp; Dec 2026
-                </p>
-                <ul className="space-y-3">
-                  {[
-                    'GPA 3.74 · Academic Scholarship',
-                    'ProSales Member',
-                    'Google Ads Certified',
-                    'Meta Business Suite Certified',
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-on-surface-variant text-sm">
-                      <span className="material-symbols-outlined text-primary text-base flex-shrink-0" aria-hidden="true">task_alt</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
-
-          </div>
-
-          {/* Download Resume */}
-          <FadeIn delay={0.15}>
-            <div className="max-w-3xl mx-auto mt-6">
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full border border-primary/40 text-primary px-6 py-4 rounded-md font-label uppercase tracking-luxe text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+            <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 max-w-3xl mx-auto text-center">
+              {[
+                { value: '3.74', label: 'GPA at Utah State' },
+                { value: 'Dec 2026', label: 'B.S. Marketing, expected' },
+                { value: 'Director', label: 'of Marketing, The Insurance Center' },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <p className="font-headline italic text-4xl text-primary leading-none mb-2">
+                    {stat.value}
+                  </p>
+                  <p className="text-on-surface-variant text-sm">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link
+                href="/resume"
+                className="inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors"
               >
-                Download Resume
-                <span className="material-symbols-outlined text-sm" aria-hidden="true">download</span>
-              </a>
+                Full resume
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
             </div>
           </FadeIn>
-
         </div>
       </section>
 
@@ -178,50 +106,37 @@ export default function Home() {
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {featuredProjects.map((project, i) => (
               <FadeIn key={project.title} delay={i * 0.1}>
-                <div className="bg-surface-container-highest rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft h-full flex flex-col hover:shadow-premium transition-shadow duration-300">
-                  <div className="relative aspect-[16/7]">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover"
-                    />
+                <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 h-full flex flex-col hover:border-primary/20 transition-colors">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {project.tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <h3 className="font-headline italic text-xl text-primary mb-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-on-surface-variant text-sm leading-relaxed flex-1">
-                      {project.description}
-                    </p>
-                    {project.link && (
-                      <div className="mt-4">
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 border border-primary/40 text-primary px-4 py-2 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
-                        >
-                          Visit Site
-                          <span className="material-symbols-outlined text-sm">open_in_new</span>
-                        </a>
-                      </div>
-                    )}
-                  </div>
+                  <h3 className="font-headline italic text-xl text-primary mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed flex-1 mb-4">
+                    {project.description}
+                  </p>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-primary font-label uppercase tracking-[0.18em] text-xs hover:text-primary-fixed transition-colors"
+                    >
+                      Visit Site
+                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                    </a>
+                  )}
                 </div>
               </FadeIn>
             ))}
@@ -395,35 +310,33 @@ export default function Home() {
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {featuredArticles.map((article, i) => (
-              <FadeIn key={article.slug} delay={i * 0.1}>
-                <Link
-                  href={`/content/${article.slug}`}
-                  className="block bg-surface-container p-8 rounded-[1.25rem] border border-white/[0.08] shadow-soft hover:border-primary/20 transition-colors group h-full"
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <span className="font-label text-[10px] uppercase tracking-luxe px-2 py-0.5 bg-primary/10 text-primary rounded-full">
-                      On-Site
-                    </span>
-                    <span className="text-outline/50">·</span>
-                    <span className="font-label text-[10px] uppercase tracking-luxe text-outline">
-                      {article.readTime}
-                    </span>
-                  </div>
-                  <h3 className="font-headline italic text-2xl text-primary mb-3 group-hover:text-primary-fixed transition-colors">
-                    {article.title}
-                  </h3>
-                  <p className="text-on-surface-variant text-sm leading-relaxed mb-6">
-                    {article.excerpt}
-                  </p>
-                  <span className="text-primary font-label text-xs uppercase tracking-luxe">
-                    Read Article →
+          {featuredArticle && (
+            <FadeIn>
+              <Link
+                href={`/content/${featuredArticle.slug}`}
+                className="block bg-surface-container p-8 md:p-10 rounded-[1.25rem] border border-white/[0.08] shadow-soft hover:border-primary/20 transition-colors group max-w-3xl"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="font-label text-[10px] uppercase tracking-luxe px-2 py-0.5 bg-primary/10 text-primary rounded-full">
+                    On-Site
                   </span>
-                </Link>
-              </FadeIn>
-            ))}
-          </div>
+                  <span className="text-outline/50">·</span>
+                  <span className="font-label text-[10px] uppercase tracking-luxe text-outline">
+                    {featuredArticle.readTime}
+                  </span>
+                </div>
+                <h3 className="font-headline italic text-2xl md:text-3xl text-primary mb-3 group-hover:text-primary-fixed transition-colors">
+                  {featuredArticle.title}
+                </h3>
+                <p className="text-on-surface-variant text-sm leading-relaxed mb-6">
+                  {featuredArticle.excerpt}
+                </p>
+                <span className="text-primary font-label text-xs uppercase tracking-luxe">
+                  Read Article →
+                </span>
+              </Link>
+            </FadeIn>
+          )}
         </div>
       </section>
 

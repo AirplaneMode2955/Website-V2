@@ -152,6 +152,51 @@ export default function ProjectsPage() {
         </div>
       </section>
 
+      {/* ── Tools & Stack ── */}
+      <section className="py-16 px-8 bg-surface-container-low border-b border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-6 block">
+              Tools &amp; stack
+            </span>
+          </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                label: 'Build',
+                tools: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Python'],
+              },
+              {
+                label: 'Marketing & Data',
+                tools: ['SEO / GEO', 'Google Ads', 'GA4 & Search Console', 'SQL'],
+              },
+              {
+                label: 'Automation',
+                tools: ['Zapier', 'n8n', 'Airtable', 'Claude / AI agents'],
+              },
+            ].map((group) => (
+              <FadeIn key={group.label}>
+                <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 h-full">
+                  <p className="font-label text-[10px] uppercase tracking-luxe text-outline mb-4">
+                    {group.label}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {group.tools.map((tool) => (
+                      <span
+                        key={tool}
+                        className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Projects Grid ── */}
       <section className="py-24 px-8 bg-surface-container-low">
         <div className="max-w-screen-2xl mx-auto space-y-12">
