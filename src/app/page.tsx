@@ -41,19 +41,20 @@ export default function Home() {
                 About
               </span>
               <h2 className="font-headline italic text-4xl md:text-5xl text-primary mb-6 leading-tight">
-                Marketing student.<br />AI-driven builder.
+                AI systems builder.<br />Marketing strategist.
               </h2>
               <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
-                Acting Director of Marketing at The Insurance Center, founder of SearchLight
-                Digital on the side, and finishing a marketing degree at Utah State. Most of what
-                I build exists to make the repetitive parts of that work disappear.
+                I build the automations, dashboards, and AI-search systems that run marketing at
+                The Insurance Center — lead scoring, review workflows, content pipelines — then
+                apply the same playbook at SearchLight Digital, the SEO/GEO agency I founded on
+                the side.
               </p>
 
               <div className="flex flex-wrap gap-x-8 gap-y-4 mb-8 pb-8 border-b border-white/[0.08]">
                 {[
-                  { value: '3.74', label: 'GPA at Utah State' },
-                  { value: 'Dec 2026', label: 'B.S. Marketing' },
-                  { value: 'Director', label: 'of Marketing, TIC' },
+                  { value: '4', label: 'automated systems in production' },
+                  { value: '61/100', label: 'GEO / AI-search visibility score' },
+                  { value: '12.5x', label: 'Search Console impressions growth' },
                 ].map((stat) => (
                   <div key={stat.label}>
                     <p className="font-headline italic text-2xl text-primary leading-none mb-1">
