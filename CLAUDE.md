@@ -24,8 +24,3 @@ asked to "pull new photos," "import the new photos," or similar:
    then commit and push straight to `main`. This project deploys to
    production automatically on every push to main via Vercel's GitHub
    integration, so no PR is needed for routine photo additions like this.
-
-There's also a fully-automated version of this at
-`src/app/api/photo-import/route.ts` (Drive → webhook → auto-opened PR) that
-was built but never wired up with real credentials — Jett decided the
-on-demand version above covers it for now.
