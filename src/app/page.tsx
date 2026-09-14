@@ -52,8 +52,8 @@ export default function Home() {
 
               <div className="flex flex-wrap gap-x-8 gap-y-4 mb-8 pb-8 border-b border-white/[0.08]">
                 {[
-                  { value: '4', label: 'automated systems in production' },
-                  { value: '61/100', label: 'GEO / AI-search visibility score' },
+                  { value: '50', label: 'SEO/GEO pages built in 5 months' },
+                  { value: '203%', label: 'organic search growth' },
                   { value: '12.5x', label: 'Search Console impressions growth' },
                 ].map((stat) => (
                   <div key={stat.label}>
