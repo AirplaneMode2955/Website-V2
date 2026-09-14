@@ -424,6 +424,60 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── What I'm Building ── */}
+      <section className="py-24 px-8 bg-background border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              Right now
+            </span>
+            <h2 className="font-headline italic text-5xl text-primary mb-12">
+              What I&apos;m building
+            </h2>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: 'search',
+                title: 'GEO & AI Search at TIC',
+                description:
+                  'Running SEO and Generative Engine Optimization for The Insurance Center — making sure the brand shows up in Google, ChatGPT, Perplexity, and every AI Overview, not just page one of a search engine.',
+              },
+              {
+                icon: 'rocket_launch',
+                title: 'SearchLight Digital',
+                description:
+                  'The agency I founded to productize that same SEO/GEO methodology for other businesses — currently pre-launch, built around the idea that most companies have no idea they\'re invisible to AI search.',
+              },
+              {
+                icon: 'smart_toy',
+                title: 'AI systems & automation',
+                description:
+                  'This site included — I build with AI agents rather than around them. Lead scoring, review workflows, content pipelines, even the chess bot in the Arcade. If a process repeats, I try to make it disappear.',
+              },
+            ].map((item) => (
+              <FadeIn key={item.title}>
+                <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-8 h-full">
+                  <span
+                    className="material-symbols-outlined text-primary/60 text-2xl mb-4 block"
+                    aria-hidden="true"
+                  >
+                    {item.icon}
+                  </span>
+                  <h3 className="font-headline italic text-2xl text-primary mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Life in Balance ── */}
       <section className="py-24 px-8 bg-surface-container-low border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto">

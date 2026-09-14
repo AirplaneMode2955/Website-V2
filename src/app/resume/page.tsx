@@ -126,15 +126,49 @@ const interests = ['Golf', 'Skiing', 'Fishing'];
 export default function ResumePage() {
   return (
     <>
-      {/* ── Header ── */}
+      {/* ── Page Banner ── */}
+      <section className="relative py-24 px-8 bg-surface-container-low border-b border-white/5 overflow-hidden">
+        {/* Watermark */}
+        <span
+          aria-hidden="true"
+          className="absolute right-0 top-1/2 -translate-y-1/2 font-headline italic text-primary select-none pointer-events-none leading-none pr-8"
+          style={{ fontSize: 'clamp(8rem, 20vw, 18rem)', opacity: 0.04 }}
+        >
+          Resume
+        </span>
+        {/* Radial glow behind headline */}
+        <div
+          aria-hidden="true"
+          className="absolute left-8 top-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at center, var(--color-primary) 0%, transparent 70%)',
+            opacity: 0.06,
+          }}
+        />
+        <div className="max-w-screen-2xl mx-auto relative z-10">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              The track record
+            </span>
+            <h1 className="font-headline italic text-6xl md:text-8xl text-primary leading-tight mb-4">
+              Resume
+            </h1>
+            <p className="text-on-surface-variant text-xl max-w-xl">
+              Marketing, SEO/GEO strategy, and AI systems — the full history below, or grab the PDF.
+            </p>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── Identity Strip ── */}
       <section className="pt-16 pb-12 px-8 bg-background">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
               <div>
-                <h1 className="font-headline italic text-5xl md:text-7xl text-primary leading-tight mb-2">
+                <h2 className="font-headline italic text-3xl md:text-4xl text-primary leading-tight mb-2">
                   Jett Iverson
-                </h1>
+                </h2>
                 <p className="text-on-surface-variant">
                   Acting Director of Marketing &nbsp;·&nbsp; Licensed Insurance Agent &nbsp;·&nbsp; AI Strategist
                 </p>
