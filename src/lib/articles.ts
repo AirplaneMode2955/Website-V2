@@ -18,6 +18,120 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: 'why-i-record-my-commute-to-practice-talking',
+    source: 'on-site',
+    readTime: '3 min read',
+    date: 'September 2026',
+    title: 'Why I Turned My Commute Into a Daily Speaking Practice',
+    excerpt:
+      'I started recording unscripted takes on my drive to work because talking clearly under pressure does not improve from reading about it. A few weeks and two dozen episodes in, here is what changed.',
+    status: 'published',
+    topics: ['Communication', 'Personal Growth', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `My job runs on talking. Client calls, team meetings, video scripts, the pitch I give a prospect who has never heard of SearchLight Digital. For a while, my off-the-cuff answer to most of that was worse than my written one — I'd get the thought right in my head and lose half of it on the way out of my mouth.
+
+Reading about communication was not going to fix that. The only thing that fixes talking badly is talking, a lot, with the camera rolling so I can't pretend it went better than it did. So on August 27, I set my phone on the dash, picked a topic, and pressed record on the drive to work. That's Commute 2 Work — no studio, no script, no editing out the bad parts.`,
+      },
+      {
+        heading: 'One take, no do-overs',
+        body: `The rule is simple and it's the whole point: whatever comes out in that drive is what gets posted. No retakes, no cutting the sentence where I trail off, no polishing the argument after the fact. [Starting something new](https://www.youtube.com/watch?v=aWe6VkZ82Gs) is the first one — ten minutes, one topic, every flaw left in.
+
+That constraint is uncomfortable on purpose. The moment I know I can fix it later, I stop working to get it right the first time. Removing the safety net is what makes the rep count.`,
+      },
+      {
+        heading: 'The topic was never really the topic',
+        body: `Day one I argued through whether college is still worth it in the AI era. [Is college worth it in the AI era??](https://www.youtube.com/watch?v=xDUvqACH2C8) is not really about college when you watch it back — it's about picking a position cold and defending it out loud for ten straight minutes without notes.
+
+That's the actual skill being built. Not opinions about college. The ability to take a stance, structure it as I go, and land it before I run out of road.`,
+      },
+      {
+        heading: "What's different after two dozen episodes",
+        body: `Less throat-clearing. I used to spend the first thirty seconds of any answer warming up to the point. Now I lead with it, because I've had to lead with it two dozen mornings in a row with the clock running.
+
+Fewer dead ends. The habit of talking myself into a sentence I can't finish has mostly gone away, because on camera there's nowhere to hide when it happens. And it carries over — the same muscle that gets me through ten unscripted minutes on a commute is the one that gets me through a client asking a question I didn't prep for.`,
+      },
+      {
+        heading: "Start before it's good",
+        body: `None of these are polished. That's on purpose. If you're waiting to sound good before you talk more, you have it backwards — the reps are what make you sound good, not the other way around.
+
+The channel's on YouTube if you want to see the format: [Commute 2 Work](https://www.youtube.com/@Commute2Work).`,
+      },
+    ],
+  },
+  {
+    slug: 'the-x-factor-is-two-skills-colliding',
+    source: 'on-site',
+    readTime: '3 min read',
+    date: 'September 2026',
+    title: 'The "X Factor" Is Just Two Skills Nobody Else Has Combined',
+    excerpt:
+      'I spent a week of episodes on the same question: what actually creates an "X factor"? Not a rare trait — usually two ordinary skills nobody bothered to combine in one person.',
+    status: 'published',
+    topics: ['Personal Growth', 'Marketing', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `I kept coming back to the same question across one stretch of episodes: what actually makes someone have an "X factor"? Not talent in the vague sense — the specific thing that makes one marketer, one founder, one person in a room read as different from everyone else with the same resume.
+
+I recorded four separate takes on it because I didn't buy my own first answer. Here's where I landed.`,
+      },
+      {
+        heading: 'The trait explanation does not hold up',
+        body: `The easy answer is charisma or confidence — something you either have or don't. [Alex Hormozi's definition of the X factor](https://www.youtube.com/watch?v=GHrc95PnRoI) pushed back on that, and once I sat with it, the trait explanation stopped making sense to me. Confidence is downstream of competence. Nobody is magnetic about a skill they're bad at.
+
+[The French secret to the X factor](https://www.youtube.com/watch?v=b3fHll8XQWk) points at the same thing from a different angle: the people who read as effortlessly good at something usually put in unreasonable, unglamorous hours on it somewhere nobody was watching.`,
+      },
+      {
+        heading: 'The real move is combination',
+        body: `The version I actually believe: the X factor shows up when you stack two skills that don't normally live in the same person. A marketer who can also write code. An insurance agent who can also build a following. One skill alone puts you in a crowded field, competing on the same axis as everyone else. Two unrelated skills put you in a field with almost no competition, because almost nobody bothered to build both.
+
+[How to get the X factor — why combining unrelated hobbies makes you dangerous](https://www.youtube.com/watch?v=Q0-dUv-EuVI) is where I worked through this the most directly, using my own mix of marketing, AI tooling, and woodworking as the example.`,
+      },
+      {
+        heading: 'Find your two things',
+        body: `You don't need a rare talent. You need two ordinary skills that almost nobody else has bothered to put in the same person. Marketing plus data. Sales plus design. Insurance plus content. Pick the second skill on purpose, and give it the same unglamorous hours as the first one.
+
+That's the whole model, and it's testable — find someone with an X factor you admire and check whether it's actually one skill or two stacked together. I'd bet on two, every time.`,
+      },
+    ],
+  },
+  {
+    slug: 'practicing-answers-out-loud-before-you-need-them',
+    source: 'on-site',
+    readTime: '3 min read',
+    date: 'September 2026',
+    title: 'Practicing Answers Out Loud Before You Need Them',
+    excerpt:
+      'I ran through real interview questions on my commute, out loud, with no script. The gap between the answer in my head and the one that came out of my mouth taught me more than any interview guide has.',
+    status: 'published',
+    topics: ['Communication', 'Career', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `Ahead of an interview I had coming up, I used a commute to run through the questions I expected, out loud, in real time, with the camera on. [Prepping for an upcoming job interview on today's drive](https://www.youtube.com/watch?v=LeAwTweO2Wc) is that session — unedited, including the answers that didn't land on the first try.
+
+That gap, between the answer sitting in your head and the one that actually comes out of your mouth, is the whole reason this was worth doing.`,
+      },
+      {
+        heading: 'Knowing the answer is not the same as saying it',
+        body: `I knew what I wanted to say about most of those questions before I started talking. That didn't stop the first attempt at half of them from coming out circular, or landing on the point three sentences later than it should have.
+
+Thinking through an answer and saying an answer use different muscles. Interview prep that only happens silently, in your head or on a page, only trains the first one. The second one only gets built by talking, badly, until it stops being bad.`,
+      },
+      {
+        heading: 'The autopilot answer is the wrong answer',
+        body: `Around the same week I recorded [Are we actually just LLM's???](https://www.youtube.com/watch?v=2SbyJzP8gTU) — half joking, but the question stuck. A lot of what passes for a prepared answer is really a generic response pattern-matched to the question, not an actual answer to what was asked.
+
+The failure mode is the same one that shows up in an interview: someone asks a specific question, and the reply is a rehearsed paragraph that would technically answer three different questions equally badly. Practicing out loud, on a real question, is what forces a specific answer instead of a generic one.`,
+      },
+      {
+        heading: 'Rehearse the moment, not just the material',
+        body: `The material — my resume, my accomplishments, my reasons for wanting the job — I already knew. What needed rehearsal was the moment: hearing the question cold and producing a specific answer to it within a few seconds, out loud, in front of another person.
+
+That's what a commute with a camera running actually trains. Not the content of the answer — the act of producing it live.`,
+      },
+    ],
+  },
+  {
     slug: 'search-console-ai-query-data',
     source: 'on-site',
     readTime: '7 min read',

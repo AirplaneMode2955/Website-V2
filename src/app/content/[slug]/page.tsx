@@ -8,6 +8,45 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+// Inline markdown: **bold** and [text](url) links.
+function renderInline(text: string) {
+  const pattern = /\*\*(.*?)\*\*|\[([^\]]+)\]\(([^)]+)\)/g;
+  const nodes: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+    if (match[1] !== undefined) {
+      nodes.push(
+        <strong key={key++} className="text-primary font-medium">
+          {match[1]}
+        </strong>
+      );
+    } else if (match[2] !== undefined && match[3] !== undefined) {
+      nodes.push(
+        <a
+          key={key++}
+          href={match[3]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline underline-offset-2 hover:text-primary-fixed transition-colors"
+        >
+          {match[2]}
+        </a>
+      );
+    }
+    lastIndex = pattern.lastIndex;
+  }
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+  return nodes;
+}
+
 export async function generateStaticParams() {
   return articles
     .filter((a) => a.source === 'on-site')
@@ -92,22 +131,11 @@ export default async function ArticlePage({ params }: Props) {
                   </h2>
                 )}
                 <div className="space-y-5">
-                  {section.body.split('\n\n').map((para, j) => {
-                    const parts = para.split(/\*\*(.*?)\*\*/g);
-                    return (
-                      <p key={j} className="text-on-surface-variant text-lg leading-relaxed">
-                        {parts.map((part, k) =>
-                          k % 2 === 1 ? (
-                            <strong key={k} className="text-primary font-medium">
-                              {part}
-                            </strong>
-                          ) : (
-                            part
-                          )
-                        )}
-                      </p>
-                    );
-                  })}
+                  {section.body.split('\n\n').map((para, j) => (
+                    <p key={j} className="text-on-surface-variant text-lg leading-relaxed">
+                      {renderInline(para)}
+                    </p>
+                  ))}
                 </div>
               </div>
             </FadeIn>
