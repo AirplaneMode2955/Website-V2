@@ -184,7 +184,7 @@ export type GameState = {
   lastCompletedDate: string | null;
   streak: number;
   maxStreak: number;
-  history: Record<string, { score: number }>;
+  history: Record<string, { score: number; flags: boolean[] }>;
 };
 
 export function emptyState(): GameState {
@@ -216,7 +216,7 @@ export function parseState(raw: string | null): GameState {
 export function recordDaily(
   state: GameState,
   todayKey: string,
-  puzzleScore: number,
+  flags: boolean[],
 ): GameState {
   if (state.history[todayKey]) return state;
 
@@ -231,7 +231,7 @@ export function recordDaily(
     lastCompletedDate: todayKey,
     streak,
     maxStreak: Math.max(state.maxStreak, streak),
-    history: { ...state.history, [todayKey]: { score: puzzleScore } },
+    history: { ...state.history, [todayKey]: { score: score(flags), flags } },
   };
 }
 

@@ -90,23 +90,24 @@ export default function TableTalk() {
     setLocked(true);
     if (mode === 'daily') {
       setState((prev) => {
-        const updated = recordDaily(prev, today, score(f));
+        const updated = recordDaily(prev, today, f);
         saveState(updated);
         return updated;
       });
     }
   }
 
-  async function shareResult() {
-    if (!flags) return;
-    const text = shareText(today, flags);
+  async function shareResult(flagsToShare: boolean[]) {
+    const text = shareText(today, flagsToShare);
     const nav = typeof navigator !== 'undefined' ? navigator : undefined;
     if (nav && typeof nav.share === 'function') {
       try {
         await nav.share({ title: 'Table Talk', text });
         return;
-      } catch {
-        /* user dismissed the share sheet — fall through to copy */
+      } catch (err) {
+        // User dismissed the share sheet — leave it at that, don't also copy.
+        if (err instanceof Error && err.name === 'AbortError') return;
+        /* actual share failure — fall through to copy */
       }
     }
     try {
@@ -143,6 +144,12 @@ export default function TableTalk() {
                 Current streak {state.streak} · best {state.maxStreak}. Come back tomorrow
                 for a fresh five.
               </p>
+              <button
+                onClick={() => shareResult(state.history[today].flags)}
+                className="w-full border border-primary/40 text-primary px-6 py-4 rounded-md font-label uppercase tracking-luxe text-sm hover:bg-primary hover:text-on-primary transition-all"
+              >
+                {copied ? 'Copied — paste it anywhere' : 'Share my score'}
+              </button>
             </>
           ) : (
             <>
@@ -203,7 +210,7 @@ export default function TableTalk() {
           {mode !== 'practice' && (
             <>
               <button
-                onClick={shareResult}
+                onClick={() => shareResult(flags)}
                 className="w-full border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-luxe text-sm hover:bg-primary hover:text-on-primary transition-all mb-2 mt-6"
               >
                 {copied ? 'Copied — paste it anywhere' : 'Share my score'}

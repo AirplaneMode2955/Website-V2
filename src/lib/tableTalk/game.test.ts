@@ -136,6 +136,11 @@ describe('scoring', () => {
   });
 });
 
+// Builds a 5-flag array with exactly `n` trues, for feeding recordDaily in tests.
+function flagsWith(n: number): boolean[] {
+  return Array.from({ length: CLUBS_PER_PUZZLE }, (_, i) => i < n);
+}
+
 describe('parseState', () => {
   it('returns empty state for null / garbage', () => {
     expect(parseState(null)).toEqual(emptyState());
@@ -144,38 +149,38 @@ describe('parseState', () => {
   });
 
   it('round-trips a real state', () => {
-    const s = recordDaily(emptyState(), '2026-09-08', 4);
+    const s = recordDaily(emptyState(), '2026-09-08', flagsWith(4));
     expect(parseState(JSON.stringify(s))).toEqual(s);
   });
 });
 
 describe('recordDaily — streak logic', () => {
   it('first ever play starts streak at 1', () => {
-    const s = recordDaily(emptyState(), '2026-09-08', 3);
+    const s = recordDaily(emptyState(), '2026-09-08', flagsWith(3));
     expect(s.streak).toBe(1);
     expect(s.maxStreak).toBe(1);
-    expect(s.history['2026-09-08']).toEqual({ score: 3 });
+    expect(s.history['2026-09-08']).toEqual({ score: 3, flags: flagsWith(3) });
   });
 
   it('consecutive days increment the streak', () => {
-    let s = recordDaily(emptyState(), '2026-09-08', 3);
-    s = recordDaily(s, '2026-09-09', 5);
-    s = recordDaily(s, '2026-09-10', 2);
+    let s = recordDaily(emptyState(), '2026-09-08', flagsWith(3));
+    s = recordDaily(s, '2026-09-09', flagsWith(5));
+    s = recordDaily(s, '2026-09-10', flagsWith(2));
     expect(s.streak).toBe(3);
     expect(s.maxStreak).toBe(3);
   });
 
   it('a skipped day resets the streak to 1 and keeps maxStreak', () => {
-    let s = recordDaily(emptyState(), '2026-09-08', 3);
-    s = recordDaily(s, '2026-09-09', 5);
-    s = recordDaily(s, '2026-09-11', 4); // gap
+    let s = recordDaily(emptyState(), '2026-09-08', flagsWith(3));
+    s = recordDaily(s, '2026-09-09', flagsWith(5));
+    s = recordDaily(s, '2026-09-11', flagsWith(4)); // gap
     expect(s.streak).toBe(1);
     expect(s.maxStreak).toBe(2);
   });
 
   it('is idempotent for a day already recorded', () => {
-    const first = recordDaily(emptyState(), '2026-09-08', 3);
-    const again = recordDaily(first, '2026-09-08', 5);
+    const first = recordDaily(emptyState(), '2026-09-08', flagsWith(3));
+    const again = recordDaily(first, '2026-09-08', flagsWith(5));
     expect(again).toBe(first);
   });
 });
