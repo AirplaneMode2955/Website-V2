@@ -18,6 +18,40 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: 'boredom-is-a-tool-not-a-problem',
+    source: 'on-site',
+    readTime: '3 min read',
+    date: 'September 2026',
+    title: 'Boredom Is a Tool, Not a Problem',
+    excerpt:
+      'I started testing what happens on the commute when I stop filling every quiet second with a podcast or a phone. Turns out the boredom is doing something the noise was not.',
+    status: 'published',
+    topics: ['Personal Growth', 'Communication', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `There's a version of the drive to work where every second gets filled — a podcast, a call I didn't need to make yet, the phone at a red light. I've been testing what happens when I stop doing that. [Maybe we don't need more entertainment. Maybe we need to be bored again.](https://www.youtube.com/watch?v=FbU06uHqFTE) is where I said it out loud for the first time: carrying a camera on these drives has slowed me down enough to notice ordinary places and moments I would have driven past a year ago without registering them at all.
+
+That's not a small effect. Noticing is upstream of everything else on this channel — you can't talk clearly about something you never actually looked at.`,
+      },
+      {
+        heading: 'Boredom is unscheduled, not empty',
+        body: `[BE BORED we were meant to be bored. USE IT](https://www.youtube.com/watch?v=2AreBrl4NXc) is the blunter version of the same point: boredom can be a huge tool, and most of us spend real effort avoiding it. I used to think of a boring ten minutes as wasted time. It's the opposite — it's the only part of the day with nothing scheduled into it, which makes it the only part of the day where an original thought has room to show up instead of someone else's.
+
+Fill that ten minutes with a feed and you get someone else's thoughts, well produced and constantly refreshed. Leave it empty and you get your own, badly formed at first, which is exactly the raw material this whole channel runs on.`,
+      },
+      {
+        heading: 'Presence is a prerequisite for listening',
+        body: `Presence isn't a mood, it's a habit of attention — and it's the floor under listening. You cannot track what someone is actually saying, the specific words, while half your attention is somewhere else. Every communication problem I've ever had traces back to that split attention before it traces back to word choice.`,
+      },
+      {
+        heading: 'Disconnect to actually connect',
+        body: `[We need to disconnect to truly connect](https://www.youtube.com/watch?v=Gu-8qHO0I8w) is the plainest way I've put this, and it sounds backwards until you test it. Every device that promises to keep you connected is also the thing most likely to have you present in a conversation with your body only.
+
+I'm not against the phone or the podcast. I'm against never checking what a stretch of silence would have given me instead. Some of it is boring. Some of it is the sentence I needed and would not have found any other way.`,
+      },
+    ],
+  },
+  {
     slug: 'why-i-record-my-commute-to-practice-talking',
     source: 'on-site',
     readTime: '3 min read',

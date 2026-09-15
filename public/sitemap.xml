@@ -2,151 +2,157 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jettiverson.com/</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/about</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/resume</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/projects</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/case-studies</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/contact</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/play</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/play/gut-check</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/play/table-talk</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://jettiverson.com/content/boredom-is-a-tool-not-a-problem</loc>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://jettiverson.com/content/why-i-record-my-commute-to-practice-talking</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/the-x-factor-is-two-skills-colliding</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/practicing-answers-out-loud-before-you-need-them</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/search-console-ai-query-data</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/the-marketing-metric-that-was-lying</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/why-small-businesses-are-invisible-to-ai-search</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/seo-still-works-heres-what-changed</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/geo-practical-guide-for-local-businesses</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/what-it-means-to-be-big-i-best-practices-agency</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/content/ai-not-replacing-insurance-brokers</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/case-studies/organic-search</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/play/birthdle</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/play/play-me-chess</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/play/career-signature</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://jettiverson.com/play/pixel-terrarium</loc>
-    <lastmod>2026-09-14T22:12:42.585Z</lastmod>
+    <lastmod>2026-09-15T15:03:44.123Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
