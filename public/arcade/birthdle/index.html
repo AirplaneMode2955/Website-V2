@@ -825,7 +825,7 @@ document.getElementById('shareBtn').addEventListener('click', () => {
     const emoji = f => f.cls === 'exact' ? '🟩' : f.cls === 'close' ? '🟨' : '⬜';
     return emoji(mF) + emoji(dF) + emoji(yF) + emoji(cF);
   }).join('\n');
-  const text = 'Birthdle #' + puzzleNumber() + ' ' + (state.won ? state.guesses.length + '/6' : 'X/6') + '\n' + rows + '\n\nThink you can beat my score? https://birthdle-nine.vercel.app';
+  const text = 'Birthdle #' + puzzleNumber() + ' ' + (state.won ? state.guesses.length + '/6' : 'X/6') + '\n' + rows + '\n\nThink you can beat my score? https://www.jettiverson.com/play/birthdle';
   const copiedMsg = document.getElementById('copiedMsg');
   function fallbackCopy(str){
     const ta = document.createElement('textarea');
