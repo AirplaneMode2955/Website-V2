@@ -6,6 +6,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
+import ChatBot from '@/components/ChatBot';
 
 const newsreader = Newsreader({
   subsets: ['latin'],
@@ -105,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
+        <ChatBot />
         <Analytics />
         <GoogleAnalytics gaId="G-K3YWDXK69Y" />
       </body>
