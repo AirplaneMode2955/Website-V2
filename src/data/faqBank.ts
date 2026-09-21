@@ -147,6 +147,48 @@ export const faqBank: FaqEntry[] = [
     keywords: ['thanks', 'thank you', 'appreciate it', 'thx'],
     answer: "Anytime! Let me know if there's anything else you want to know about Jett.",
   },
+
+  // Fun / personality questions
+  {
+    id: 'favorite-project',
+    question: "What's Jett's favorite project?",
+    keywords: ['favorite project', 'best project', 'proudest project', 'favorite thing built', 'coolest project'],
+    answer:
+      "The chess bot in the Arcade. It doesn't drive leads or move a KPI — he just built it because it was fun.",
+  },
+  {
+    id: 'favorite-golf-course',
+    question: "What's Jett's favorite golf course?",
+    keywords: ['favorite golf course', 'best golf course', 'favorite course', 'where does jett golf', 'golf course'],
+    answer: 'Wolf Creek. Not close.',
+  },
+  {
+    id: 'fishing-spot',
+    question: "Where's Jett's favorite fishing spot?",
+    keywords: ['favorite fishing spot', 'where does jett fish', 'best fishing spot', 'fishing hole', 'fishing spot'],
+    answer: "That one's classified. Ask him in person and maybe he'll tell you.",
+  },
+  {
+    id: 'favorite-team',
+    question: 'Does Jett have a favorite soccer team?',
+    keywords: ['favorite team', 'favorite soccer team', 'football team', 'liverpool', 'supports what team', 'soccer'],
+    answer:
+      "Liverpool, no contest — there's a whole live match dashboard among his projects because of it.",
+  },
+  {
+    id: 'weirdest-automation',
+    question: "What's the weirdest thing Jett has automated?",
+    keywords: ['weirdest automation', 'weirdest thing automated', 'strangest automation', 'automated what', 'weird automation'],
+    answer:
+      "Responding to text messages. If a reply came back fast and sounded like him, there's a decent chance he didn't actually type it.",
+  },
+  {
+    id: 'useless-skill',
+    question: "What's Jett's most useless skill?",
+    keywords: ['useless skill', 'weird skill', 'random skill', 'party trick', 'hidden talent'],
+    answer:
+      "Fluent Portuguese from two years in Brazil — these days it mostly gets used to trash-talk his own fantasy football lineup.",
+  },
 ];
 
-export const suggestedQuestions = ['who', 'job', 'searchlight', 'projects', 'contact'];
+export const suggestedQuestions = ['who', 'job', 'favorite-project', 'projects', 'contact'];
