@@ -187,7 +187,7 @@ export const faqBank: FaqEntry[] = [
     question: "What's Jett's most useless skill?",
     keywords: ['useless skill', 'weird skill', 'random skill', 'party trick', 'hidden talent'],
     answer:
-      "Fluent Portuguese from two years in Brazil — these days it mostly gets used to trash-talk his own fantasy football lineup.",
+      "He built the AI chess bot in the Arcade — and it beats him more often than he'd like to admit.",
   },
 ];
 
