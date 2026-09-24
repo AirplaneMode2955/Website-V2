@@ -130,9 +130,9 @@
   .pc.w svg{filter:drop-shadow(0 1px 0 rgba(255,255,255,.55)) drop-shadow(0 -1px 0 rgba(120,70,30,.55))
       drop-shadow(1px 2px 1px rgba(60,25,0,.5)) drop-shadow(0 3px 5px rgba(0,0,0,.4));}
   .pc.b{color:var(--piece-dark);
-    text-shadow:0 1px 0 rgba(120,80,50,.45), 0 -1px 1px rgba(0,0,0,.6),
+    text-shadow:0 0 5px rgba(235,210,165,.65), 0 1px 0 rgba(120,80,50,.45), 0 -1px 1px rgba(0,0,0,.6),
       1px 2px 1px rgba(0,0,0,.55), 0 3px 5px rgba(0,0,0,.45);}
-  .pc.b svg{filter:drop-shadow(0 1px 0 rgba(120,80,50,.45)) drop-shadow(0 -1px 1px rgba(0,0,0,.6))
+  .pc.b svg{filter:drop-shadow(0 0 5px rgba(235,210,165,.65)) drop-shadow(0 1px 0 rgba(120,80,50,.45)) drop-shadow(0 -1px 1px rgba(0,0,0,.6))
       drop-shadow(1px 2px 1px rgba(0,0,0,.55)) drop-shadow(0 3px 5px rgba(0,0,0,.45));}
   .pc.drag{opacity:.4;}
   #ghost{position:fixed;font-size:44px;line-height:1;pointer-events:none;z-index:99;
@@ -244,6 +244,7 @@
     <div class="kicker" id="endKicker">Result</div>
     <h2 id="endTitle" class="mt-s">—</h2>
     <p class="big muted" id="endBlurb"></p>
+    <p class="hidden" id="endMoves" style="font-size:15px;font-weight:700;color:var(--gold);margin-top:6px;"></p>
     <div class="controls mt-l">
       <button class="primary" id="shareBtn" style="flex:2;">Share result</button>
       <button id="rematchBtn" style="flex:1;">Rematch</button>
@@ -646,6 +647,7 @@ const oppSay = $('#oppSay'), oppCap = $('#oppCap'), oppElo = $('#oppElo');
 const youTurn = $('#youTurn'), youCap = $('#youCap'), youName = $('#youName');
 const movesEl = $('#moves'), toastEl = $('#toast');
 const lbList = $('#lbList'), lbEntry = $('#lbEntry'), lbName = $('#lbName'), lbSubmit = $('#lbSubmit');
+const endMovesEl = $('#endMoves');
 
 const DIFF = [
   { name: 'Casual Jett', elo: '~1050', depth: 6, timeMs: 700, book: 0.75, slipP: 0.22, slipCp: 110, styleWindow: 28 },
@@ -970,6 +972,13 @@ function finish(kind) {
   endEl.classList.remove('hidden'); gameEl.classList.add('hidden');
   $('#endKicker').textContent = draw ? 'Drawn' : youWin ? 'You won' : 'You lost';
   $('#endTitle').textContent = reason;
+  if (youWin) {
+    endMovesEl.textContent = `You checkmated Jett in ${n} move${n === 1 ? '' : 's'}.`;
+    endMovesEl.classList.remove('hidden');
+  } else {
+    endMovesEl.classList.add('hidden');
+    endMovesEl.textContent = '';
+  }
   let share;
   const url = `${location.origin}/play/play-me-chess`;
   if (draw) { $('#endBlurb').textContent = pick(["He'll take it. Barely.", 'Honours even after ' + n + ' moves.']); share = `Beat me at chess — held The Eldrick, Jett Iverson's bot trained on 311 of his real games, to a draw in ${n} moves. ${url}`; }
