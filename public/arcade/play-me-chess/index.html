@@ -20,7 +20,7 @@
     --wood-dark-2:#38241733;
     --frame:#2f1e12;        /* board surround */
     --piece-light:#f0dcb8;  /* boxwood / maple */
-    --piece-dark:#241206;   /* dark walnut piece */
+    --piece-dark:#3a2010;   /* dark walnut piece */
     --sel:#f2c879; --hint:rgba(242,200,121,.6);
     --last:rgba(242,200,121,.34); --check:rgba(214,72,54,.6);
   }
@@ -130,10 +130,14 @@
   .pc.w svg{filter:drop-shadow(0 1px 0 rgba(255,255,255,.55)) drop-shadow(0 -1px 0 rgba(120,70,30,.55))
       drop-shadow(1px 2px 1px rgba(60,25,0,.5)) drop-shadow(0 3px 5px rgba(0,0,0,.4));}
   .pc.b{color:var(--piece-dark);
-    text-shadow:0 0 5px rgba(235,210,165,.65), 0 1px 0 rgba(120,80,50,.45), 0 -1px 1px rgba(0,0,0,.6),
-      1px 2px 1px rgba(0,0,0,.55), 0 3px 5px rgba(0,0,0,.45);}
-  .pc.b svg{filter:drop-shadow(0 0 5px rgba(235,210,165,.65)) drop-shadow(0 1px 0 rgba(120,80,50,.45)) drop-shadow(0 -1px 1px rgba(0,0,0,.6))
-      drop-shadow(1px 2px 1px rgba(0,0,0,.55)) drop-shadow(0 3px 5px rgba(0,0,0,.45));}
+    text-shadow:1.5px 0 0 rgba(245,228,190,.95), -1.5px 0 0 rgba(245,228,190,.95),
+      0 1.5px 0 rgba(245,228,190,.95), 0 -1.5px 0 rgba(245,228,190,.95),
+      1px 1px 0 rgba(245,228,190,.8), -1px 1px 0 rgba(245,228,190,.8),
+      1px -1px 0 rgba(245,228,190,.8), -1px -1px 0 rgba(245,228,190,.8),
+      0 4px 6px rgba(0,0,0,.6);}
+  .pc.b svg{filter:drop-shadow(1.5px 0 0 rgba(245,228,190,.95)) drop-shadow(-1.5px 0 0 rgba(245,228,190,.95))
+      drop-shadow(0 1.5px 0 rgba(245,228,190,.95)) drop-shadow(0 -1.5px 0 rgba(245,228,190,.95))
+      drop-shadow(0 4px 6px rgba(0,0,0,.6));}
   .pc.drag{opacity:.4;}
   #ghost{position:fixed;font-size:44px;line-height:1;pointer-events:none;z-index:99;
     transform:translate(-50%,-50%);filter:drop-shadow(0 4px 5px rgba(0,0,0,.55));display:none;}
