@@ -18,6 +18,48 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: 'why-banning-ai-development-backfires',
+    source: 'on-site',
+    readTime: '4 min read',
+    date: 'October 2026',
+    title: 'Why Halting AI Development Would Make the Danger Worse',
+    excerpt:
+      'I spent a week of Commute 2 Work episodes on the AI doom question. My conclusion: AI carries real risks, but a ban only stops the people who were going to follow the rules anyway.',
+    status: 'published',
+    topics: ['AI', 'Technology', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `Most of last week's drives went to one question: should the world stop developing AI because of what it could eventually become? I recorded it from several angles because it is the kind of topic where my first answer felt too easy.
+
+Here is where I landed. AI has real risks, and I take them seriously. But stopping innovation is not the answer, and I think a halt would make the danger worse.`,
+      },
+      {
+        heading: 'A ban only reaches the people who follow rules',
+        body: `The simplest version of my argument is the one I put in [Ban AI and only the lawbreakers have it](https://www.youtube.com/shorts/fFQBJNRmp60). People with bad intentions still get firearms, while law-abiding people refrain. The same logic applies to AI: a ban only hurts the people following the rules.
+
+Responsible companies and responsible countries will comply with a halt. Criminals and global adversaries won't necessarily do the same. [Why banning AI only helps bad actors](https://www.youtube.com/shorts/sC_gQF9Rdko) walks through that gap. You don't end up with a world without powerful AI. You end up with a world where the wrong people have it and the careful ones don't.`,
+      },
+      {
+        heading: 'Stopping also stops the defense',
+        body: `This is the part I think gets skipped. If the people trying to use AI responsibly stop developing it, we also lose our best chance to build the safeguards needed to defend against its misuse. Defense against bad AI is itself AI work. Pause that work and the attackers keep their lead.
+
+[The real danger of halting AI development](https://www.youtube.com/shorts/BgmMzRqNtfI) is the short version. [Will China stop AI innovation if we ask?](https://www.youtube.com/shorts/CUCKthX1DkM) is the geopolitical one: a polite request to slow down only works if everyone agrees to it, and there is no reason to assume they will.`,
+      },
+      {
+        heading: 'I am skeptical of the doomsday version',
+        body: `The ban argument usually rests on a bigger one, that AI will become conscious and take over. I'm skeptical of that. In [Most AI doom headlines skip this](https://www.youtube.com/shorts/7VcXeOuV14M) and [Superintelligence isn't the threat people think](https://www.youtube.com/shorts/N1fsHbSvMlo), I go through how large language models actually operate and the assumptions that have to hold before one becomes a genuine threat.
+
+Each of those assumptions is a leap. Taking risks seriously is one thing. Assuming we're headed toward a science-fiction ending, and that human extinction is inevitable, is another. I'd like the first without the second.`,
+      },
+      {
+        heading: 'What I would do instead',
+        body: `Keep building, and build responsibly: more safety work, more oversight, more accountability for the companies and people deploying these systems. That path asks more of us than a ban does, which is probably why a ban sounds appealing. It feels like a clean decision.
+
+I could be wrong, and I'd rather hear the case against me than assume I'm right. The question I keep ending the episodes on is the honest one: should AI development slow down, or would that hand an advantage to the people least likely to use it responsibly? Tell me which side you land on.`,
+      },
+    ],
+  },
+  {
     slug: 'boredom-is-a-tool-not-a-problem',
     source: 'on-site',
     readTime: '3 min read',
