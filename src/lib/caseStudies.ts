@@ -6,6 +6,12 @@ export type CaseStudyMetric = {
   source: string;
 };
 
+export type CaseStudyStat = {
+  label: string;
+  value: string;
+  note: string;
+};
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -16,6 +22,11 @@ export type CaseStudy = {
   tags: string[];
   overview: string[];
   metrics: CaseStudyMetric[];
+  blogEngine?: {
+    intro: string;
+    stats: CaseStudyStat[];
+    points: string[];
+  };
   geo: {
     intro: string;
     points: string[];
@@ -69,6 +80,46 @@ export const caseStudies: CaseStudy[] = [
         source: 'Built on the new site after the April 2026 migration',
       },
     ],
+    blogEngine: {
+      intro:
+        'I built and run an automated workflow for the agency blog. It handles ideation, drafting, grading, revision, and publishing. It posts once a week, runs on its own, and saves me 3–5 hours every week.',
+      stats: [
+        {
+          label: 'Search impressions',
+          value: '20,462',
+          note: 'Blog and content pages · Jul 9 – Oct 6, 2026 · Search Console',
+        },
+        {
+          label: 'Average position',
+          value: '16.3',
+          note: 'Impression-weighted · same window',
+        },
+        {
+          label: 'Search clicks',
+          value: '109',
+          note: 'From 21 pages that earned at least one click',
+        },
+        {
+          label: 'Share of site impressions',
+          value: '27%',
+          note: '24% of the site’s search clicks · 77,149 impressions and 445 clicks site-wide',
+        },
+        {
+          label: 'Publishing cadence',
+          value: '1 / week',
+          note: 'Runs without manual steps',
+        },
+        {
+          label: 'Time saved',
+          value: '3–5 hrs / wk',
+          note: 'Versus writing and posting by hand',
+        },
+      ],
+      points: [
+        '50 of the 59 pages in this group earned impressions in the first 90 days.',
+        'Visibility is ahead of clicks: 109 clicks on 20,462 impressions is a 0.53% click-through rate. The life insurance cost post sits at position 2.2 with 3 clicks, which points to a title and meta description problem, so that is the next fix.',
+      ],
+    },
     geo: {
       intro:
         'GEO is generative-engine optimization — showing up inside AI answers, not just the ten blue links. I ran a GEO audit across the four assistants people actually use: ChatGPT, Claude, Gemini, and Perplexity. It scored the agency’s visibility at 61/100.',
@@ -82,6 +133,7 @@ export const caseStudies: CaseStudy[] = [
       "This is the same SEO and GEO practice I’m building into SearchLight Digital, my own agency (pre-launch). It’s kept separate from my work at The Insurance Center.",
     disclosures: [
       'Data integrity: while pulling this data I caught a tracking anomaly — two GA4 properties spiking almost identically in a way Search Console didn’t support. I excluded it instead of reporting it as growth. Every number above is what held up after that.',
+      'The blog engine figures cover the 59 content URLs in the site’s sitemap group for blog and content pages (Search Console and GA4, Jul 9 – Oct 6, 2026). That group includes a few service and location pages and event recaps, so not every page in it came out of the automated workflow.',
       "One thread of this work connects to an active prospect — an ongoing business relationship I don’t identify here.",
     ],
   },
