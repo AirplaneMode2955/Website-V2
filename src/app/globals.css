@@ -61,6 +61,63 @@ body {
   animation: arcade-tile 2.8s ease-in-out infinite;
 }
 
+/* ── Motion upgrades ─────────────────────────────────────────────── */
+
+/* Project cards: tilt toward the cursor (driven by <TiltCard />) */
+.tilt-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 50%;
+  position: relative;
+  overflow: hidden;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+}
+
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: radial-gradient(320px circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.12), transparent 60%);
+}
+
+.tilt-card:hover .tilt-glare {
+  opacity: 1;
+}
+
+/* Photo wall: zoom, dim the others, caption slides up from the alt text */
+.photo-wall .photo img {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s;
+}
+
+.photo-wall .photo figcaption {
+  transform: translateY(100%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.photo-wall .photo:hover img,
+.photo-wall .photo:focus-visible img {
+  transform: scale(1.06);
+}
+
+.photo-wall .photo:hover figcaption,
+.photo-wall .photo:focus-visible figcaption {
+  transform: none;
+}
+
+.photo-wall:hover .photo:not(:hover) img {
+  filter: saturate(0.6) brightness(0.75);
+}
+
+@media (hover: none) {
+  .photo-wall .photo figcaption {
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .arcade-tile {
     animation: none;

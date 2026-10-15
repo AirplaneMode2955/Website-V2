@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Image from 'next/image';
-import MotionCard from '@/components/MotionCard';
+import TiltCard from '@/components/motion/TiltCard';
+import InkUnderline from '@/components/motion/InkUnderline';
 
 export const metadata: Metadata = {
   title: 'Projects',
@@ -142,7 +143,7 @@ export default function ProjectsPage() {
               Work
             </span>
             <h1 className="font-headline italic text-6xl md:text-8xl text-primary leading-tight mb-4">
-              Projects
+              <InkUnderline variant="swoop">Projects</InkUnderline>
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
               Systems and tools built to make complex work simple. Mostly for The Insurance Center,
@@ -202,7 +203,7 @@ export default function ProjectsPage() {
         <div className="max-w-screen-2xl mx-auto space-y-12">
           {projects.map((project, i) => (
             <FadeIn key={project.title} delay={i * 0.05}>
-              <MotionCard>
+              <TiltCard max={3} className="rounded-[1.25rem]">
               <div className="bg-surface-container-highest rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft hover:shadow-premium transition-shadow duration-300">
                 <div className="grid grid-cols-1 md:grid-cols-5">
                   {/* Image */}
@@ -277,7 +278,7 @@ export default function ProjectsPage() {
                   </div>
                 </div>
               </div>
-              </MotionCard>
+              </TiltCard>
             </FadeIn>
           ))}
         </div>

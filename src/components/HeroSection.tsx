@@ -3,6 +3,13 @@
 import { useScroll, useTransform, motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRef } from 'react';
+import PaperAirplane from '@/components/motion/PaperAirplane';
+import RotatingWord from '@/components/motion/RotatingWord';
+import InkUnderline from '@/components/motion/InkUnderline';
+
+// Last slot of the tagline cycles through these. Edit freely.
+const TAGLINE_WORDS = ['Driven by curiosity.', 'Golfer.', 'Fisherman.', 'Woodworker.', 'Figuring it out.'];
 
 const container = {
   hidden: {},
@@ -11,12 +18,16 @@ const container = {
 
 export default function HeroSection() {
   const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const akaRef = useRef<HTMLSpanElement>(null);
   const { scrollY } = useScroll();
   const parallax = useTransform(scrollY, [0, 800], [0, 160]);
   const bgY = reduce ? 0 : parallax;
 
   const line = {
-    hidden: { opacity: 0, y: reduce ? 0 : 36 },
+    // Opacity stays 1 so the H1 paints before JavaScript loads (LCP).
+    // The overflow-hidden wrappers still give the rise-from-a-mask reveal.
+    hidden: { opacity: 1, y: reduce ? 0 : 36 },
     show: {
       opacity: 1,
       y: 0,
@@ -25,7 +36,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative -mt-24 px-8 pt-32 pb-20 overflow-hidden min-h-[940px] flex items-center grain bg-background">
+    <section ref={sectionRef} className="relative -mt-24 px-8 pt-32 pb-20 overflow-hidden min-h-[940px] flex items-center grain bg-background">
       {/* Background image with parallax */}
       <div className="absolute inset-0 opacity-30 overflow-hidden">
         <motion.div className="absolute inset-[-20%]" style={{ y: bgY }}>
@@ -62,6 +73,7 @@ export default function HeroSection() {
 
           <div className="overflow-hidden">
             <motion.span
+              ref={akaRef}
               variants={line}
               className="inline-block font-label text-sm uppercase tracking-luxe text-secondary mb-6"
             >
@@ -75,7 +87,7 @@ export default function HeroSection() {
               className="text-on-surface-variant font-headline italic mb-8 leading-snug whitespace-nowrap"
               style={{ fontSize: 'clamp(0.75rem, 3.5vw, 1.5rem)' }}
             >
-              Marketer. Husband. Driven by curiosity.
+              Marketer. Husband. <RotatingWord words={TAGLINE_WORDS} className="text-primary" />
             </motion.p>
           </div>
 
@@ -116,13 +128,17 @@ export default function HeroSection() {
           </div>
           {/* Quote card */}
           <div className="absolute -bottom-8 -left-4 md:-left-10 w-60 bg-secondary-container text-on-secondary-container p-6 rounded-[1rem] shadow-soft border border-white/5">
-            <p className="font-headline italic text-2xl mb-2">&ldquo;Figure it out&rdquo;</p>
+            <p className="font-headline italic text-2xl mb-4">
+              <InkUnderline variant="wave" delay={1.6}>&ldquo;Figure it out&rdquo;</InkUnderline>
+            </p>
             <p className="font-label text-[10px] uppercase tracking-luxe text-on-secondary-container/60">
               Philosophy Statement
             </p>
           </div>
         </motion.div>
       </div>
+
+      <PaperAirplane containerRef={sectionRef} targetRef={akaRef} />
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
+import InkUnderline from '@/components/motion/InkUnderline';
 import { caseStudies } from '@/lib/caseStudies';
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default function CaseStudiesPage() {
               Results
             </span>
             <h1 className="font-headline italic text-6xl md:text-8xl text-primary leading-tight mb-4">
-              Case Studies
+              Case <InkUnderline variant="swoop">Studies</InkUnderline>
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
               Longer write-ups of specific work — what the problem was, what I did, and the

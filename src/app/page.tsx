@@ -3,6 +3,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
 import { getOnSiteArticles } from '@/lib/articles';
+import InkUnderline from '@/components/motion/InkUnderline';
+import CountUpStats, { type Stat } from '@/components/motion/CountUpStats';
+import TiltCard from '@/components/motion/TiltCard';
+
+const adsStats: Stat[] = [
+  { label: 'Impressions', value: 7.4, format: 'multiplier', before: 69200, after: 513980, beforeLabel: '69,200', afterLabel: '513,980' },
+  { label: 'Clicks', value: 7.9, format: 'multiplier', before: 2060, after: 16372, beforeLabel: '2,060', afterLabel: '16,372' },
+  { label: 'Inbound Calls', value: 105, format: 'percent', before: 181, after: 371, beforeLabel: '181', afterLabel: '371' },
+  { label: 'Digital Premium', value: 490713, format: 'currency', after: 490713, beforeLabel: '—', afterLabel: '$490,713', note: '306 policies' },
+];
 
 const featuredProjects = [
   {
@@ -41,7 +51,8 @@ export default function Home() {
                 About
               </span>
               <h2 className="font-headline italic text-5xl text-primary mb-6 leading-tight">
-                Marketing student.<br />AI-driven.
+                Marketing student.<br />
+                <InkUnderline variant="flick">AI-driven.</InkUnderline>
               </h2>
               <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
                 Studying Marketing at Utah State University&apos;s Huntsman School of Business —
@@ -180,8 +191,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {featuredProjects.map((project, i) => (
-              <FadeIn key={project.title} delay={i * 0.1}>
-                <div className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 h-full flex flex-col hover:border-primary/20 transition-colors">
+              <FadeIn key={project.title} delay={i * 0.1} className="h-full">
+                <TiltCard className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 flex flex-col hover:border-primary/20">
                   <div className="flex flex-wrap gap-2 mb-3">
                     {project.tags.slice(0, 2).map((tag) => (
                       <span
@@ -209,7 +220,7 @@ export default function Home() {
                       <span className="material-symbols-outlined text-sm">open_in_new</span>
                     </a>
                   )}
-                </div>
+                </TiltCard>
               </FadeIn>
             ))}
           </div>
@@ -235,7 +246,9 @@ export default function Home() {
             <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
               Results
             </span>
-            <h2 className="font-headline italic text-5xl text-primary mb-4">By the numbers</h2>
+            <h2 className="font-headline italic text-5xl text-primary mb-4">
+              By the <InkUnderline variant="flick">numbers</InkUnderline>
+            </h2>
             <p className="text-on-surface-variant text-lg mb-6 max-w-xl">
               Real outcomes from real campaigns. These are the numbers behind the work at The Insurance Center.
             </p>
@@ -271,28 +284,7 @@ export default function Home() {
                   tighter audience targeting, and landing pages optimized for insurance intent. The results compounded fast.
                 </p>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-white/[0.06]">
-                {[
-                  { label: 'Impressions', before: '69,200', after: '513,980', change: '7.4×' },
-                  { label: 'Clicks', before: '2,060', after: '16,372', change: '7.9×' },
-                  { label: 'Inbound Calls', before: '181', after: '371', change: '+105%' },
-                  { label: 'Digital Premium', before: '—', after: '$490,713', change: '306 policies' },
-                ].map((stat) => (
-                  <div key={stat.label} className="p-8 flex flex-col gap-3">
-                    <p className="font-label text-[10px] uppercase tracking-luxe text-outline">{stat.label}</p>
-                    <div>
-                      <p className="font-headline italic text-4xl md:text-5xl text-primary leading-none">
-                        {stat.change}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 text-on-surface-variant text-xs">
-                      <span>{stat.before}</span>
-                      <span className="material-symbols-outlined text-sm text-primary/40">arrow_forward</span>
-                      <span className="text-primary">{stat.after}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <CountUpStats stats={adsStats} />
             </div>
           </FadeIn>
 
@@ -420,10 +412,10 @@ export default function Home() {
               Life
             </span>
             <h2 className="font-headline italic text-5xl text-primary mb-12">
-              Outside the office
+              Outside the <InkUnderline variant="flick">office</InkUnderline>
             </h2>
           </FadeIn>
-          <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+          <div className="photo-wall columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
             {[
               { src: '/fishing-pond-golden.jpg', alt: 'Fishing a still pond at golden hour with the dog watching, Utah foothills behind' },
               { src: '/couple-forest-hillside.jpg', alt: 'Jett and his wife on a wooded hillside with the dog' },
@@ -449,7 +441,7 @@ export default function Home() {
               { src: '/Fishing w leo.JPEG', alt: 'Teaching a toddler to fish on the river' },
             ].map((photo) => (
               <FadeIn key={photo.src} className="break-inside-avoid">
-                <div className="relative overflow-hidden rounded-[0.75rem]">
+                <figure tabIndex={0} className="photo relative m-0 overflow-hidden rounded-[0.75rem] outline-none focus-visible:ring-2 focus-visible:ring-primary">
                   <Image
                     src={photo.src}
                     alt={photo.alt}
@@ -458,7 +450,13 @@ export default function Home() {
                     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="w-full h-auto object-cover"
                   />
-                </div>
+                  <figcaption
+                    aria-hidden="true"
+                    className="absolute inset-x-0 bottom-0 px-3 pb-2.5 pt-8 font-headline italic text-sm md:text-[15px] leading-snug text-white bg-gradient-to-t from-[#0f140f]/90 to-transparent"
+                  >
+                    {photo.alt}
+                  </figcaption>
+                </figure>
               </FadeIn>
             ))}
           </div>
@@ -470,7 +468,8 @@ export default function Home() {
         <div className="max-w-screen-2xl mx-auto text-center">
           <FadeIn>
             <h2 className="font-headline italic text-5xl md:text-6xl text-on-primary-container mb-4 leading-tight">
-              Let&apos;s build something<br />worth talking about.
+              Let&apos;s build something<br />
+              <InkUnderline variant="swoop" color="text-secondary">worth talking about.</InkUnderline>
             </h2>
             <p className="text-on-primary-container/70 text-lg mb-10 max-w-xl mx-auto">
               Always open to ambitious projects that blend technical precision with creative

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
+import InkUnderline from '@/components/motion/InkUnderline';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -85,7 +86,7 @@ export default function ContactPage() {
               Say hello
             </span>
             <h1 className="font-headline italic text-6xl md:text-8xl text-primary leading-tight mb-4">
-              Let&apos;s talk.
+              Let&apos;s <InkUnderline variant="flick">talk.</InkUnderline>
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
               Always open to ambitious projects that blend technical precision with creative

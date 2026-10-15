@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Image from 'next/image';
 import TimelineLine from '@/components/TimelineLine';
+import InkUnderline from '@/components/motion/InkUnderline';
 import { lifePhotos } from '@/data/lifePhotos';
 
 export const metadata: Metadata = {
@@ -177,7 +178,9 @@ export default function AboutPage() {
             <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
               The timeline
             </span>
-            <h2 className="font-headline italic text-5xl text-primary mb-10">Life so far.</h2>
+            <h2 className="font-headline italic text-5xl text-primary mb-10">
+              Life <InkUnderline variant="wave">so far.</InkUnderline>
+            </h2>
           </FadeIn>
 
           <div className="relative">
