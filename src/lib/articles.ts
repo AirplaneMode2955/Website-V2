@@ -18,6 +18,42 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: 'the-rejection-taught-me-more-than-the-interview-did',
+    source: 'on-site',
+    readTime: '3 min read',
+    date: 'October 2026',
+    title: 'The Rejection Taught Me More Than the Interview Did',
+    excerpt:
+      'Months of applying, a final-round interview that felt fine, then the email. I talked through all of it on camera instead of sitting on it, and the part worth keeping had nothing to do with the job.',
+    status: 'published',
+    topics: ['Personal Growth', 'Career', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `Months of applying for one job, a final interview that felt fine but not great, then the rejection email. [I wanted this job so bad. Then the email came.](https://www.youtube.com/watch?v=WFyieC6Chyo) is where I started telling this one, and [I made the final interview. I didn't get the job.](https://www.youtube.com/watch?v=Hfer3jq_N9Q) is where I actually sat with what it felt like.
+
+I recorded both on the drive instead of waiting until I'd made peace with it off camera. That's the whole point of this channel — process it out loud, badly, before it's tidy.`,
+      },
+      {
+        heading: "'It felt fine' is not the same as 'it worked'",
+        body: `Walking out of that interview, I thought it went fine. Not great, not a disaster — fine. That turned out to be the least useful read I had on the whole thing.
+
+Fine is a feeling about the room, not a measurement of the outcome. I've started treating my own in-the-moment read of an interview as close to worthless. The signal that actually matters shows up days later, in an email, and no amount of a good feeling walking out the door changes what's already decided on the other side.`,
+      },
+      {
+        heading: 'Who you call first tells you what actually matters',
+        body: `[I called my wife the second I got rejected](https://www.youtube.com/watch?v=Ao48ozcUNso) is the smaller moment, and it's the one I keep coming back to. Izzy didn't try to fix it or talk me into a silver lining. She just kept telling me how proud she was, which is a strange thing to hear right after a rejection and exactly the thing that actually helped.
+
+A job either comes through or it doesn't. Who you call the second it doesn't is a much better read on what you've actually built than anything on the resume that just got turned down.`,
+      },
+      {
+        heading: "What I'm taking into the next one",
+        body: `A rejection is one piece of data about one specific match, not a verdict on the work I've put in. I'd rather say that out loud on a commute than quietly believe the worse version of it in private.
+
+Next application, same process: apply, show up, talk about how it actually went afterward instead of editing the story down to the parts that make me look fine. Fine was never the goal anyway.`,
+      },
+    ],
+  },
+  {
     slug: 'why-banning-ai-development-backfires',
     source: 'on-site',
     readTime: '4 min read',
