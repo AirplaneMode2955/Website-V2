@@ -1,22 +1,13 @@
 import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Image from 'next/image';
-import TimelineLine from '@/components/TimelineLine';
+import TrailTimeline, { type TimelineEvent } from '@/components/TrailTimeline';
 import InkUnderline from '@/components/motion/InkUnderline';
 import { lifePhotos } from '@/data/lifePhotos';
 
 export const metadata: Metadata = {
   title: 'About',
   description: 'The story of Jett Iverson. From Plain City, Utah to marketing and AI strategy.',
-};
-
-type TimelineEvent = {
-  date: string;
-  title: string;
-  description: string;
-  category: 'personal' | 'education' | 'career';
-  image?: string;
-  imageAspect?: string;
 };
 
 const timelineEvents: TimelineEvent[] = [
@@ -66,7 +57,6 @@ const timelineEvents: TimelineEvent[] = [
       'Earned my insurance license and was promoted to Licensed Agent. Learning the business from the ground up made the marketing work that followed much more grounded in reality.',
     category: 'career',
     image: '/Jett Headshot.jpg',
-    imageAspect: 'aspect-[3/4]',
   },
   {
     date: 'Fall 2024',
@@ -75,7 +65,6 @@ const timelineEvents: TimelineEvent[] = [
       "Enrolled at Utah State University to pursue a Bachelor's degree. Balancing school, work, and a rapidly growing interest in AI systems and marketing technology.",
     category: 'education',
     image: '/Utah State University.JPEG',
-    imageAspect: 'aspect-[3/4]',
   },
   {
     date: 'October 2024',
@@ -116,30 +105,6 @@ const timelineEvents: TimelineEvent[] = [
   },
 ];
 
-const categoryStyles = {
-  personal: {
-    icon: 'favorite',
-    iconBg: 'bg-primary/15',
-    iconColor: 'text-primary',
-    badge: 'bg-primary/10 text-primary',
-    label: 'Personal',
-  },
-  education: {
-    icon: 'school',
-    iconBg: 'bg-secondary/15',
-    iconColor: 'text-secondary',
-    badge: 'bg-secondary/10 text-secondary',
-    label: 'Education',
-  },
-  career: {
-    icon: 'rocket_launch',
-    iconBg: 'bg-accent/15',
-    iconColor: 'text-accent',
-    badge: 'bg-accent/10 text-accent',
-    label: 'Career',
-  },
-};
-
 export default function AboutPage() {
   return (
     <>
@@ -172,8 +137,8 @@ export default function AboutPage() {
       </section>
 
       {/* ── Timeline ── */}
-      <section className="py-16 px-8 bg-background">
-        <div className="max-w-screen-2xl mx-auto">
+      <section className="pt-16 bg-background">
+        <div className="max-w-screen-2xl mx-auto px-8">
           <FadeIn>
             <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
               The timeline
@@ -183,161 +148,9 @@ export default function AboutPage() {
             </h2>
           </FadeIn>
 
-          <div className="relative">
-            <TimelineLine />
-
-            <div className="space-y-0">
-              {timelineEvents.map((event, i) => {
-                const styles = categoryStyles[event.category];
-                const isRight = i % 2 === 0;
-
-                return (
-                  <FadeIn key={event.title} delay={0.05} className="relative">
-                    {/* Mobile layout */}
-                    <div className="md:hidden pl-10 pb-7">
-                      <div className={`absolute -left-[5px] top-1 w-8 h-8 rounded-lg ${styles.iconBg} flex items-center justify-center`}>
-                        <span className={`material-symbols-outlined text-base ${styles.iconColor}`}>
-                          {styles.icon}
-                        </span>
-                      </div>
-                      <div className="mb-1">
-                        <span className="font-label text-[10px] uppercase tracking-luxe text-outline">
-                          {event.date}
-                        </span>
-                      </div>
-                      <div className="bg-surface-container-high rounded-[1rem] overflow-hidden border border-white/[0.08]">
-                        {event.image && (
-                          <div className={`relative w-full ${event.imageAspect ?? 'aspect-[4/3]'}`}>
-                            <Image
-                              src={event.image}
-                              alt={event.title}
-                              fill
-                              sizes="(max-width: 768px) 100vw, 480px"
-                              className="object-cover"
-                            />
-                          </div>
-                        )}
-                        <div className="p-4">
-                          <h3 className="font-headline italic text-lg text-primary mb-1">
-                            {event.title}
-                          </h3>
-                          <span
-                            className={`inline-block font-label text-[10px] uppercase tracking-luxe px-2 py-0.5 rounded-full mb-2 ${styles.badge}`}
-                          >
-                            {styles.label}
-                          </span>
-                          <p className="text-on-surface-variant text-sm leading-relaxed">
-                            {event.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Desktop layout: alternating */}
-                    <div className="hidden md:grid md:grid-cols-2 md:gap-8 pb-7">
-                      {isRight ? (
-                        <>
-                          <div className="text-right pr-12">
-                            <span className="font-label text-[10px] uppercase tracking-luxe text-outline block mb-2">
-                              {event.date}
-                            </span>
-                            <div className="bg-surface-container-high rounded-[1rem] overflow-hidden border border-white/[0.08] inline-block text-left max-w-sm ml-auto">
-                              {event.image && (
-                                <div className={`relative w-full ${event.imageAspect ?? 'aspect-[4/3]'}`}>
-                                  <Image
-                                    src={event.image}
-                                    alt={event.title}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 384px"
-                                    className="object-cover"
-                                  />
-                                </div>
-                              )}
-                              <div className="p-5">
-                                <h3 className="font-headline italic text-lg text-primary mb-1">
-                                  {event.title}
-                                </h3>
-                                <span
-                                  className={`inline-block font-label text-[10px] uppercase tracking-luxe px-2 py-0.5 rounded-full mb-2 ${styles.badge}`}
-                                >
-                                  {styles.label}
-                                </span>
-                                <p className="text-on-surface-variant text-sm leading-relaxed">
-                                  {event.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="relative pl-12">
-                            <div className={`absolute -left-[16px] top-5 w-8 h-8 rounded-lg ${styles.iconBg} flex items-center justify-center`}>
-                              <span className={`material-symbols-outlined text-base ${styles.iconColor}`}>
-                                {styles.icon}
-                              </span>
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="relative pr-12 flex justify-end">
-                            <div className={`absolute -right-[16px] top-5 w-8 h-8 rounded-lg ${styles.iconBg} flex items-center justify-center`}>
-                              <span className={`material-symbols-outlined text-base ${styles.iconColor}`}>
-                                {styles.icon}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="pl-12">
-                            <span className="font-label text-[10px] uppercase tracking-luxe text-outline block mb-2">
-                              {event.date}
-                            </span>
-                            <div className="bg-surface-container-high rounded-[1rem] overflow-hidden border border-white/[0.08] max-w-sm">
-                              {event.image && (
-                                <div className={`relative w-full ${event.imageAspect ?? 'aspect-[4/3]'}`}>
-                                  <Image
-                                    src={event.image}
-                                    alt={event.title}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 384px"
-                                    className="object-cover"
-                                  />
-                                </div>
-                              )}
-                              <div className="p-5">
-                                <h3 className="font-headline italic text-lg text-primary mb-1">
-                                  {event.title}
-                                </h3>
-                                <span
-                                  className={`inline-block font-label text-[10px] uppercase tracking-luxe px-2 py-0.5 rounded-full mb-2 ${styles.badge}`}
-                                >
-                                  {styles.label}
-                                </span>
-                                <p className="text-on-surface-variant text-sm leading-relaxed">
-                                  {event.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </FadeIn>
-                );
-              })}
-            </div>
-
-            {/* "More to come" marker */}
-            <FadeIn className="relative">
-              <div className="md:hidden pl-10 pb-4">
-                <div className="absolute -left-[5px] top-1 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-base text-primary/40">more_horiz</span>
-                </div>
-                <p className="font-headline italic text-primary/50 text-lg">More to come…</p>
-              </div>
-              <div className="hidden md:flex justify-center">
-                <p className="font-headline italic text-primary/50 text-lg">More to come…</p>
-              </div>
-            </FadeIn>
-          </div>
         </div>
+
+        <TrailTimeline events={timelineEvents} />
       </section>
 
       {/* ── Bio ── */}
