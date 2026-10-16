@@ -176,7 +176,7 @@ function buildGeometry(w: number, n: number) {
   const stops: Stop[] = ys.map((y, i) => {
     if (mobile) {
       const x = i % 2 ? 88 : 44;
-      return { x, y, side: "right", cardWidth: w - 128 - 16, cardOffset: 128 - x, revealY: 0 };
+      return { x, y, side: "right", cardWidth: Math.min(w - 128 - 16, 440), cardOffset: 128 - x, revealY: 0 };
     }
     const left = i % 2 === 0;
     return {
