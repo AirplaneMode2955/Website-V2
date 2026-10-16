@@ -90,7 +90,14 @@ export const faqBank: FaqEntry[] = [
     question: 'What does Jett do outside of work?',
     keywords: ['hobbies', 'free time', 'outside of work', 'fun', 'golf', 'fishing', 'snowmobiling', 'personal life', 'life outside the office'],
     answer:
-      "Outside the office, Jett is usually outside, period — golf, fishing, and snowmobiling in the Utah mountains. He grew up playing golf and soccer at Fremont High School and still gets out on the course whenever he can.",
+      "Outside the office, Jett is usually outside, period: golf and fishing in the Utah mountains. He also does woodworking, hangs out with Roxie, his husky rottweiler mix, and records the Commute 2 Work podcast on his drive. He grew up playing golf and soccer at Fremont High School and still gets out on the course whenever he can.",
+  },
+  {
+    id: 'podcast',
+    question: 'What is Commute 2 Work?',
+    keywords: ['podcast', 'commute 2 work', 'commute to work', 'youtube', 'channel', 'shorts', 'episodes'],
+    answer:
+      "Commute 2 Work is Jett's YouTube podcast, recorded from the driver's seat. He uses his commute to think out loud about AI, careers, and the algorithm, get better at YouTube, and automate the whole channel. Start at the Podcast page or youtube.com/@Commute2Work.",
   },
   {
     id: 'ai',

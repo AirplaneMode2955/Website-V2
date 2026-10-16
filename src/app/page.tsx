@@ -239,6 +239,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Podcast Teaser ── */}
+      <section className="py-28 px-8 bg-background border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              Podcast
+            </span>
+            <h2 className="font-headline italic text-5xl text-primary mb-6">
+              Commute 2 <InkUnderline variant="flick">Work</InkUnderline>
+            </h2>
+            <p className="text-on-surface-variant text-lg mb-8 max-w-2xl leading-relaxed">
+              A podcast recorded from the driver&apos;s seat. I turned my commute into a place to
+              think out loud about AI, careers, and the algorithm, and I&apos;m automating the
+              whole channel along the way.
+            </p>
+            <Link
+              href="/podcast"
+              className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
+            >
+              Where to start
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
+          </FadeIn>
+        </div>
+      </section>
+
       {/* ── Case Studies ── */}
       <section className="py-28 px-8 bg-surface-container-low border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto">

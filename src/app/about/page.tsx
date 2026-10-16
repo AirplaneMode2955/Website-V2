@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Image from 'next/image';
+import Link from 'next/link';
 import TrailTimeline, { type TimelineEvent } from '@/components/TrailTimeline';
 import InkUnderline from '@/components/motion/InkUnderline';
 import { lifePhotos } from '@/data/lifePhotos';
@@ -130,7 +131,7 @@ export default function AboutPage() {
               About Me
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
-              Utah raised. Mission-hardened. Endlessly curious about how things work.
+              Marketer, husband, Roxie&apos;s human. I figure things out, usually on the drive to work.
             </p>
           </FadeIn>
         </div>
@@ -163,8 +164,8 @@ export default function AboutPage() {
             <FadeIn className="md:col-span-2 space-y-6 text-on-surface-variant leading-relaxed text-lg">
               <p>
                 I grew up in Plain City, Utah. Small town, mountains out the back door, and not
-                much traffic in either sense of the word. Golf, fishing, snowmobiling. If it was
-                outside, I was there. That part hasn&apos;t changed.
+                much traffic in either sense of the word. Golf and fishing are still how I
+                reset, and these days I&apos;ve added woodworking to the pile.
               </p>
               <p>
                 After high school I spent two years in Brazil on an LDS mission. It reset my
@@ -173,11 +174,20 @@ export default function AboutPage() {
                 sense of what I actually want to build.
               </p>
               <p>
-                Now I&apos;m balancing a marketing degree at Utah State, running the full marketing
-                operation at The Insurance Center, and building AI systems that make repetitive work
-                disappear. I married my best friend in August 2025. I&apos;m driven by the gap
-                between what&apos;s possible and what most people think is possible, and I&apos;m
-                not close to done figuring that out.
+                Now I&apos;m finishing a marketing degree at Utah State and running marketing at
+                The Insurance Center, where I plan to keep learning and stacking experience. On the
+                side I&apos;m obsessed with AI: building systems that make repetitive work
+                disappear, and teaching myself how far they can go. I married my best friend,
+                Izzy, in August 2025. We have a husky rottweiler mix named Roxie who runs the house.
+              </p>
+              <p>
+                I also turned my commute into a podcast. Commute 2 Work is me talking out loud in
+                the driver&apos;s seat, working through what I&apos;m learning about AI, careers, and
+                the algorithm, and slowly automating the whole channel.{' '}
+                <Link href="/podcast" className="text-primary underline underline-offset-4">
+                  Listen in
+                </Link>
+                .
               </p>
             </FadeIn>
 
@@ -192,7 +202,10 @@ export default function AboutPage() {
                     { icon: 'school', text: 'Utah State University' },
                     { icon: 'work', text: 'Acting Director of Marketing, TICU' },
                     { icon: 'favorite', text: 'Married, August 2025' },
+                    { icon: 'pets', text: 'Dog dad to Roxie' },
                     { icon: 'golf_course', text: 'Golf & fishing' },
+                    { icon: 'carpenter', text: 'Woodworking' },
+                    { icon: 'mic', text: 'Host, Commute 2 Work' },
                     { icon: 'smart_toy', text: 'AI & automation nerd' },
                   ].map(({ icon, text }) => (
                     <li
@@ -233,7 +246,7 @@ export default function AboutPage() {
             </h2>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 icon: 'search',
@@ -252,6 +265,12 @@ export default function AboutPage() {
                 title: 'AI systems & automation',
                 description:
                   'This site included — I build with AI agents rather than around them. Lead scoring, review workflows, content pipelines, even the chess bot in the Arcade. If a process repeats, I try to make it disappear.',
+              },
+              {
+                icon: 'mic',
+                title: 'Commute 2 Work',
+                description:
+                  'My drive-time podcast on YouTube. A place to think out loud, get better at the algorithm, and automate the whole channel, from cutting Shorts to scheduling and uploads.',
               },
             ].map((item) => (
               <FadeIn key={item.title}>

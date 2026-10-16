@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/resume', label: 'Resume' },
   { href: '/projects', label: 'Projects' },
   { href: '/content', label: 'Content' },
+  { href: '/podcast', label: 'Podcast' },
   { href: '/contact', label: 'Contact' },
   { href: '/play', label: 'Play' },
 ];
@@ -53,13 +54,13 @@ export default function Nav() {
             className="h-12 w-auto"
             style={{ filter: 'invert(1) brightness(0.85)' }}
           />
-          <span className="font-headline italic text-xl text-primary tracking-tight">
+          <span className="font-headline italic text-xl text-primary tracking-tight whitespace-nowrap">
             Jett Iverson
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-5 lg:gap-10">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -78,7 +79,7 @@ export default function Nav() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden material-symbols-outlined text-primary text-3xl"
+          className="md:!hidden material-symbols-outlined text-primary text-3xl"
           aria-label="Toggle navigation menu"
           aria-expanded={menuOpen}
         >
