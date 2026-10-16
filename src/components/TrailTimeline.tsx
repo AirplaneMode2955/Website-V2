@@ -74,38 +74,40 @@ const TOP: [number, number, number] = [150, -42, -7];
 const FINISH: [number, number, number] = [-142, -104, -9];
 const CARRY: [number, number, number] = [-12, -125, 0];
 
-/** One clean shot. Ball launches exactly at t = 0.17. */
+/** One clean shot: swing at the start, then walk after it. Ball launches at t = 0.09. */
 const SHOT_KEYS: Key[] = [
   [0, ...ADDRESS],
-  [0.02, ...ADDRESS],
-  [0.12, ...TOP, easeInOut],
-  [0.17, ...ADDRESS, easeIn],
-  [0.27, ...FINISH, easeOut],
-  [0.33, ...FINISH],
-  [0.46, ...CARRY, easeInOut],
-  [0.92, ...CARRY],
-  [1, ...ADDRESS, easeInOut],
+  [0.01, ...ADDRESS],
+  [0.05, ...TOP, easeInOut],
+  [0.09, ...ADDRESS, easeIn],
+  [0.17, ...FINISH, easeOut],
+  [0.2, ...FINISH],
+  [0.28, ...CARRY, easeInOut],
+  [0.62, ...CARRY],
+  [0.68, ...ADDRESS, easeInOut],
+  [1, ...ADDRESS],
 ];
 
-/** A miss, a walk to the ball, then a second swing. Impacts at t = 0.09 and t = 0.57. */
+/** A miss, a walk to the ball, then a second swing. Impacts at t = 0.06 and t = 0.5. */
 const MISS_KEYS: Key[] = [
   [0, ...ADDRESS],
   [0.01, ...ADDRESS],
-  [0.04, ...TOP, easeInOut],
-  [0.09, ...ADDRESS, easeIn],
-  [0.17, ...FINISH, easeOut],
-  [0.22, ...FINISH],
-  [0.3, ...CARRY, easeInOut],
-  [0.4, ...CARRY],
-  [0.45, ...ADDRESS, easeInOut],
-  [0.49, ...ADDRESS],
-  [0.52, ...TOP, easeInOut],
-  [0.57, ...ADDRESS, easeIn],
-  [0.67, ...FINISH, easeOut],
-  [0.72, ...FINISH],
-  [0.8, ...CARRY, easeInOut],
-  [0.96, ...CARRY],
-  [1, ...ADDRESS, easeInOut],
+  [0.035, ...TOP, easeInOut],
+  [0.06, ...ADDRESS, easeIn],
+  [0.12, ...FINISH, easeOut],
+  [0.15, ...FINISH],
+  [0.2, ...CARRY, easeInOut],
+  [0.36, ...CARRY],
+  [0.4, ...ADDRESS, easeInOut],
+  [0.43, ...ADDRESS],
+  [0.46, ...TOP, easeInOut],
+  [0.5, ...ADDRESS, easeIn],
+  [0.57, ...FINISH, easeOut],
+  [0.6, ...FINISH],
+  [0.66, ...CARRY, easeInOut],
+  [0.84, ...CARRY],
+  [0.9, ...ADDRESS, easeInOut],
+  [1, ...ADDRESS],
 ];
 
 const PUTT_KEYS: Key[] = [
@@ -143,12 +145,10 @@ type Seg = {
   shots: Shot[];
   walks: Walk[];
   keys: Key[];
-  landT: number;
   over: "pond" | "bunkers";
   overAt: Pt;
   miss?: { kind: "trees" | "bunker"; m: Pt };
-  face: (t: number) => number;
-};
+  };
 
 /** Which shots go wrong, so he needs a second try. */
 const MISSES: Record<number, "trees" | "bunker"> = { 1: "trees", 4: "bunker", 6: "trees", 9: "bunker" };
@@ -162,10 +162,10 @@ function buildGeometry(w: number, n: number) {
   const reach = REACH * scale;
   const k = mobile ? 0.62 : 1;
   const fw = mobile ? 96 : 150;
-  const base = mobile ? 470 : 400;
-  const missLen = mobile ? 760 : 700;
-  const puttLen = mobile ? 380 : 330;
-  const top = 70;
+  const base = mobile ? 560 : 360;
+  const missLen = mobile ? 720 : 560;
+  const puttLen = mobile ? 340 : 300;
+  const top = mobile ? 250 : 270;
   const cx = w / 2;
   const amp = w * 0.1;
 
@@ -189,26 +189,23 @@ function buildGeometry(w: number, n: number) {
     };
   });
 
-  const stand = (p: Pt, face: number): Pt => ({ x: p.x - face * reach, y: p.y });
+  const stand = (p: Pt): Pt => ({ x: p.x - reach, y: p.y });
 
   const segs: Seg[] = lens.map((len, i) => {
     const A = stops[i];
     const B = stops[i + 1];
-    const d = B.x >= A.x ? 1 : -1;
     const kind = MISSES[i];
 
     if (!kind) {
-      const shot: Shot = { a: A, b: B, peak: ARC_PEAK, impact: 0.17, flight: 0.36, d: arcPath(A, B, ARC_PEAK) };
+      const shot: Shot = { a: A, b: B, peak: ARC_PEAK, impact: 0.09, flight: 0.15, d: arcPath(A, B, ARC_PEAK) };
       return {
         y0: ys[i],
         len,
         shots: [shot],
-        walks: [{ t0: 0.55, t1: 0.92, from: stand(A, d), to: stand(B, -d) }],
+        walks: [{ t0: 0.2, t1: 0.62, from: stand(A), to: stand(B) }],
         keys: SHOT_KEYS,
-        landT: 0.53,
         over: i % 2 === 0 ? "pond" : "bunkers",
         overAt: { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 },
-        face: (t) => (t >= 0.92 ? -d : d),
       };
     }
 
@@ -223,29 +220,26 @@ function buildGeometry(w: number, n: number) {
       x: clamp(mid.x + nx * side * off, 18, w - 18),
       y: mid.y + ny * side * off,
     };
-    const d2 = Math.sign(B.x - M.x) || d;
-    const s1: Shot = { a: A, b: M, peak: 42, impact: 0.09, flight: 0.12, d: arcPath(A, M, 42) };
-    const s2: Shot = { a: M, b: B, peak: ARC_PEAK, impact: 0.57, flight: 0.27, d: arcPath(M, B, ARC_PEAK) };
+    const s1: Shot = { a: A, b: M, peak: 42, impact: 0.06, flight: 0.09, d: arcPath(A, M, 42) };
+    const s2: Shot = { a: M, b: B, peak: ARC_PEAK, impact: 0.5, flight: 0.15, d: arcPath(M, B, ARC_PEAK) };
     return {
       y0: ys[i],
       len,
       shots: [s1, s2],
       walks: [
-        { t0: 0.28, t1: 0.43, from: stand(A, d), to: stand(M, d2) },
-        { t0: 0.82, t1: 0.96, from: stand(M, d2), to: stand(B, -d) },
+        { t0: 0.15, t1: 0.38, from: stand(A), to: stand(M) },
+        { t0: 0.58, t1: 0.86, from: stand(M), to: stand(B) },
       ],
       keys: MISS_KEYS,
-      landT: 0.84,
       over: i % 2 === 0 ? "pond" : "bunkers",
       overAt: { x: (M.x + B.x) / 2, y: (M.y + B.y) / 2 },
       miss: { kind, m: M },
-      face: (t) => (t >= 0.96 ? -d : t >= 0.44 ? d2 : d),
     };
   });
 
-  // each card appears just before the ball lands on its stop
+  // each card pops in as it scrolls up into view
   stops.forEach((s, i) => {
-    s.revealY = i === 0 ? -9999 : s.y - (1 - segs[i - 1].landT) * segs[i - 1].len - 120;
+    s.revealY = i === 0 ? -9999 : s.y - 170;
   });
 
   const last = stops[n - 1];
@@ -270,7 +264,7 @@ type Tree = { x: number; y: number; r: number; tone: number };
 function buildTrees(geo: Geo, w: number): Tree[] {
   const { stops, segs, fw, k, mobile } = geo;
   const last = stops[stops.length - 1];
-  const poly: Pt[] = [{ x: stops[0].x, y: -60 }, ...stops];
+  const poly: Pt[] = [{ x: stops[0].x, y: stops[0].y - 40 }, ...stops];
   const trees: Tree[] = [];
 
   if (!mobile) {
@@ -322,7 +316,7 @@ function buildTrees(geo: Geo, w: number): Tree[] {
 function Course({ geo, w }: { geo: Geo; w: number }) {
   const { stops, segs, cup, H, mobile, k, fw } = geo;
   const last = stops[stops.length - 1];
-  const poly = [{ x: stops[0].x, y: -60 }, ...stops];
+  const poly = [{ x: stops[0].x, y: stops[0].y - 40 }, ...stops];
   const line = poly.map((p, i) => `${i ? "L" : "M"} ${p.x} ${p.y}`).join(" ");
   const gk = mobile ? 0.7 : 1;
   const gx = (last.x + cup.x) / 2;
@@ -362,11 +356,16 @@ function Course({ geo, w }: { geo: Geo; w: number }) {
         <circle key={s.y} cx={s.x} cy={s.y} r={40 * k + 8} fill="#2d5a36" opacity={0.75} />
       ))}
 
-      {/* tee box */}
+      {/* tee box: a black marker on each side of the ball */}
       <g transform={`translate(${stops[0].x} ${stops[0].y})`}>
-        <rect x={-46 * k - 6} y={-22} width={92 * k + 12} height={44} rx={10} fill="#2f5d38" />
-        <circle cx={-34 * k - 2} cy={-12} r={3} fill="#f4f1e6" />
-        <circle cx={34 * k + 2} cy={-12} r={3} fill="#f4f1e6" />
+        <rect x={-88 * Math.max(k, 0.8)} y={-24} width={176 * Math.max(k, 0.8)} height={48} rx={12} fill="#2f5d38" />
+        {[-1, 1].map((side) => (
+          <g key={side} transform={`translate(${side * 62 * Math.max(k, 0.8)} 0)`}>
+            <ellipse cx={1.5} cy={3} rx={6} ry={4} fill="#000" opacity={0.35} />
+            <circle r={6} fill="#0b0d0b" />
+            <circle cx={-1.8} cy={-2} r={1.8} fill="#4b524b" />
+          </g>
+        ))}
       </g>
 
       {/* hazards the ball flies over, plus the bunkers he sometimes finds */}
@@ -569,7 +568,7 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
   }, []);
 
   const geo = useMemo(() => (w ? buildGeometry(w, events.length) : null), [w, events.length]);
-  const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start center", "end center"] });
+  const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start 68%", "end 68%"] });
   const smooth = useSpring(scrollYProgress, { stiffness: 150, damping: 30, mass: 0.4 });
 
   const place = useCallback(
@@ -609,20 +608,19 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
         shadow.setAttribute("transform", `translate(${bx} ${by}) scale(${sh})`);
         shadow.style.opacity = String(0.35 * alpha);
       };
-      const setBubble = (msg: string, amount: number, x: number, gy: number) => {
+      const setBubble = (msg: string, amount: number, x: number, ay: number, size = 1) => {
         if (bubble.textContent !== msg) bubble.textContent = msg;
         bubble.style.opacity = String(amount);
-        bubble.setAttribute("transform", `translate(${x} ${gy - 62 * scale - 12})`);
+        bubble.setAttribute("transform", `translate(${x} ${ay}) scale(${size * (0.85 + 0.15 * amount)})`);
       };
 
       if (y >= last.y) {
         /* ── the putt ── */
         const t = clamp((y - last.y) / puttLen);
-        const dir = cup.x >= last.x ? 1 : -1;
         const [a, c, lean] = pose(t, PUTT_KEYS);
         const hop = t > 0.82 ? -Math.abs(Math.sin(((t - 0.82) / 0.18) * Math.PI * 3)) * 7 * (1 - (t - 0.82) / 0.18) : 0;
-        const gx = last.x - dir * reach;
-        setGolfer(gx, last.y + hop, dir, a, c, lean, 0);
+        const gx = last.x - reach;
+        setGolfer(gx, last.y + hop, 1, a, c, lean, 0);
 
         const s = clamp((t - 0.16) / 0.46);
         const roll = 1 - Math.pow(1 - s, 2.2);
@@ -634,7 +632,7 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
         const wig = t > 0.64 ? Math.sin((t - 0.64) * 70) * 9 * (1 - clamp((t - 0.64) / 0.3)) : 0;
         flag.setAttribute("transform", `rotate(${wig} ${cup.x} ${cup.y - 64})`);
         puff.style.opacity = "0";
-        setBubble("Nice putt!", Math.sin(Math.PI * clamp((t - 0.72) / 0.26)), gx, last.y);
+        setBubble("Birdie!", Math.sin(Math.PI * clamp((t - 0.64) / 0.34)), cup.x, cup.y - 64 - 24, 1.7);
         return;
       }
 
@@ -662,7 +660,7 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
       let alpha = 1;
       if (seg.miss?.kind === "trees" && activeIdx === 0) {
         // the ball vanishes into the leaves until he walks up and finds it
-        alpha = t < 0.4 ? 1 - clamp((s - 0.9) / 0.1) : clamp((t - 0.4) / 0.04);
+        alpha = t < 0.34 ? 1 - clamp((s - 0.9) / 0.1) : clamp((t - 0.34) / 0.04);
       }
       setBall(gx, gy, arc * active.peak + bounce, 1 + arc * 0.7, alpha, 1 - arc * 0.4);
       flag.setAttribute("transform", "rotate(0)");
@@ -677,7 +675,7 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
         }
       }
       const [a, c, lean] = pose(t, seg.keys);
-      setGolfer(pos.x, pos.y, seg.face(t), a, c, lean, stride);
+      setGolfer(pos.x, pos.y, 1, a, c, lean, stride);
 
       // sand / leaf burst where the miss lands, and a shout
       if (seg.miss) {
@@ -702,7 +700,7 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
           seg.miss.kind === "trees" ? "FORE!" : "Sand trap…",
           Math.sin(Math.PI * clamp((t - t0) / 0.2)),
           pos.x,
-          pos.y,
+          pos.y - 62 * scale - 12,
         );
       } else {
         puff.style.opacity = "0";

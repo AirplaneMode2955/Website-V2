@@ -137,15 +137,18 @@ export default function AboutPage() {
       </section>
 
       {/* ── Timeline ── */}
-      <section className="pt-16 bg-background">
+      <section className="pt-24 bg-background">
         <div className="max-w-screen-2xl mx-auto px-8">
           <FadeIn>
             <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-              The timeline
+              The round
             </span>
-            <h2 className="font-headline italic text-5xl text-primary mb-10">
-              Life <InkUnderline variant="wave">so far.</InkUnderline>
+            <h2 className="font-headline italic text-5xl md:text-6xl text-primary mb-5 leading-tight">
+              Tee off <InkUnderline variant="wave">through my life.</InkUnderline>
             </h2>
+            <p className="text-on-surface-variant text-lg max-w-xl">
+              Scroll to follow the round, and watch out for the trees.
+            </p>
           </FadeIn>
 
         </div>
