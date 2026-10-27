@@ -76,7 +76,7 @@ export const faqBank: FaqEntry[] = [
     question: "What results has Jett gotten at The Insurance Center?",
     keywords: ['results', 'numbers', 'case study', 'case studies', 'metrics', 'growth', 'roi', 'performance'],
     answer:
-      "A few highlights: Google Ads impressions grew 7.4× and inbound calls +105% after a full account rebuild; organic search grew 203%; Google Reviews grew +184% (95 → 270) after Jett built a team leaderboard workflow; and automated drip campaigns grew outreach volume +200%. Full breakdowns are on the homepage and Case Studies page.",
+      "A few highlights: Google Ads impressions grew 7.4× and inbound calls +105% after a full account rebuild; organic search grew 203%; Google Reviews grew +222% (95 → 306, rating holding at 4.9) after Jett built a team leaderboard workflow; AI-built prospecting grew outreach volume 400%; and the agency's YouTube channel went from 31.9K views in 2025 to 395.2K in 2026 (about 12×). Full breakdowns are on the homepage and Case Studies page.",
   },
   {
     id: 'philosophy',

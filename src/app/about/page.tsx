@@ -198,7 +198,7 @@ export default function AboutPage() {
                 </h3>
                 <ul className="space-y-4">
                   {[
-                    { icon: 'location_on', text: 'Plain City, Utah' },
+                    { icon: 'location_on', text: 'Syracuse, Utah' },
                     { icon: 'school', text: 'Utah State University' },
                     { icon: 'work', text: 'Acting Director of Marketing, TICU' },
                     { icon: 'favorite', text: 'Married, August 2025' },

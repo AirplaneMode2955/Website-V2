@@ -9,42 +9,67 @@ export const metadata: Metadata = {
     'Resume of Jett Iverson. Acting Director of Marketing, Licensed Insurance Agent, and AI strategist based in Utah.',
 };
 
-const experience = [
+const summary =
+  'Solo marketing lead who runs demand generation end to end for a 25-person insurance agency with no marketing department: paid search, SEO/GEO, web, social, video, lifecycle email, and reputation. Owns the number. One rebuilt Google Ads account produced $490,713 in digital premium across 306 policies. Builds AI agents and workflows that run in production (ZoomInfo-to-Claude prospecting, Zapier lifecycle, reporting dashboards), measures every channel against revenue, and trains the team to run what he ships.';
+
+type Bullet = { lead?: string; text: string };
+
+const experience: {
+  role: string;
+  company: string;
+  location: string;
+  period: string;
+  bullets: Bullet[];
+}[] = [
   {
     role: 'Acting Director of Marketing / Licensed Insurance Agent',
     company: 'The Insurance Center',
     location: 'Farr West, UT',
     period: 'Jun 2024 – Present',
     bullets: [
-      'Took over the full marketing function in June 2024, the first person to hold the role in a dedicated capacity, covering strategy, execution, and reporting',
-      'Grew organic search sessions 203% (139/month in June 2024 to 421/month in July 2026) and organic pageviews 232% (235 to 780/month), measured in GA4\'s Organic Search channel and Google Search Console',
-      'Owned SEO and GEO strategy through the agency\'s April 2026 website migration, building 50 SEO/GEO content pages on the new site in five months from a near-blank slate',
-      'New site\'s Search Console impressions grew 12.5x in the first four months live (1,860 to 23,314/month)',
-      'Ran a generative-engine-optimization audit across ChatGPT, Claude, Gemini, and Perplexity (visibility scored 61/100) and confirmed content ranking inside AI-conversation search queries logged in Search Console, including position 1 for "how much is life insurance for a 30 year old"',
-      'Drove sales velocity to 16.8%, surpassing both the industry average (12.7%) and the top-quartile benchmark (15.8%)',
-      'Manages 100+ client accounts, ensuring prompt policy renewals and proactive coverage guidance',
-      'Built automation systems for content publishing, review generation, and analytics reporting',
+      {
+        lead: 'Paid search to revenue.',
+        text: 'Took over Google Ads with only the logins and no brief, then rebuilt campaign architecture, audience targeting, and insurance-intent landing pages. Impressions up 7.4x (69.2K to 514K), clicks up 7.9x (2,060 to 16,372), inbound calls up 105% (181 to 371), and $490,713 in digital premium across 306 policies.',
+      },
+      {
+        lead: 'AI-built prospecting.',
+        text: "Connected ZoomInfo to Claude through an MCP server that pulls and ranks the week's top 10-15 prospects (niche, then geography, then Utah) and drafts outreach. Outreach volume up 400%; multiple large accounts converted.",
+      },
+      {
+        lead: 'Lifecycle and automated outreach.',
+        text: 'Designed Zapier lead-gen workflows that keep prospects and commercial accounts warm with no manual follow-up (+200% outreach volume). Chose and rolled out an AI renewal-email tool to the full team through three months of resistance, 4-5 trainings, and daily one-on-one help; it now saves hundreds of staff hours and gets renewals out earlier.',
+      },
+      {
+        lead: 'Reputation engine.',
+        text: 'Built a Google Reviews workflow with a live agent leaderboard and per-review incentive. Reviews grew from 95 to 306 (+222%) with the rating holding at 4.9.',
+      },
+      {
+        lead: 'Measurement.',
+        text: 'Built a React and Python dashboard combining SEO performance, lead flow, keyword rank, and revenue attribution. Answering "what\'s working" went from a week of reports to under a minute.',
+      },
+      {
+        lead: 'SEO, GEO, and web.',
+        text: 'Led the redesign and ongoing management of theinsurancecenter.com: information architecture, on-page and technical SEO, blog program, structured data, agent pages, and GEO work for visibility in ChatGPT, Perplexity, and Google AI Overviews. Organic search sessions grew 203% (139 to 421/month) and the new site\'s Search Console impressions grew 12.5x in its first four months.',
+      },
+      {
+        lead: 'Video and social.',
+        text: "Built a video editing workflow that took the agency's YouTube channel from 31.9K views in 2025 to 395.2K in 2026 (through Oct 26), about 12x, and watch time from 128 to 7,900 hours. Run organic social across platforms.",
+      },
+      {
+        lead: 'Sales-facing marketing.',
+        text: 'Redesigned proposals to lead with coverage instead of a price spreadsheet. The first won a large contractor, now one of the biggest accounts; about 10 decks since have won roughly 40%. Manage 100+ client accounts as a licensed agent.',
+      },
     ],
   },
   {
     role: 'Founder',
     company: 'SearchLight Digital',
     location: 'Utah',
-    period: 'Pre-launch',
+    period: '2025 – Present',
     bullets: [
-      'SEO and GEO agency I founded, currently pre-launch and independent of my work at The Insurance Center',
-      'Productizing the same organic-search and AI-search-visibility methods I run in-house',
-    ],
-  },
-  {
-    role: 'Certified Youth Soccer Official',
-    company: 'UYSA',
-    location: 'Ogden, UT',
-    period: 'Feb 2018 – Present',
-    bullets: [
-      'Officiated competitive youth matches across Northern Utah, making high-stakes decisions in fast-paced, high-pressure environments',
-      'Mediated disputes between players, coaches, and officials. Developing communication and conflict-resolution skills that translate directly to client and team relationships',
-      'Coordinated with fellow officials and coaching staff to maintain fair, consistent gameplay across large tournaments',
+      {
+        text: 'Founded an SEO and GEO agency for small businesses that are invisible to AI search. Scoped the offer, built the site, and built the scoring engine that measures visibility across major AI search engines and converts it into a prioritized, time-boxed improvement plan.',
+      },
     ],
   },
 ];
@@ -60,7 +85,6 @@ const education = [
       'GPA: 3.74 while working 25 hours per week',
       'Academic Scholarship recipient',
       'Member of ProSales, Jon M. Huntsman School of Business',
-      'Google Ads Certification · Meta Business Suite Certification',
       'Proficiency in SQL, Marketing, and Finance',
       'Completed Advanced Excel coursework',
     ],
@@ -85,39 +109,59 @@ const credentials = [
 
 const serviceLeadership = [
   {
-    role: 'Club Member / Account Manager',
-    org: 'ProSales, Jon M. Huntsman School of Business',
-    location: 'Logan, UT',
-    period: 'Jan 2025 – Present',
-    bullets: [
-      'Manages the account relationship with a corporate partner on behalf of the club. Communicating updates and identifying annual recruitment needs',
-      'Builds and maintains long-term professional relationships that bridge the university and the business community',
-    ],
-  },
-  {
-    role: 'Full-time Volunteer',
+    role: 'Full-Time Volunteer Missionary',
     org: 'The Church of Jesus Christ of Latter-day Saints',
     location: 'Porto Alegre, Brazil',
     period: 'Jul 2022 – Jun 2024',
     bullets: [
-      'Led a team of 10–20 volunteers. Coaching performance, setting goals, and developing the people around me as much as the mission itself',
-      'Developed and executed outreach strategies that measurably expanded community reach across the Porto Alegre mission area',
-      'Delivered presentations and training sessions in Portuguese to large groups. Now fluent in the language',
+      'Led and trained 10-20 volunteers with no fixed reporting structure, raising output through coaching and goal-setting',
+      'Ran trainings and presentations in Portuguese for large non-technical audiences; built community outreach from scratch with no playbook',
+    ],
+  },
+  {
+    role: 'Corporate Account Manager, ProSales',
+    org: 'Jon M. Huntsman School of Business',
+    location: 'Logan, UT',
+    period: 'Jan 2025 – Present',
+    bullets: [
+      "Own the relationship with a corporate partner: club updates and the company's annual recruiting needs",
+    ],
+  },
+  {
+    role: 'Certified Youth Soccer Official',
+    org: 'UYSA',
+    location: 'Ogden, UT',
+    period: 'Feb 2018 – Present',
+    bullets: [
+      'Make real-time calls and mediate disputes in front of large crowds. Hold a decision under pressure and own it',
     ],
   },
 ];
 
 const skills: Record<string, string[]> = {
-  'Skills & Tools': [
-    'SEO & Technical SEO',
-    'GEO / AI Search Visibility (ChatGPT, Claude, Gemini, Perplexity)',
-    'Google Ads & Meta Ads',
-    'GA4 & Search Console',
-    'Looker Studio & Apps Script',
-    'SQL',
-    'Python',
-    'Marketing Automation (Zapier, n8n)',
+  Marketing: [
+    'Google Ads',
+    'GA4',
+    'Search Console',
+    'SEO / GEO',
+    'Lifecycle email',
+    'Reviews / local SEO',
+    'Social',
+    'YouTube',
+    'Canva',
+    'Advanced Excel',
   ],
+  Build: [
+    'Claude and Claude Code',
+    'MCP servers',
+    'Zapier',
+    'Python',
+    'SQL',
+    'React / JavaScript',
+    'HTML / CSS',
+    'Google Apps Script',
+  ],
+  Certified: ['Google Ads', 'Meta Business Suite', 'AI Fluency and Claude 101 (Anthropic)'],
   Languages: ['English (Native)', 'Portuguese (Fluent)'],
 };
 
@@ -173,7 +217,7 @@ export default function ResumePage() {
                   Acting Director of Marketing &nbsp;·&nbsp; Licensed Insurance Agent &nbsp;·&nbsp; AI Strategist
                 </p>
                 <p className="text-outline text-sm mt-1">
-                  Plain City, Utah &nbsp;·&nbsp;{' '}
+                  Syracuse, Utah &nbsp;·&nbsp;{' '}
                   <a
                     href="mailto:jett@insurancecenterut.com"
                     className="hover:text-primary transition-colors"
@@ -218,6 +262,16 @@ export default function ResumePage() {
       <section className="pb-24 px-8 bg-background">
         <div className="max-w-3xl mx-auto space-y-16">
 
+          {/* Summary */}
+          <FadeIn>
+            <div>
+              <h2 className="font-headline italic text-3xl text-primary pb-3 mb-6 border-b border-white/10">
+                Summary
+              </h2>
+              <p className="text-on-surface-variant leading-relaxed">{summary}</p>
+            </div>
+          </FadeIn>
+
           {/* Experience */}
           <FadeIn>
             <div>
@@ -239,11 +293,14 @@ export default function ResumePage() {
                     <ul className="space-y-1.5">
                       {role.bullets.map((b) => (
                         <li
-                          key={b}
+                          key={b.text}
                           className="flex items-start gap-2 text-on-surface-variant text-sm leading-relaxed"
                         >
                           <span className="text-primary/60 mt-0.5 flex-shrink-0">–</span>
-                          {b}
+                          <span>
+                            {b.lead && <strong className="text-primary font-medium">{b.lead} </strong>}
+                            {b.text}
+                          </span>
                         </li>
                       ))}
                     </ul>

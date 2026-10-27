@@ -108,7 +108,7 @@ export default function Home() {
                   {[
                     'Lead SEO, GEO and AI implementation',
                     'Licensed Insurance Agent (P&C)',
-                    '50%+ brand exposure growth',
+                    'YouTube views up 12× in 2026',
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-on-surface-variant text-sm">
                       <span className="material-symbols-outlined text-primary text-base flex-shrink-0" aria-hidden="true">task_alt</span>
@@ -335,13 +335,14 @@ export default function Home() {
                 </p>
                 <div className="flex items-end gap-6">
                   <div>
-                    <p className="font-headline italic text-6xl text-primary leading-none">+184%</p>
+                    <p className="font-headline italic text-6xl text-primary leading-none">+222%</p>
                     <p className="text-on-surface-variant text-sm mt-2">review growth</p>
                   </div>
                   <div className="text-on-surface-variant text-sm pb-1">
                     <span className="text-outline">95 reviews</span>
                     <span className="mx-2 text-primary/40">→</span>
-                    <span className="text-primary font-medium">270 reviews</span>
+                    <span className="text-primary font-medium">306 reviews</span>
+                    <span className="block text-outline mt-1">rating holding at 4.9</span>
                   </div>
                 </div>
               </div>
