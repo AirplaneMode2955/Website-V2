@@ -35,7 +35,6 @@ export const metadata: Metadata = {
     title: 'Jett Iverson',
     description: 'Performance marketing, technical SEO, and AI systems. Based in Utah.',
     type: 'website',
-    url: 'https://jettiverson.com',
     images: [{ url: '/og/default.png', width: 1200, height: 630 }],
   },
   twitter: {
@@ -43,9 +42,6 @@ export const metadata: Metadata = {
     title: 'Jett Iverson',
     description: 'Performance marketing, technical SEO, and AI systems. Based in Utah.',
     images: ['/og/default.png'],
-  },
-  alternates: {
-    canonical: '/',
   },
 };
 
@@ -59,7 +55,7 @@ const personJsonLd = {
   '@type': 'Person',
   name: 'Jett Iverson',
   url: 'https://jettiverson.com',
-  jobTitle: 'Acting Director of Marketing',
+  jobTitle: 'Director of Marketing',
   worksFor: { '@type': 'Organization', name: 'The Insurance Center' },
   alumniOf: {
     '@type': 'CollegeOrUniversity',

@@ -48,11 +48,11 @@ export const caseStudies: CaseStudy[] = [
     tagline:
       'Two years of SEO and GEO work at The Insurance Center, through a full website migration — measured in GA4 and Search Console.',
     client: 'The Insurance Center — an independent insurance agency in Northern Utah',
-    role: 'Acting Director of Marketing',
+    role: 'Director of Marketing',
     period: 'June 2024 – present',
     tags: ['SEO', 'GEO', 'Website Migration', 'GA4', 'Search Console'],
     overview: [
-      "I'm Acting Director of Marketing at The Insurance Center, an independent insurance agency in Northern Utah. I took over marketing in June 2024. No one had held the role in a dedicated capacity before me.",
+      "I'm Director of Marketing at The Insurance Center, an independent insurance agency in Northern Utah. I took over marketing in June 2024. No one had held the role in a dedicated capacity before me.",
       'In April 2026 the agency migrated to a new website. I owned SEO and GEO strategy through that migration — information architecture, redirects, content, and the plan for rebuilding organic visibility on a new site.',
       "The numbers below were pulled live from GA4's Organic Search channel and Google Search Console.",
     ],
@@ -149,7 +149,7 @@ export const caseStudies: CaseStudy[] = [
     tagline:
       "An MCP agent that pulls and ranks the week's best prospects, then drafts the outreach. Built and run at The Insurance Center.",
     client: 'The Insurance Center — an independent insurance agency in Northern Utah',
-    role: 'Acting Director of Marketing',
+    role: 'Director of Marketing',
     period: 'Ongoing',
     tags: ['AI', 'MCP', 'ZoomInfo', 'Claude', 'Prospecting'],
     overview: [
@@ -198,7 +198,7 @@ export const caseStudies: CaseStudy[] = [
     tagline:
       'A React and Python dashboard that puts SEO performance, lead flow, keyword rank, and revenue attribution in one place.',
     client: 'The Insurance Center — an independent insurance agency in Northern Utah',
-    role: 'Acting Director of Marketing',
+    role: 'Director of Marketing',
     period: 'Ongoing',
     tags: ['React', 'Python', 'Dashboard', 'Attribution', 'SEO'],
     overview: [
@@ -239,7 +239,7 @@ export const caseStudies: CaseStudy[] = [
     tagline:
       "A video editing workflow took the agency's YouTube channel from 31.9K views in 2025 to 395.2K in 2026.",
     client: 'The Insurance Center — an independent insurance agency in Northern Utah',
-    role: 'Acting Director of Marketing',
+    role: 'Director of Marketing',
     period: '2025 – 2026',
     tags: ['YouTube', 'Video', 'Social', 'Workflow'],
     overview: [

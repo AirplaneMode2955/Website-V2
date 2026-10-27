@@ -1,11 +1,20 @@
+import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Link from 'next/link';
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
 import { getOnSiteArticles } from '@/lib/articles';
+import { getLatestEpisode } from '@/lib/latestEpisode';
 import InkUnderline from '@/components/motion/InkUnderline';
 import CountUpStats, { type Stat } from '@/components/motion/CountUpStats';
 import TiltCard from '@/components/motion/TiltCard';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
+
+// The latest-episode card reads YouTube's RSS feed; refresh it hourly.
+export const revalidate = 3600;
 
 const adsStats: Stat[] = [
   { label: 'Impressions', value: 7.4, format: 'multiplier', before: 69200, after: 513980, beforeLabel: '69,200', afterLabel: '513,980' },
@@ -14,29 +23,79 @@ const adsStats: Stat[] = [
   { label: 'Digital Premium', value: 490713, format: 'currency', after: 490713, beforeLabel: '—', afterLabel: '$490,713', note: '306 policies' },
 ];
 
-const featuredProjects = [
+type Build = {
+  kind: 'Work' | 'For fun';
+  title: string;
+  description: string;
+  tags: string[];
+  href: string;
+  external?: boolean;
+  cta: string;
+};
+
+const builds: Build[] = [
   {
-    title: 'SearchLight Digital',
+    kind: 'Work',
+    title: 'Marketing Dashboard',
     description:
-      'An SEO and GEO agency built for the new era of search — where AI answers are the new page one and most businesses have no idea they\'re invisible.',
-    tags: ['SEO', 'GEO', 'AI Search', 'Agency'],
-    image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80',
-    imageAlt: 'Digital marketing and search strategy dashboard',
-    link: 'https://searchlight-digital-v2.vercel.app/',
+      'A week of reports collapsed into a one-minute answer to "what\'s working?" Built for The Insurance Center.',
+    tags: ['React', 'Python', 'Analytics'],
+    href: '/case-studies/marketing-dashboard',
+    cta: 'Read the case study',
   },
   {
+    kind: 'Work',
+    title: 'AI Prospecting Agent',
+    description:
+      'ZoomInfo connected to Claude so the week\'s best prospects show up ranked, with outreach already drafted.',
+    tags: ['Claude', 'MCP', 'Automation'],
+    href: '/case-studies/ai-prospecting-agent',
+    cta: 'Read the case study',
+  },
+  {
+    kind: 'Work',
+    title: 'SearchLight Digital',
+    description:
+      'An SEO and GEO agency built for the new era of search, where AI answers are the new page one.',
+    tags: ['SEO', 'GEO', 'AI Search'],
+    href: 'https://searchlight-digital-v2.vercel.app/',
+    external: true,
+    cta: 'Visit site',
+  },
+  {
+    kind: 'For fun',
+    title: 'Play Me in Chess',
+    description:
+      'A chess bot trained on 311 of my real games, with a leaderboard behind an API I wrote.',
+    tags: ['AI', 'Chess', 'API'],
+    href: '/play/play-me-chess',
+    cta: 'Play it',
+  },
+  {
+    kind: 'For fun',
+    title: 'Premier League Command Center',
+    description:
+      'A live one-screen match-day dashboard. A proxy I wrote shrinks a 743 KB payload to the 12 KB the screen needs.',
+    tags: ['Next.js', 'API Proxy', 'Data Viz'],
+    href: 'https://plcc-live.vercel.app',
+    external: true,
+    cta: 'Visit site',
+  },
+  {
+    kind: 'For fun',
     title: 'Utah Golf Tinder',
     description:
-      'Track every golf course you\'ve played in Utah and see how far through the state\'s full catalog you\'ve made it.',
-    tags: ['React', 'Maps', 'Web App', 'Golf'],
-    image: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&q=80',
-    imageAlt: 'Golfer on a green Utah golf course',
-    link: 'https://utah-golf-tinder.vercel.app/',
+      "Log every Utah course you've played and watch your percentage of the whole state tick up.",
+    tags: ['React', 'Maps', 'Golf'],
+    href: 'https://utah-golf-tinder.vercel.app/',
+    external: true,
+    cta: 'Visit site',
   },
 ];
 
-export default function Home() {
+export default async function Home() {
   const [featuredArticle] = getOnSiteArticles();
+  const latestEpisode = await getLatestEpisode();
   return (
     <>
       {/* ── Hero ── */}
@@ -56,8 +115,7 @@ export default function Home() {
               </h2>
               <p className="text-on-surface-variant leading-relaxed mb-8 text-lg">
                 Studying Marketing at Utah State University&apos;s Huntsman School of Business —
-                graduating December 2026 with a 3.74 GPA while working full time. Acting
-                Director of Marketing at The Insurance Center, where I lead SEO, GEO, and AI
+                graduating December 2026 with a 3.74 GPA while working full time. Director of Marketing at The Insurance Center, where I lead SEO, GEO, and AI
                 innovation across the company&apos;s entire marketing operation.
               </p>
               <Link
@@ -99,10 +157,10 @@ export default function Home() {
                   The Insurance Center
                 </p>
                 <h3 className="font-headline italic text-3xl text-primary mb-1">
-                  Acting Director of Marketing
+                  Director of Marketing
                 </h3>
                 <p className="text-on-surface-variant text-sm mb-6">
-                  Farr West, UT &nbsp;·&nbsp; Jun 2024 – Present
+                  Farr West, UT &nbsp;·&nbsp; Jun 2024 – Present &nbsp;·&nbsp; Director since Apr 2025
                 </p>
                 <ul className="space-y-3">
                   {[
@@ -245,7 +303,7 @@ export default function Home() {
                   Built an internal workflow that made requesting reviews a trackable, competitive team activity.
                   A leaderboard surfacing each agent&apos;s review count changed behavior agency-wide.
                 </p>
-                <div className="flex items-end gap-6">
+                <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
                   <div>
                     <p className="font-headline italic text-6xl text-primary leading-none">+222%</p>
                     <p className="text-on-surface-variant text-sm mt-2">review growth</p>
@@ -277,7 +335,7 @@ export default function Home() {
                   Designed and deployed automated lead gen workflows that maintain contact with prospects and commercial accounts
                   over time — removing manual follow-up from the process entirely.
                 </p>
-                <div className="flex items-end gap-6">
+                <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
                   <div>
                     <p className="font-headline italic text-6xl text-primary leading-none">+200%</p>
                     <p className="text-on-surface-variant text-sm mt-2">outreach volume</p>
@@ -292,16 +350,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Projects Teaser ── */}
+      {/* ── Things I've built: work and fun in one grid ── */}
       <section className="py-28 px-8 bg-background">
         <div className="max-w-screen-2xl mx-auto">
           <FadeIn>
             <div className="flex items-end justify-between mb-12">
               <div>
                 <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-                  Work
+                  Projects
                 </span>
-                <h2 className="font-headline italic text-5xl text-primary">Projects</h2>
+                <h2 className="font-headline italic text-5xl text-primary mb-4">
+                  Things I&apos;ve <InkUnderline variant="flick">built</InkUnderline>
+                </h2>
+                <p className="text-on-surface-variant text-lg max-w-xl">
+                  Some of it runs the marketing at work. Some of it is just for fun.
+                </p>
               </div>
               <Link
                 href="/projects"
@@ -313,12 +376,21 @@ export default function Home() {
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {featuredProjects.map((project, i) => (
-              <FadeIn key={project.title} delay={i * 0.1} className="h-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {builds.map((build, i) => (
+              <FadeIn key={build.title} delay={(i % 3) * 0.1} className="h-full">
                 <TiltCard className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 flex flex-col hover:border-primary/20">
                   <div className="flex flex-wrap gap-2 mb-3">
-                    {project.tags.slice(0, 2).map((tag) => (
+                    <span
+                      className={`font-label text-[10px] uppercase tracking-luxe px-3 py-1 rounded-full ${
+                        build.kind === 'Work'
+                          ? 'bg-primary text-on-primary'
+                          : 'bg-secondary/20 text-secondary'
+                      }`}
+                    >
+                      {build.kind}
+                    </span>
+                    {build.tags.slice(0, 2).map((tag) => (
                       <span
                         key={tag}
                         className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
@@ -327,22 +399,28 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                  <h3 className="font-headline italic text-xl text-primary mb-2">
-                    {project.title}
-                  </h3>
+                  <h3 className="font-headline italic text-xl text-primary mb-2">{build.title}</h3>
                   <p className="text-on-surface-variant text-sm leading-relaxed flex-1 mb-4">
-                    {project.description}
+                    {build.description}
                   </p>
-                  {project.link && (
+                  {build.external ? (
                     <a
-                      href={project.link}
+                      href={build.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-primary font-label uppercase tracking-[0.18em] text-xs hover:text-primary-fixed transition-colors"
                     >
-                      Visit Site
+                      {build.cta}
                       <span className="material-symbols-outlined text-sm">open_in_new</span>
                     </a>
+                  ) : (
+                    <Link
+                      href={build.href}
+                      className="inline-flex items-center gap-2 text-primary font-label uppercase tracking-[0.18em] text-xs hover:text-primary-fixed transition-colors"
+                    >
+                      {build.cta}
+                      <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    </Link>
                   )}
                 </TiltCard>
               </FadeIn>
@@ -350,12 +428,19 @@ export default function Home() {
           </div>
 
           <FadeIn>
-            <div className="text-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center text-center">
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+                className="inline-flex items-center justify-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
               >
                 All Projects
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+              <Link
+                href="/play"
+                className="inline-flex items-center justify-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+              >
+                Open the Arcade
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </Link>
             </div>
@@ -386,6 +471,41 @@ export default function Home() {
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
           </FadeIn>
+
+          {latestEpisode && (
+            <FadeIn delay={0.1}>
+              <a
+                href={`https://www.youtube.com/watch?v=${latestEpisode.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-12 flex flex-col sm:flex-row gap-6 items-center max-w-3xl bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-4 hover:border-primary/20 transition-colors"
+              >
+                <div className="relative w-full sm:w-64 aspect-video flex-shrink-0 rounded-[0.75rem] overflow-hidden">
+                  <Image
+                    src={`https://i.ytimg.com/vi/${latestEpisode.id}/hqdefault.jpg`}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 100vw, 256px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="sm:pr-4">
+                  <p className="font-label text-[10px] uppercase tracking-luxe text-outline mb-2">
+                    Latest episode ·{' '}
+                    {new Date(latestEpisode.published).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      timeZone: 'UTC',
+                    })}
+                  </p>
+                  <p className="font-headline italic text-xl text-primary group-hover:text-primary-fixed transition-colors">
+                    {latestEpisode.title}
+                  </p>
+                </div>
+              </a>
+            </FadeIn>
+          )}
         </div>
       </section>
 

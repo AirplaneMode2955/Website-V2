@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!study) return {};
   return {
     title: study.title,
+    alternates: { canonical: `/case-studies/${slug}` },
     description: study.tagline,
   };
 }
@@ -288,7 +289,7 @@ export default async function CaseStudyPage({ params }: Props) {
                 </p>
                 <p className="font-headline italic text-2xl text-primary">Jett Iverson</p>
                 <p className="text-on-surface-variant text-sm mt-1">
-                  Acting Director of Marketing, The Insurance Center
+                  Director of Marketing, The Insurance Center
                 </p>
               </div>
               <div className="flex gap-3 flex-wrap">

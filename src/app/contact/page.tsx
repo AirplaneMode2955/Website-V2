@@ -4,6 +4,7 @@ import InkUnderline from '@/components/motion/InkUnderline';
 
 export const metadata: Metadata = {
   title: 'Contact',
+  alternates: { canonical: '/contact' },
   description: 'Get in touch with Jett Iverson — open to interesting projects and conversations.',
 };
 
@@ -178,7 +179,7 @@ export default function ContactPage() {
               </span>
             </div>
             <p className="text-on-surface-variant text-sm max-w-md mx-auto">
-              Currently Acting Director of Marketing at The Insurance Center and studying at Utah State
+              Currently Director of Marketing at The Insurance Center and studying at Utah State
               University. Open to interesting side projects and consulting conversations.
             </p>
           </FadeIn>

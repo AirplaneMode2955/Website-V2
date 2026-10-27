@@ -14,7 +14,10 @@ const FALLBACK =
   "I don't have an answer for that one yet — try asking about Jett's work, school, projects, or how to get in touch. For anything else, email jett@insurancecenterut.com.";
 
 const INTRO =
-  "Hey, I'm a little Q&A bot trained on this site. Ask me about Jett's work, background, projects, or how to reach him.";
+  "Hey, I'm an AI assistant that answers from the facts on this site. Ask me about Jett's work, background, projects, or how to reach him.";
+
+const RATE_LIMITED =
+  "You've asked a lot of questions in a short time. Give it a few minutes, or email jett@insurancecenterut.com.";
 
 function normalize(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -77,25 +80,57 @@ export default function ChatBot() {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
   }, [messages, reduce]);
 
-  const respondTo = (text: string) => {
+  const [pending, setPending] = useState(false);
+
+  const addBot = (text: string) =>
+    setMessages((prev) => [...prev, { id: nextId(), role: 'bot', text }]);
+
+  /** Suggested chips answer instantly from the FAQ bank; typed questions go to the AI route. */
+  const respondTo = async (text: string, { useAi = false }: { useAi?: boolean } = {}) => {
     const trimmed = text.trim();
-    if (!trimmed) return;
+    if (!trimmed || pending) return;
 
-    const userMessage: Message = { id: nextId(), role: 'user', text: trimmed };
-    const match = findAnswer(trimmed);
-    const botMessage: Message = {
-      id: nextId(),
-      role: 'bot',
-      text: match ? match.answer : FALLBACK,
-    };
-
-    setMessages((prev) => [...prev, userMessage, botMessage]);
+    const history = [...messages, { id: '', role: 'user' as const, text: trimmed }];
+    setMessages((prev) => [...prev, { id: nextId(), role: 'user', text: trimmed }]);
     setInput('');
+
+    const local = findAnswer(trimmed);
+    if (!useAi) {
+      addBot(local ? local.answer : FALLBACK);
+      return;
+    }
+
+    setPending(true);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: history.slice(1).map((m) => ({
+            role: m.role === 'bot' ? 'assistant' : 'user',
+            content: m.text,
+          })),
+        }),
+      });
+      if (res.status === 429) {
+        addBot(RATE_LIMITED);
+      } else if (res.ok) {
+        const data = await res.json();
+        addBot(data.answer);
+      } else {
+        // No API key, or the model is down: the keyword matcher still answers.
+        addBot(local ? local.answer : FALLBACK);
+      }
+    } catch {
+      addBot(local ? local.answer : FALLBACK);
+    } finally {
+      setPending(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    respondTo(input);
+    respondTo(input, { useAi: true });
   };
 
   return (
@@ -128,7 +163,7 @@ export default function ChatBot() {
               <div>
                 <p className="font-headline italic text-xl text-primary leading-none">Ask about Jett</p>
                 <p className="font-label text-[10px] uppercase tracking-luxe text-outline mt-1">
-                  Q&amp;A bot &middot; no AI, just answers
+                  AI assistant &middot; answers from this site
                 </p>
               </div>
               <button
@@ -154,6 +189,12 @@ export default function ChatBot() {
                   {m.text}
                 </div>
               ))}
+
+              {pending && (
+                <div className="bg-surface-container text-on-surface-variant mr-auto rounded-[0.9rem] rounded-tl-sm px-4 py-2.5 text-sm max-w-[85%]" aria-label="Thinking">
+                  …
+                </div>
+              )}
 
               {/* Suggested questions, shown until the visitor has asked something */}
               {messages.length === 1 && (
@@ -189,7 +230,7 @@ export default function ChatBot() {
               <button
                 type="submit"
                 aria-label="Send"
-                disabled={!input.trim()}
+                disabled={!input.trim() || pending}
                 className="w-10 h-10 rounded-md bg-primary text-on-primary flex items-center justify-center flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
               >
                 <span className="material-symbols-outlined text-lg" aria-hidden="true">send</span>

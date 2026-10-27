@@ -59,6 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return {};
   return {
     title: article.title,
+    alternates: { canonical: `/content/${slug}` },
     description: article.excerpt,
   };
 }
@@ -152,7 +153,7 @@ export default async function ArticlePage({ params }: Props) {
                 <p className="font-label text-xs uppercase tracking-luxe text-outline mb-1">Written by</p>
                 <p className="font-headline italic text-2xl text-primary">Jett Iverson</p>
                 <p className="text-on-surface-variant text-sm mt-1">
-                  Acting Director of Marketing · SearchLight Digital Founder
+                  Director of Marketing · SearchLight Digital Founder
                 </p>
               </div>
               <div className="flex gap-3 flex-wrap">

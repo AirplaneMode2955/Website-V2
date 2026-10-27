@@ -7,11 +7,12 @@ import InkUnderline from '@/components/motion/InkUnderline';
 
 export const metadata: Metadata = {
   title: 'Projects',
+  alternates: { canonical: '/projects' },
   description:
     'A look at the systems, tools, and projects Jett Iverson has built. From analytics dashboards to AI automation workflows.',
 };
 
-type Group = 'business' | 'app' | 'tic';
+type Group = 'business' | 'app' | 'game' | 'tic';
 
 type Project = {
   group: Group;
@@ -25,6 +26,8 @@ type Project = {
   proof?: string;
   /** Real capture of the project, served from /public/projects. Falls back to `image` until it exists. */
   screenshot?: string;
+  /** In-site path for something playable, e.g. /play/play-me-chess. */
+  play?: string;
   /** Slug of a matching write-up under /case-studies. */
   caseStudy?: string;
   github?: string;
@@ -69,7 +72,7 @@ const projects: Project[] = [
     description:
       'An SEO and GEO agency built for the new era of search — where AI answers are the new page one and most businesses have no idea they\'re invisible.',
     longDescription:
-      'SearchLight Digital is the agency I founded to solve a problem I kept running into: the rules of search have changed, but most agencies are still playing the old game. We specialize in SEO and Generative Engine Optimization — helping brands show up in Google, ChatGPT, Perplexity, and AI Overviews. Every strategy is built around where attention actually lives now, not where it lived five years ago.',
+      'SearchLight Digital is the agency I founded to solve a problem I kept running into: the rules of search have changed, but most agencies are still playing the old game. It focuses on SEO and Generative Engine Optimization — helping brands show up in Google, ChatGPT, Perplexity, and AI Overviews. Every strategy is built around where attention actually lives now, not where it lived five years ago.',
     tags: ['SEO', 'GEO', 'AI Search', 'Agency'],
     image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80',
     imageAlt: 'Digital marketing and search strategy dashboard',
@@ -119,6 +122,59 @@ const projects: Project[] = [
     status: 'live',
   },
   {
+    group: 'game',
+    title: 'Play Me in Chess',
+    description:
+      'A chess bot trained on 311 of my real games. It plays my openings, at my strength, with my habits.',
+    longDescription:
+      'The bot comes in three strengths: Casual Jett, Jett, and Jett on a good day. The leaderboard runs on an API route I wrote, backed by Airtable, and keeps the five best results by fewest moves.',
+    tags: ['AI', 'Chess', 'API', 'Airtable'],
+    image: '/projects/chess.jpg',
+    imageAlt: 'The Play Me in Chess board',
+    proof: 'Trained on 311 of my own games',
+    play: '/play/play-me-chess',
+    status: 'live',
+  },
+  {
+    group: 'game',
+    title: 'Table Talk',
+    description:
+      'Order five Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day.',
+    longDescription:
+      'A daily ranking game: drag five clubs into the order you think is right, lock it in, and see how close you got. It keeps your streak, gives you one attempt a day, and produces a shareable result grid.',
+    tags: ['Game', 'Soccer', 'Daily', 'Next.js'],
+    image: '/projects/table-talk.jpg',
+    imageAlt: 'The Table Talk ranking game',
+    play: '/play/table-talk',
+    status: 'live',
+  },
+  {
+    group: 'game',
+    title: 'Gut Check',
+    description:
+      'A daily five-round test of marketing instinct. Which headline actually won? Which line did a machine write?',
+    longDescription:
+      'Each round puts a marketing choice in front of you — two headlines, a button, a subject line — and asks you to pick the winner, or spot the line a machine wrote, before the answer is revealed. New rounds every day.',
+    tags: ['Marketing', 'Daily', 'Next.js'],
+    image: '/projects/gut-check.jpg',
+    imageAlt: 'The Gut Check daily marketing quiz',
+    play: '/play/gut-check',
+    status: 'live',
+  },
+  {
+    group: 'game',
+    title: 'Birthdle',
+    description:
+      "A Wordle riff where the hidden answer is a famous person's birthday.",
+    longDescription:
+      'I built it to find out whether guessing dates carries the same daily-habit loop that makes Wordle stick. Plain JavaScript, no framework.',
+    tags: ['Game', 'Daily', 'Vanilla JS'],
+    image: '/og/play.png',
+    imageAlt: 'The Birthdle game',
+    play: '/play/birthdle',
+    status: 'live',
+  },
+  {
     group: 'tic',
     title: 'Google Reviews Workflow',
     description:
@@ -136,6 +192,7 @@ const projects: Project[] = [
 const groups: { id: Group; label: string; blurb: string }[] = [
   { id: 'business', label: 'Businesses', blurb: 'Sites and companies I built and run.' },
   { id: 'app', label: 'Apps I shipped', blurb: 'Built for curiosity, deployed for real.' },
+  { id: 'game', label: 'Games', blurb: 'Small things I built because I wanted to play them. More in the Arcade.' },
   { id: 'tic', label: 'Work at The Insurance Center', blurb: 'Internal systems behind the results.' },
 ];
 
@@ -295,7 +352,7 @@ export default function ProjectsPage() {
                                 </p>
                               </div>
 
-                              {(project.link || project.github || project.caseStudy) && (
+                              {(project.link || project.github || project.caseStudy || project.play) && (
                                 <div className="mt-6 flex flex-wrap gap-3">
                                   {project.caseStudy && (
                                     <Link
@@ -303,6 +360,15 @@ export default function ProjectsPage() {
                                       className="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:shadow-premium"
                                     >
                                       Read the case study
+                                      <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </Link>
+                                  )}
+                                  {project.play && (
+                                    <Link
+                                      href={project.play}
+                                      className="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:shadow-premium"
+                                    >
+                                      Play it
                                       <span className="material-symbols-outlined text-sm">arrow_forward</span>
                                     </Link>
                                   )}
@@ -339,6 +405,24 @@ export default function ProjectsPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Arcade CTA ── */}
+      <section className="py-16 px-8 bg-surface-container-low border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto text-center">
+          <FadeIn>
+            <p className="text-on-surface-variant text-lg mb-6">
+              Plus a pixel city, a quiz, and a few older experiments.
+            </p>
+            <Link
+              href="/play"
+              className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+            >
+              Open the Arcade
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
+          </FadeIn>
         </div>
       </section>
 

@@ -8,6 +8,7 @@ import { lifePhotos } from '@/data/lifePhotos';
 
 export const metadata: Metadata = {
   title: 'About',
+  alternates: { canonical: '/about' },
   description: 'The story of Jett Iverson. From Plain City, Utah to marketing and AI strategy.',
 };
 
@@ -37,10 +38,10 @@ const timelineEvents: TimelineEvent[] = [
     image: '/High School Golf.JPEG',
   },
   {
-    date: 'Fall 2022',
+    date: 'May 2022',
     title: 'LDS Mission: Brazil',
     description:
-      'Left on a two-year mission for The Church of Jesus Christ of Latter-day Saints. Two years completely immersed in Brazilian culture and language. Came back with a completely different perspective on hard work, discipline, and what really matters.',
+      'Left in May 2022 on a two-year mission for The Church of Jesus Christ of Latter-day Saints, serving until May 2024. Two years completely immersed in Brazilian culture and language. Came back with a completely different perspective on hard work, discipline, and what really matters.',
     category: 'personal',
     image: '/Mission.JPEG',
   },
@@ -83,19 +84,19 @@ const timelineEvents: TimelineEvent[] = [
     image: '/engagements.JPEG',
   },
   {
+    date: 'April 2025',
+    title: 'Director of Marketing',
+    description:
+      "Promoted from Licensed Agent to Director of Marketing at The Insurance Center. Leading SEO, GEO, and AI integration strategy, building systems that make the brand show up wherever it matters most.",
+    category: 'career',
+    image: '/Head of Marketing.JPEG',
+  },
+  {
     date: 'August 12, 2025',
     title: 'Married',
     description: 'Married my best friend in Taylorsville, Utah. Easily the best day of my life.',
     category: 'personal',
     image: '/Wedding.JPEG',
-  },
-  {
-    date: 'December 2025',
-    title: 'Acting Director of Marketing',
-    description:
-      "Promoted to Acting Director of Marketing at The Insurance Center. Leading SEO, GEO, and AI integration strategy, building systems that make the brand show up wherever it matters most.",
-    category: 'career',
-    image: '/Head of Marketing.JPEG',
   },
   {
     date: 'December 2026',
@@ -200,7 +201,7 @@ export default function AboutPage() {
                   {[
                     { icon: 'location_on', text: 'Syracuse, Utah' },
                     { icon: 'school', text: 'Utah State University' },
-                    { icon: 'work', text: 'Acting Director of Marketing, TICU' },
+                    { icon: 'work', text: 'Director of Marketing, TICU' },
                     { icon: 'favorite', text: 'Married, August 2025' },
                     { icon: 'pets', text: 'Dog dad to Roxie' },
                     { icon: 'golf_course', text: 'Golf & fishing' },

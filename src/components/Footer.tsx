@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 const footerLinks = [
   { href: '/about', label: 'About' },
+  { href: '/resume', label: 'Resume' },
   { href: '/case-studies', label: 'Case Studies' },
   { href: '/projects', label: 'Projects' },
   { href: '/content', label: 'Content' },
@@ -27,7 +28,7 @@ export default function Footer() {
             <span className="font-headline italic text-lg text-primary">Jett Iverson</span>
           </Link>
 
-          <div className="flex items-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {footerLinks.map((link) => (
               <Link
                 key={link.href}

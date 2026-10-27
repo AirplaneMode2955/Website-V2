@@ -13,21 +13,21 @@ export const faqBank: FaqEntry[] = [
     question: 'Who is Jett?',
     keywords: ['who is jett', 'who are you', 'about you', 'about jett', 'introduce yourself', 'tell me about yourself'],
     answer:
-      "Jett Iverson is a marketer, husband, and AI strategist based in Utah. He's Acting Director of Marketing at The Insurance Center and studying Marketing at Utah State University's Huntsman School of Business, graduating December 2026.",
+      "Jett Iverson is a marketer, husband, and AI strategist based in Utah. He's Director of Marketing at The Insurance Center and studying Marketing at Utah State University's Huntsman School of Business, graduating December 2026.",
   },
   {
     id: 'job',
     question: 'Where does Jett work?',
     keywords: ['work', 'job', 'career', 'insurance center', 'employer', 'company', 'occupation'],
     answer:
-      "Jett is Acting Director of Marketing at The Insurance Center, an independent agency in Farr West, Utah. He leads SEO, GEO, and AI implementation across the company's entire marketing operation, and started there in June 2024 as a receptionist before earning his P&C insurance license.",
+      "Jett is Director of Marketing at The Insurance Center, an independent agency in Farr West, Utah. He leads SEO, GEO, and AI implementation across the company's entire marketing operation, and started there in June 2024 as a receptionist before earning his P&C insurance license.",
   },
   {
     id: 'searchlight',
     question: 'What is SearchLight Digital?',
     keywords: ['searchlight', 'search light', 'agency', 'seo agency', 'own business', 'founded'],
     answer:
-      "SearchLight Digital is the SEO and GEO (Generative Engine Optimization) agency Jett founded — built for the era where AI answers from ChatGPT, Perplexity, and Google AI Overviews are the new page one. It's currently pre-launch. You can see it at searchlight-digital-v2.vercel.app.",
+      "SearchLight Digital is the SEO and GEO (Generative Engine Optimization) agency Jett founded — built for the era where AI answers from ChatGPT, Perplexity, and Google AI Overviews are the new page one. It's live at searchlight-digital-v2.vercel.app.",
   },
   {
     id: 'geo',
