@@ -49,7 +49,7 @@ const experience: {
       },
       {
         lead: 'SEO, GEO, and web.',
-        text: 'Led the redesign and ongoing management of theinsurancecenter.com: information architecture, on-page and technical SEO, blog program, structured data, agent pages, and GEO work for visibility in ChatGPT, Perplexity, and Google AI Overviews. Organic search sessions grew 203% (139 to 421/month) and the new site\'s Search Console impressions grew 12.5x in its first four months.',
+        text: 'Led the redesign and ongoing management of theinsurancecenter.com: information architecture, on-page and technical SEO, blog program, structured data, agent pages, and GEO work for visibility in ChatGPT, Perplexity, and Google AI Overviews. Organic search sessions grew 203% (139 to 421/month) and the new site\'s Search Console impressions grew 15.1x from launch month to September 2026 (1,860 to 28,106/month).',
       },
       {
         lead: 'Video and social.',

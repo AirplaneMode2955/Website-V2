@@ -68,9 +68,9 @@ export const caseStudies: CaseStudy[] = [
       {
         label: 'Search Console impressions — new site',
         before: '1,860 / mo',
-        after: '23,314 / mo',
-        change: '12.5×',
-        source: 'Google Search Console · first four months after the April 2026 launch',
+        after: '28,106 / mo',
+        change: '15.1×',
+        source: 'Google Search Console · April 2026 launch month → September 2026',
       },
       {
         label: 'SEO/GEO content pages built',
@@ -132,7 +132,7 @@ export const caseStudies: CaseStudy[] = [
     searchlight:
       "This is the same SEO and GEO practice I’m building into SearchLight Digital, my own agency (pre-launch). It’s kept separate from my work at The Insurance Center.",
     disclosures: [
-      'Data integrity: while pulling this data I caught a tracking anomaly — two GA4 properties spiking almost identically in a way Search Console didn’t support. I excluded it instead of reporting it as growth. Every number above is what held up after that.',
+      'Data integrity: while pulling this data I caught a tracking anomaly — two GA4 properties spiking almost identically in a way Search Console didn’t support. I excluded it instead of reporting it as growth. It was still there when I re-checked in late October: GA4 organic sessions for August through October 2026 read roughly 1,500, 4,600, and 3,400 against 146, 178, and 154 Search Console clicks. That is why the session figures above stop at July 2026. Every number above is what held up after that.',
       'The blog engine figures cover the 59 content URLs in the site’s sitemap group for blog and content pages (Search Console and GA4, Jul 9 – Oct 6, 2026). That group includes a few service and location pages and event recaps, so not every page in it came out of the automated workflow.',
       "One thread of this work connects to an active prospect — an ongoing business relationship I don’t identify here.",
     ],
