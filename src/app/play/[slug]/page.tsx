@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const game = getHostedGame(slug);
   if (!game) return {};
   return {
+    alternates: { canonical: `/play/${slug}` },
     title: game.title,
     description: game.blurb,
   };

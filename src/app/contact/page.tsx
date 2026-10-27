@@ -3,6 +3,7 @@ import FadeIn from '@/components/FadeIn';
 import InkUnderline from '@/components/motion/InkUnderline';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/contact' },
   title: 'Contact',
   description: 'Get in touch with Jett Iverson — open to interesting projects and conversations.',
 };

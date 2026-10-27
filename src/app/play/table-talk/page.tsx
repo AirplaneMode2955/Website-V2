@@ -3,6 +3,7 @@ import Link from 'next/link';
 import TableTalk from './TableTalk';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/play/table-talk' },
   title: 'Table Talk',
   description:
     'A daily five-club ranking game. Order Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day, drag to reorder, share your grid.',

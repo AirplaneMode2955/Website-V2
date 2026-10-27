@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,6 +7,10 @@ import { getOnSiteArticles } from '@/lib/articles';
 import InkUnderline from '@/components/motion/InkUnderline';
 import CountUpStats, { type Stat } from '@/components/motion/CountUpStats';
 import TiltCard from '@/components/motion/TiltCard';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 const adsStats: Stat[] = [
   { label: 'Impressions', value: 7.4, format: 'multiplier', before: 69200, after: 513980, beforeLabel: '69,200', afterLabel: '513,980' },
@@ -342,7 +347,7 @@ export default function Home() {
                   Built an internal workflow that made requesting reviews a trackable, competitive team activity.
                   A leaderboard surfacing each agent&apos;s review count changed behavior agency-wide.
                 </p>
-                <div className="flex items-end gap-6">
+                <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
                   <div>
                     <p className="font-headline italic text-6xl text-primary leading-none">+222%</p>
                     <p className="text-on-surface-variant text-sm mt-2">review growth</p>
@@ -374,7 +379,7 @@ export default function Home() {
                   Designed and deployed automated lead gen workflows that maintain contact with prospects and commercial accounts
                   over time — removing manual follow-up from the process entirely.
                 </p>
-                <div className="flex items-end gap-6">
+                <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
                   <div>
                     <p className="font-headline italic text-6xl text-primary leading-none">+200%</p>
                     <p className="text-on-surface-variant text-sm mt-2">outreach volume</p>
@@ -464,17 +469,17 @@ export default function Home() {
               { src: '/IMG_0208.JPEG', alt: 'Cooking class in Rome' },
               { src: '/Golf.JPEG', alt: 'On the golf course' },
               { src: '/Mountain 2.0.JPEG', alt: 'Mountain adventure' },
-              { src: '/Snow Time with Wife.JPEG', alt: 'Snow day with wife' },
-              { src: '/Double Rainbow.JPEG', alt: 'Double rainbow' },
+              { src: '/IMG_0089.JPEG', alt: 'Snow day with wife' },
+              { src: '/123_1 3.JPEG', alt: 'Double rainbow' },
               { src: '/Mission.JPEG', alt: 'LDS Mission in Brazil' },
-              { src: '/Fishing sitting down.jpeg', alt: 'Fishing' },
+              { src: '/IMG_0478.jpeg', alt: 'Fishing' },
               { src: '/Baby Jett.JPEG', alt: 'Baby Jett' },
               { src: '/IMG_0961.JPEG', alt: 'Jett and his wife in the mountains' },
               { src: '/IMG_8221.jpeg', alt: 'Christmas lights date night' },
               { src: '/IMG_9203.JPEG', alt: 'Jett and his wife at a wedding' },
               { src: '/IMG_6857.JPEG', alt: 'Kissing in the rain at a lakeside heart sculpture' },
               { src: '/IMG_0104.JPEG', alt: 'In Naples, Italy wearing Argentina jerseys' },
-              { src: '/Fishing w leo.JPEG', alt: 'Teaching a toddler to fish on the river' },
+              { src: '/IMG_4027.JPEG', alt: 'Teaching a toddler to fish on the river' },
             ].map((photo) => (
               <FadeIn key={photo.src} className="break-inside-avoid">
                 <figure tabIndex={0} className="photo relative m-0 overflow-hidden rounded-[0.75rem] outline-none focus-visible:ring-2 focus-visible:ring-primary">

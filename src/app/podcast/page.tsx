@@ -5,6 +5,7 @@ import InkUnderline from '@/components/motion/InkUnderline';
 import { CHANNEL_URL, episodeGroups, topShorts } from '@/lib/podcast';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/podcast' },
   title: 'Commute 2 Work',
   description:
     'Commute 2 Work is a podcast recorded from the driver’s seat: AI, careers, the algorithm, and building in public.',

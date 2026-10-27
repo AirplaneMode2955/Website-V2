@@ -5,6 +5,7 @@ import InkUnderline from '@/components/motion/InkUnderline';
 import { caseStudies } from '@/lib/caseStudies';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/case-studies' },
   title: 'Case Studies',
   description:
     'Detailed write-ups of marketing work by Jett Iverson — SEO, GEO, and organic search results, measured in GA4 and Search Console.',

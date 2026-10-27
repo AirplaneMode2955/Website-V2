@@ -3,6 +3,7 @@ import Link from 'next/link';
 import GutCheck from './GutCheck';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/play/gut-check' },
   title: 'Gut Check',
   description:
     'A daily, five-round test of marketing instinct. Which headline actually won? Which line was written by a machine? Real numbers on the reveal.',

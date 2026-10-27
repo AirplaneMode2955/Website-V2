@@ -7,6 +7,7 @@ import InkUnderline from '@/components/motion/InkUnderline';
 import { lifePhotos } from '@/data/lifePhotos';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/about' },
   title: 'About',
   description: 'The story of Jett Iverson. From Plain City, Utah to marketing and AI strategy.',
 };

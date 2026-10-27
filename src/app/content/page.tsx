@@ -6,6 +6,7 @@ import { CHANNEL_URL, episodeGroups } from '@/lib/podcast';
 import ContentFeed, { type FeedItem } from './ContentFeed';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/content' },
   title: 'Content',
   description:
     'Articles and Commute 2 Work podcast episodes by Jett Iverson on AI, SEO, GEO, careers, and modern marketing strategy.',

@@ -5,6 +5,7 @@ import TiltCard from '@/components/motion/TiltCard';
 import InkUnderline from '@/components/motion/InkUnderline';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/projects' },
   title: 'Projects',
   description:
     'A look at the systems, tools, and projects Jett Iverson has built. From analytics dashboards to AI automation workflows.',

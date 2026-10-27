@@ -5,6 +5,7 @@ import { archivedGames } from '@/lib/arcadeGames';
 import { GameIcon } from '@/components/icons/ArcadeIcons';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/play/archived' },
   title: 'Archived — The Arcade',
   description: 'Earlier arcade experiments, kept playable but off the main shelf.',
   robots: { index: false, follow: true },

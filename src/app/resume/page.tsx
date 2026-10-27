@@ -4,6 +4,7 @@ import FadeIn from '@/components/FadeIn';
 import AnimatedSkills from '@/components/AnimatedSkills';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/resume' },
   title: 'Resume',
   description:
     'Resume of Jett Iverson. Acting Director of Marketing, Licensed Insurance Agent, and AI strategist based in Utah.',

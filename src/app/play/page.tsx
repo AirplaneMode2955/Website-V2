@@ -5,6 +5,7 @@ import { featuredGames, archivedGames } from '@/lib/arcadeGames';
 import { GameIcon } from '@/components/icons/ArcadeIcons';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/play' },
   title: 'Play',
   description:
     "The Arcade — small games and toys Jett Iverson has built, plus Gut Check, a daily test of marketing instinct.",

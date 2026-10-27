@@ -54,7 +54,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/15 via-background/70 to-background" />
       </div>
 
-      <div className="max-w-screen-2xl mx-auto grid grid-cols-12 gap-8 items-center relative z-10 w-full">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-12 gap-y-8 md:gap-x-8 items-center relative z-10 w-full">
         {/* Left: staggered copy reveal */}
         <motion.div
           className="col-span-12 md:col-span-7"
@@ -117,7 +117,7 @@ export default function HeroSection() {
         >
           <div className="relative w-full aspect-[4/5] rounded-[1.25rem] overflow-hidden shadow-premium border border-white/10 bg-surface-container-high">
             <Image
-              src="/wedding.jpg.JPEG"
+              src="/hero-portrait.jpeg"
               alt="Jett Iverson"
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
