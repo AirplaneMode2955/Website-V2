@@ -90,8 +90,8 @@ export default function ContactPage() {
               Let&apos;s <InkUnderline variant="flick">talk.</InkUnderline>
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
-              Always open to ambitious projects that blend technical precision with creative
-              strategy. Email is the fastest way to reach me.
+              Side projects, consulting, or a round at Wolf Creek. All good reasons to write.
+              Email is the fastest way to reach me.
             </p>
           </FadeIn>
         </div>

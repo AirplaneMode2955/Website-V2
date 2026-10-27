@@ -52,7 +52,7 @@ export const caseStudies: CaseStudy[] = [
     period: 'June 2024 – present',
     tags: ['SEO', 'GEO', 'Website Migration', 'GA4', 'Search Console'],
     overview: [
-      "I'm Director of Marketing at The Insurance Center, an independent insurance agency in Northern Utah. I took over marketing in June 2024. No one had held the role in a dedicated capacity before me.",
+      "I'm Director of Marketing at The Insurance Center, an independent insurance agency in Northern Utah. I started handling marketing in June 2024 while still a licensed agent, and became Director of Marketing in April 2025. No one had held the role in a dedicated capacity before me.",
       'In April 2026 the agency migrated to a new website. I owned SEO and GEO strategy through that migration — information architecture, redirects, content, and the plan for rebuilding organic visibility on a new site.',
       "The numbers below were pulled live from GA4's Organic Search channel and Google Search Console.",
     ],

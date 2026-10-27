@@ -29,7 +29,7 @@ const experience = [
     company: 'The Insurance Center — Farr West, UT',
     period: 'Jun 2024 – Present · Director since Apr 2025',
     bullets: [
-      'Took over the full marketing function in June 2024, the first person to hold the role in a dedicated capacity, covering strategy, execution, and reporting.',
+      'Started running marketing in June 2024 while still a licensed agent, then became Director of Marketing in April 2025, the first person to hold the role in a dedicated capacity, covering strategy, execution, and reporting.',
       "Grew organic search sessions 203% (139/month in June 2024 to 421/month in July 2026) and organic pageviews 232% (235 to 780/month), measured in GA4's Organic Search channel and Google Search Console.",
       "Owned SEO and GEO strategy through the agency's April 2026 website migration, building 50 SEO/GEO content pages on the new site in five months from a near-blank slate.",
       "New site's Search Console impressions grew 12.5x in the first four months live (1,860 to 23,314/month).",

@@ -624,12 +624,12 @@ export default async function Home() {
         <div className="max-w-screen-2xl mx-auto text-center">
           <FadeIn>
             <h2 className="font-headline italic text-5xl md:text-6xl text-on-primary-container mb-4 leading-tight">
-              Let&apos;s build something<br />
-              <InkUnderline variant="swoop" color="text-secondary">worth talking about.</InkUnderline>
+              Got something worth building,<br />
+              or just want to play{' '}
+              <InkUnderline variant="swoop" color="text-secondary">a quick 9?</InkUnderline>
             </h2>
             <p className="text-on-primary-container/70 text-lg mb-10 max-w-xl mx-auto">
-              Always open to ambitious projects that blend technical precision with creative
-              strategy.
+              Let me know.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
