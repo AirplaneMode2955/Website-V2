@@ -12,7 +12,6 @@ const navLinks = [
   { href: '/projects', label: 'Projects' },
   { href: '/case-studies', label: 'Case Studies' },
   { href: '/content', label: 'Content' },
-  { href: '/podcast', label: 'Podcast' },
   { href: '/contact', label: 'Contact' },
   { href: '/play', label: 'Play' },
 ];
@@ -36,8 +35,11 @@ export default function Nav() {
     return () => document.removeEventListener('keydown', onKey);
   }, [menuOpen]);
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
+  const isActive = (href: string) => {
+    // The podcast lives under Content now, so keep Content lit on /podcast.
+    if (href === '/content' && pathname.startsWith('/podcast')) return true;
+    return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
+  };
 
   return (
     <nav

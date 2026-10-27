@@ -2,18 +2,46 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
 import { articles } from '@/lib/articles';
-import OnSiteArticles from './OnSiteArticles';
+import { CHANNEL_URL, episodeGroups } from '@/lib/podcast';
+import ContentFeed, { type FeedItem } from './ContentFeed';
 
 export const metadata: Metadata = {
   title: 'Content',
   description:
-    'Articles and writing by Jett Iverson on AI, SEO, GEO, and modern marketing strategy.',
+    'Articles and Commute 2 Work podcast episodes by Jett Iverson on AI, SEO, GEO, careers, and modern marketing strategy.',
 };
 
 export default function ContentPage() {
   const onSite = articles.filter((a) => a.source === 'on-site' && a.status === 'published');
   const linkedIn = articles.filter((a) => a.source === 'LinkedIn Pulse' && a.status === 'published');
   const upcoming = articles.filter((a) => a.status === 'coming-soon');
+
+  const articleItems: FeedItem[] = onSite.map((a) => ({
+    kind: 'article',
+    id: `article-${a.slug}`,
+    title: a.title,
+    href: `/content/${a.slug}`,
+    topics: a.topics,
+    excerpt: a.excerpt,
+    date: a.date,
+    readTime: a.readTime,
+  }));
+  const podcastItems: FeedItem[] = episodeGroups.flatMap((g) =>
+    g.episodes.map((ep) => ({
+      kind: 'podcast' as const,
+      id: `podcast-${ep.id}`,
+      title: ep.title,
+      href: `https://www.youtube.com/watch?v=${ep.id}`,
+      topics: [g.title],
+      videoId: ep.id,
+    })),
+  );
+  // Alternate article / episode so neither type bunches up; leftovers go last.
+  const feed: FeedItem[] = [];
+  for (let i = 0; i < Math.max(articleItems.length, podcastItems.length); i++) {
+    if (articleItems[i]) feed.push(articleItems[i]);
+    if (podcastItems[i]) feed.push(podcastItems[i]);
+  }
 
   return (
     <>
@@ -37,15 +65,33 @@ export default function ContentPage() {
         <div className="max-w-screen-2xl mx-auto relative z-10">
           <FadeIn>
             <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-              Writing
+              Writing &amp; podcast
             </span>
             <h1 className="font-headline italic text-6xl md:text-8xl text-primary leading-tight mb-4">
               Content
             </h1>
             <p className="text-on-surface-variant text-xl max-w-xl">
-              Writing about SEO, GEO, AI, and modern marketing — what&apos;s changing and what it
-              means for real businesses.
+              Writing about SEO, GEO, AI, and modern marketing, plus the Commute 2 Work podcast —
+              what&apos;s changing and what it means for real businesses.
             </p>
+            <div className="flex flex-wrap gap-4 mt-8">
+              <Link
+                href="/podcast"
+                className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
+              >
+                Podcast page &amp; top Shorts
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+              <a
+                href={CHANNEL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-outline font-label uppercase tracking-luxe text-xs px-2 py-3 hover:text-primary transition-colors"
+              >
+                Watch on YouTube
+                <span className="material-symbols-outlined text-sm">open_in_new</span>
+              </a>
+            </div>
           </FadeIn>
         </div>
       </section>
@@ -82,13 +128,13 @@ export default function ContentPage() {
       <section className="py-24 px-8 bg-surface-container-low">
         <div className="max-w-screen-2xl mx-auto">
           <FadeIn>
-            <h2 className="font-headline italic text-3xl text-primary mb-2">Articles</h2>
+            <h2 className="font-headline italic text-3xl text-primary mb-2">Articles &amp; episodes</h2>
             <p className="text-on-surface-variant text-sm mb-10">
-              In-depth pieces on SEO, GEO, and what small businesses need to know.
+              Written pieces and Commute 2 Work episodes in one feed. Filter by type.
             </p>
           </FadeIn>
 
-          <OnSiteArticles articles={onSite} />
+          <ContentFeed items={feed} />
         </div>
       </section>
 
