@@ -32,8 +32,8 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, dev
 
 for (const [name, url] of Object.entries(targets)) {
   try {
-    await page.goto(url, { waitUntil: 'networkidle', timeout: 45000 });
-    await page.waitForTimeout(1500);
+    await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+    await page.waitForTimeout(3000);
     await page.screenshot({ path: `public/projects/${name}.png` });
     console.log(`saved public/projects/${name}.png`);
   } catch (err) {

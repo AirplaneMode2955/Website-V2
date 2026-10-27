@@ -22,6 +22,10 @@ type Project = {
   tags: string[];
   image: string;
   imageAlt: string;
+  /** Tailwind object-fit/position classes for the image. Defaults to cover, anchored top. */
+  imageClass?: string;
+  /** Fill behind a letterboxed (object-contain) image. */
+  imageBg?: string;
   /** Short result or fact shown on the card. Only add numbers that are backed up elsewhere on the site. */
   proof?: string;
   /** Real capture of the project, served from /public/projects. Falls back to `image` until it exists. */
@@ -75,8 +79,9 @@ const projects: Project[] = [
       'SearchLight Digital is the agency I founded to solve a problem I kept running into: the rules of search have changed, but most agencies are still playing the old game. It focuses on SEO and Generative Engine Optimization — helping brands show up in Google, ChatGPT, Perplexity, and AI Overviews. Every strategy is built around where attention actually lives now, not where it lived five years ago.',
     tags: ['SEO', 'GEO', 'AI Search', 'Agency'],
     image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80',
-    imageAlt: 'Digital marketing and search strategy dashboard',
+    imageAlt: 'SearchLight Digital home page: "Get Found In Google" over a spotlight beam',
     link: 'https://searchlight-digital-v2.vercel.app/',
+    screenshot: '/projects/searchlight.jpg',
     status: 'live',
   },
   {
@@ -101,9 +106,11 @@ const projects: Project[] = [
       'A map-based web app that lets Utah golfers log which courses they\'ve played and visualize them on an interactive map. The app tracks your personal percentage of Utah\'s total golf courses played, turning it into a fun challenge to work through the whole state. Built for golfers who want to see their progress and discover courses they haven\'t hit yet.',
     tags: ['React', 'Maps', 'Web App', 'Golf'],
     image: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&q=80',
-    imageAlt: 'Golfer on a green Utah golf course',
+    imageAlt: 'Golf Course Tinder start screen with 127 Utah courses tracked',
     github: 'https://github.com/AirplaneMode2955/Utah-Golf-Tinder',
     link: 'https://utah-golf-tinder.vercel.app/',
+    screenshot: '/projects/utah-golf.jpg',
+    imageClass: 'object-cover object-[50%_57%]',
     status: 'completed',
   },
   {
@@ -115,10 +122,13 @@ const projects: Project[] = [
       'Built for match days: a dark, data-forward control room for the Premier League. A LIVE pill appears only when a match is actually in progress, live fixtures pulse and show the minute, and clicking any match swaps in a detail panel with possession, shots, xG, and key events. Data comes from FotMob\'s public JSON through a server-side proxy that caches every 35 seconds and normalizes a 743 KB payload down to the 12 KB the screen actually renders. If the upstream fails, the last good response is served with a "stale" chip so the screen never blanks.',
     tags: ['Next.js', 'TypeScript', 'API Proxy', 'Data Viz'],
     image: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80',
-    imageAlt: 'Football stadium under floodlights',
+    imageAlt: 'Premier League Command Center showing fixtures, results, league table and match stats',
     github: 'https://github.com/AirplaneMode2955/premier-league-command-center',
     link: 'https://plcc-live.vercel.app',
     proof: '743 KB upstream payload trimmed to the 12 KB the screen renders',
+    screenshot: '/projects/plcc.jpg',
+    imageClass: 'object-contain',
+    imageBg: '#0b0d12',
     status: 'live',
   },
   {
@@ -130,7 +140,7 @@ const projects: Project[] = [
       'The bot comes in three strengths: Casual Jett, Jett, and Jett on a good day. The leaderboard runs on an API route I wrote, backed by Airtable, and keeps the five best results by fewest moves.',
     tags: ['AI', 'Chess', 'API', 'Airtable'],
     image: '/projects/chess.jpg',
-    imageAlt: 'The Play Me in Chess board',
+    imageAlt: 'Play Me in Chess start screen with the scouting report on The Eldrick',
     proof: 'Trained on 311 of my own games',
     play: '/play/play-me-chess',
     status: 'live',
@@ -305,13 +315,16 @@ export default function ProjectsPage() {
                         <div className="bg-surface-container-highest rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft hover:shadow-premium transition-shadow duration-300">
                           <div className="grid grid-cols-1 md:grid-cols-5">
                             {/* Image */}
-                            <div className="relative md:col-span-2 aspect-video md:aspect-auto min-h-[240px]">
+                            <div
+                              className="relative md:col-span-2 aspect-video md:aspect-auto min-h-[240px]"
+                              style={project.imageBg ? { backgroundColor: project.imageBg } : undefined}
+                            >
                               <Image
                                 src={project.screenshot ?? project.image}
                                 alt={project.imageAlt}
                                 fill
                                 sizes="(max-width: 768px) 100vw, 360px"
-                                className="object-cover object-top"
+                                className={project.imageClass ?? 'object-cover object-top'}
                               />
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container/20" />
                             </div>
