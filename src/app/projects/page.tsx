@@ -49,10 +49,12 @@ const projects: Project[] = [
       'Took the website from concept to launch and have managed it since, handling everything from information architecture and design direction to SEO optimization and content strategy. The site serves as the agency\'s storefront, referral hub, and a key driver of inbound leads. Includes individual agent pages, a full blog, and structured data for local search.',
     tags: ['Web Design', 'SEO', 'CMS', 'Content Strategy'],
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-    imageAlt: 'Website design on a laptop screen',
+    imageAlt: 'The Insurance Center home page: "Your Trusted Utah Insurance Agent Since 1995" with agency award badges',
     link: 'https://www.theinsurancecenter.com',
     proof: 'Organic search up 203% through the April 2026 site migration',
     caseStudy: 'organic-search',
+    screenshot: '/projects/tic.jpg',
+    imageClass: 'object-cover object-left-top',
     status: 'live',
   },
   {
