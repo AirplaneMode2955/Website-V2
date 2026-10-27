@@ -4,6 +4,7 @@ import GutCheck from './GutCheck';
 
 export const metadata: Metadata = {
   title: 'Gut Check',
+  alternates: { canonical: '/play/gut-check' },
   description:
     'A daily, five-round test of marketing instinct. Which headline actually won? Which line was written by a machine? Real numbers on the reveal.',
   openGraph: {

@@ -7,6 +7,7 @@ import ContentFeed, { type FeedItem } from './ContentFeed';
 
 export const metadata: Metadata = {
   title: 'Content',
+  alternates: { canonical: '/content' },
   description:
     'Articles and Commute 2 Work podcast episodes by Jett Iverson on AI, SEO, GEO, careers, and modern marketing strategy.',
 };

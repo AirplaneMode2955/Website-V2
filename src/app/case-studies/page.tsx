@@ -6,6 +6,7 @@ import { caseStudies } from '@/lib/caseStudies';
 
 export const metadata: Metadata = {
   title: 'Case Studies',
+  alternates: { canonical: '/case-studies' },
   description:
     'Detailed write-ups of marketing work by Jett Iverson — SEO, GEO, and organic search results, measured in GA4 and Search Console.',
 };

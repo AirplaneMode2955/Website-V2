@@ -1,22 +1,35 @@
 import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Image from 'next/image';
+import Link from 'next/link';
 import TiltCard from '@/components/motion/TiltCard';
 import InkUnderline from '@/components/motion/InkUnderline';
 
 export const metadata: Metadata = {
   title: 'Projects',
+  alternates: { canonical: '/projects' },
   description:
     'A look at the systems, tools, and projects Jett Iverson has built. From analytics dashboards to AI automation workflows.',
 };
 
+type Group = 'business' | 'app' | 'game' | 'tic';
+
 type Project = {
+  group: Group;
   title: string;
   description: string;
   longDescription: string;
   tags: string[];
   image: string;
   imageAlt: string;
+  /** Short result or fact shown on the card. Only add numbers that are backed up elsewhere on the site. */
+  proof?: string;
+  /** Real capture of the project, served from /public/projects. Falls back to `image` until it exists. */
+  screenshot?: string;
+  /** In-site path for something playable, e.g. /play/play-me-chess. */
+  play?: string;
+  /** Slug of a matching write-up under /case-studies. */
+  caseStudy?: string;
   github?: string;
   link?: string;
   status: 'live' | 'in-progress' | 'completed';
@@ -24,6 +37,7 @@ type Project = {
 
 const projects: Project[] = [
   {
+    group: 'business',
     title: 'The Insurance Center: Company Website',
     description:
       'Led the full design, build, and ongoing management of theinsurancecenter.com, the agency\'s primary digital presence and lead generation engine.',
@@ -33,9 +47,12 @@ const projects: Project[] = [
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
     imageAlt: 'Website design on a laptop screen',
     link: 'https://www.theinsurancecenter.com',
+    proof: 'Organic search up 203% through the April 2026 site migration',
+    caseStudy: 'organic-search',
     status: 'live',
   },
   {
+    group: 'tic',
     title: 'Insurance Center Analytics Dashboard',
     description:
       'A custom dashboard that surfaces what\'s actually driving results. Marketing decisions come from real numbers instead of gut feelings.',
@@ -44,14 +61,18 @@ const projects: Project[] = [
     tags: ['React', 'Python', 'Data Visualization', 'SEO Analytics'],
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
     imageAlt: 'Analytics dashboard showing charts and KPIs',
+    proof:
+      "Built to answer \"what's working?\" in under 60 seconds",
+    caseStudy: 'marketing-dashboard',
     status: 'live',
   },
   {
+    group: 'business',
     title: 'SearchLight Digital',
     description:
       'An SEO and GEO agency built for the new era of search — where AI answers are the new page one and most businesses have no idea they\'re invisible.',
     longDescription:
-      'SearchLight Digital is the agency I founded to solve a problem I kept running into: the rules of search have changed, but most agencies are still playing the old game. We specialize in SEO and Generative Engine Optimization — helping brands show up in Google, ChatGPT, Perplexity, and AI Overviews. Every strategy is built around where attention actually lives now, not where it lived five years ago.',
+      'SearchLight Digital is the agency I founded to solve a problem I kept running into: the rules of search have changed, but most agencies are still playing the old game. It focuses on SEO and Generative Engine Optimization — helping brands show up in Google, ChatGPT, Perplexity, and AI Overviews. Every strategy is built around where attention actually lives now, not where it lived five years ago.',
     tags: ['SEO', 'GEO', 'AI Search', 'Agency'],
     image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80',
     imageAlt: 'Digital marketing and search strategy dashboard',
@@ -59,6 +80,7 @@ const projects: Project[] = [
     status: 'live',
   },
   {
+    group: 'app',
     title: 'Apple Watch Whoop Replacement',
     description:
       'A personal health algorithm that turns Apple Watch data into Whoop-style recovery and strain scores — without the subscription.',
@@ -67,9 +89,11 @@ const projects: Project[] = [
     tags: ['Python', 'Apple Health', 'Automation', 'Health Tech'],
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
     imageAlt: 'Health metrics and wearable data dashboard',
+    proof: 'Recovery, strain, and sleep scores from data already on the watch',
     status: 'in-progress',
   },
   {
+    group: 'app',
     title: 'Utah Golf Tinder',
     description:
       'Track every golf course you\'ve played in Utah and see how far through the state\'s full catalog you\'ve made it.',
@@ -83,6 +107,7 @@ const projects: Project[] = [
     status: 'completed',
   },
   {
+    group: 'app',
     title: 'Premier League Command Center',
     description:
       'A live, one-screen Premier League dashboard — fixtures, results, standings, and match detail, all visible without scrolling.',
@@ -93,9 +118,64 @@ const projects: Project[] = [
     imageAlt: 'Football stadium under floodlights',
     github: 'https://github.com/AirplaneMode2955/premier-league-command-center',
     link: 'https://plcc-live.vercel.app',
+    proof: '743 KB upstream payload trimmed to the 12 KB the screen renders',
     status: 'live',
   },
   {
+    group: 'game',
+    title: 'Play Me in Chess',
+    description:
+      'A chess bot trained on 311 of my real games. It plays my openings, at my strength, with my habits.',
+    longDescription:
+      'The bot comes in three strengths: Casual Jett, Jett, and Jett on a good day. The leaderboard runs on an API route I wrote, backed by Airtable, and keeps the five best results by fewest moves.',
+    tags: ['AI', 'Chess', 'API', 'Airtable'],
+    image: '/projects/chess.jpg',
+    imageAlt: 'The Play Me in Chess board',
+    proof: 'Trained on 311 of my own games',
+    play: '/play/play-me-chess',
+    status: 'live',
+  },
+  {
+    group: 'game',
+    title: 'Table Talk',
+    description:
+      'Order five Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day.',
+    longDescription:
+      'A daily ranking game: drag five clubs into the order you think is right, lock it in, and see how close you got. It keeps your streak, gives you one attempt a day, and produces a shareable result grid.',
+    tags: ['Game', 'Soccer', 'Daily', 'Next.js'],
+    image: '/projects/table-talk.jpg',
+    imageAlt: 'The Table Talk ranking game',
+    play: '/play/table-talk',
+    status: 'live',
+  },
+  {
+    group: 'game',
+    title: 'Gut Check',
+    description:
+      'A daily five-round test of marketing instinct. Which headline actually won? Which line did a machine write?',
+    longDescription:
+      'Each round puts a marketing choice in front of you — two headlines, a button, a subject line — and asks you to pick the winner, or spot the line a machine wrote, before the answer is revealed. New rounds every day.',
+    tags: ['Marketing', 'Daily', 'Next.js'],
+    image: '/projects/gut-check.jpg',
+    imageAlt: 'The Gut Check daily marketing quiz',
+    play: '/play/gut-check',
+    status: 'live',
+  },
+  {
+    group: 'game',
+    title: 'Birthdle',
+    description:
+      "A Wordle riff where the hidden answer is a famous person's birthday.",
+    longDescription:
+      'I built it to find out whether guessing dates carries the same daily-habit loop that makes Wordle stick. Plain JavaScript, no framework.',
+    tags: ['Game', 'Daily', 'Vanilla JS'],
+    image: '/og/play.png',
+    imageAlt: 'The Birthdle game',
+    play: '/play/birthdle',
+    status: 'live',
+  },
+  {
+    group: 'tic',
     title: 'Google Reviews Workflow',
     description:
       'An internal workflow system that tracks Google Review performance across agents. Making getting reviews a competitive, trackable team activity.',
@@ -104,9 +184,16 @@ const projects: Project[] = [
     tags: ['Automation', 'CRM Integration', 'Local SEO'],
     image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80',
     imageAlt: 'Team performance dashboard with review metrics',
-    github: 'https://github.com/AirplaneMode2955',
+    proof: '95 → 306 Google reviews, rating holding at 4.9',
     status: 'live',
   },
+];
+
+const groups: { id: Group; label: string; blurb: string }[] = [
+  { id: 'business', label: 'Businesses', blurb: 'Sites and companies I built and run.' },
+  { id: 'app', label: 'Apps I shipped', blurb: 'Built for curiosity, deployed for real.' },
+  { id: 'game', label: 'Games', blurb: 'Small things I built because I wanted to play them. More in the Arcade.' },
+  { id: 'tic', label: 'Work at The Insurance Center', blurb: 'Internal systems behind the results.' },
 ];
 
 const statusStyles = {
@@ -198,89 +285,144 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* ── Projects Grid ── */}
+      {/* ── Projects, grouped by type ── */}
       <section className="py-24 px-8 bg-surface-container-low">
-        <div className="max-w-screen-2xl mx-auto space-y-12">
-          {projects.map((project, i) => (
-            <FadeIn key={project.title} delay={i * 0.05}>
-              <TiltCard max={3} className="rounded-[1.25rem]">
-              <div className="bg-surface-container-highest rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft hover:shadow-premium transition-shadow duration-300">
-                <div className="grid grid-cols-1 md:grid-cols-5">
-                  {/* Image */}
-                  <div className="relative md:col-span-2 aspect-video md:aspect-auto min-h-[240px]">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 360px"
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container/20" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="md:col-span-3 p-8 md:p-10 flex flex-col justify-between">
-                    <div>
-                      {/* Tags + status */}
-                      <div className="flex flex-wrap items-center gap-2 mb-5">
-                        <span
-                          className={`font-label text-[10px] uppercase tracking-luxe px-3 py-1 rounded-full ${statusStyles[project.status].class}`}
-                        >
-                          {statusStyles[project.status].label}
-                        </span>
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <h2 className="font-headline italic text-3xl text-primary mb-3">
-                        {project.title}
-                      </h2>
-                      <p className="text-on-surface-variant/80 text-base mb-4 leading-relaxed">
-                        {project.description}
-                      </p>
-                      <p className="text-on-surface-variant text-sm leading-relaxed">
-                        {project.longDescription}
-                      </p>
-                    </div>
-
-                    {(project.link || project.github) && (
-                      <div className="mt-6 flex flex-wrap gap-3">
-                        {project.link && (
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
-                          >
-                            Visit Site
-                            <span className="material-symbols-outlined text-sm">open_in_new</span>
-                          </a>
-                        )}
-                        {project.github && (
-                          <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
-                          >
-                            View on GitHub
-                            <span className="material-symbols-outlined text-sm">open_in_new</span>
-                          </a>
-                        )}
-                      </div>
-                    )}
-                  </div>
+        <div className="max-w-screen-2xl mx-auto space-y-20">
+          {groups.map((group) => (
+            <div key={group.id}>
+              <FadeIn>
+                <div className="mb-8">
+                  <h2 className="font-headline italic text-4xl text-primary mb-2">{group.label}</h2>
+                  <p className="text-on-surface-variant">{group.blurb}</p>
                 </div>
+              </FadeIn>
+              <div className="space-y-12">
+                {projects
+                  .filter((project) => project.group === group.id)
+                  .map((project, i) => (
+                    <FadeIn key={project.title} delay={i * 0.05}>
+                      <TiltCard max={3} className="rounded-[1.25rem]">
+                        <div className="bg-surface-container-highest rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft hover:shadow-premium transition-shadow duration-300">
+                          <div className="grid grid-cols-1 md:grid-cols-5">
+                            {/* Image */}
+                            <div className="relative md:col-span-2 aspect-video md:aspect-auto min-h-[240px]">
+                              <Image
+                                src={project.screenshot ?? project.image}
+                                alt={project.imageAlt}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 360px"
+                                className="object-cover object-top"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container/20" />
+                            </div>
+
+                            {/* Content */}
+                            <div className="md:col-span-3 p-8 md:p-10 flex flex-col justify-between">
+                              <div>
+                                {/* Tags + status */}
+                                <div className="flex flex-wrap items-center gap-2 mb-5">
+                                  <span
+                                    className={`font-label text-[10px] uppercase tracking-luxe px-3 py-1 rounded-full ${statusStyles[project.status].class}`}
+                                  >
+                                    {statusStyles[project.status].label}
+                                  </span>
+                                  {project.tags.map((tag) => (
+                                    <span
+                                      key={tag}
+                                      className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
+
+                                <h3 className="font-headline italic text-3xl text-primary mb-3">
+                                  {project.title}
+                                </h3>
+                                {project.proof && (
+                                  <p className="font-label text-xs uppercase tracking-luxe text-secondary mb-4">
+                                    {project.proof}
+                                  </p>
+                                )}
+                                <p className="text-on-surface-variant/80 text-base mb-4 leading-relaxed">
+                                  {project.description}
+                                </p>
+                                <p className="text-on-surface-variant text-sm leading-relaxed">
+                                  {project.longDescription}
+                                </p>
+                              </div>
+
+                              {(project.link || project.github || project.caseStudy || project.play) && (
+                                <div className="mt-6 flex flex-wrap gap-3">
+                                  {project.caseStudy && (
+                                    <Link
+                                      href={`/case-studies/${project.caseStudy}`}
+                                      className="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:shadow-premium"
+                                    >
+                                      Read the case study
+                                      <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </Link>
+                                  )}
+                                  {project.play && (
+                                    <Link
+                                      href={project.play}
+                                      className="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:shadow-premium"
+                                    >
+                                      Play it
+                                      <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </Link>
+                                  )}
+                                  {project.link && (
+                                    <a
+                                      href={project.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
+                                    >
+                                      Visit Site
+                                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                                    </a>
+                                  )}
+                                  {project.github && (
+                                    <a
+                                      href={project.github}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
+                                    >
+                                      View on GitHub
+                                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                                    </a>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </TiltCard>
+                    </FadeIn>
+                  ))}
               </div>
-              </TiltCard>
-            </FadeIn>
+            </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Arcade CTA ── */}
+      <section className="py-16 px-8 bg-surface-container-low border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto text-center">
+          <FadeIn>
+            <p className="text-on-surface-variant text-lg mb-6">
+              Plus a pixel city, a quiz, and a few older experiments.
+            </p>
+            <Link
+              href="/play"
+              className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+            >
+              Open the Arcade
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
+          </FadeIn>
         </div>
       </section>
 

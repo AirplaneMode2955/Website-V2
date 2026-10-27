@@ -4,6 +4,7 @@ import TableTalk from './TableTalk';
 
 export const metadata: Metadata = {
   title: 'Table Talk',
+  alternates: { canonical: '/play/table-talk' },
   description:
     'A daily five-club ranking game. Order Premier League clubs by a hidden stat — founding year, ground size, titles won. One shot a day, drag to reorder, share your grid.',
   openGraph: {

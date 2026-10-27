@@ -5,8 +5,9 @@ import AnimatedSkills from '@/components/AnimatedSkills';
 
 export const metadata: Metadata = {
   title: 'Resume',
+  alternates: { canonical: '/resume' },
   description:
-    'Resume of Jett Iverson. Acting Director of Marketing, Licensed Insurance Agent, and AI strategist based in Utah.',
+    'Resume of Jett Iverson. Director of Marketing, Licensed Insurance Agent, and AI strategist based in Utah.',
 };
 
 const summary =
@@ -22,10 +23,10 @@ const experience: {
   bullets: Bullet[];
 }[] = [
   {
-    role: 'Acting Director of Marketing / Licensed Insurance Agent',
+    role: 'Director of Marketing / Licensed Insurance Agent',
     company: 'The Insurance Center',
     location: 'Farr West, UT',
-    period: 'Jun 2024 – Present',
+    period: 'Jun 2024 – Present · Director since Apr 2025',
     bullets: [
       {
         lead: 'Paid search to revenue.',
@@ -112,7 +113,7 @@ const serviceLeadership = [
     role: 'Full-Time Volunteer Missionary',
     org: 'The Church of Jesus Christ of Latter-day Saints',
     location: 'Porto Alegre, Brazil',
-    period: 'Jul 2022 – Jun 2024',
+    period: 'May 2022 – May 2024',
     bullets: [
       'Led and trained 10-20 volunteers with no fixed reporting structure, raising output through coaching and goal-setting',
       'Ran trainings and presentations in Portuguese for large non-technical audiences; built community outreach from scratch with no playbook',
@@ -214,7 +215,7 @@ export default function ResumePage() {
                   Jett Iverson
                 </h2>
                 <p className="text-on-surface-variant">
-                  Acting Director of Marketing &nbsp;·&nbsp; Licensed Insurance Agent &nbsp;·&nbsp; AI Strategist
+                  Director of Marketing &nbsp;·&nbsp; Licensed Insurance Agent &nbsp;·&nbsp; AI Strategist
                 </p>
                 <p className="text-outline text-sm mt-1">
                   Syracuse, Utah &nbsp;·&nbsp;{' '}

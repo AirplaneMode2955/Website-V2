@@ -6,6 +6,7 @@ import { GameIcon } from '@/components/icons/ArcadeIcons';
 
 export const metadata: Metadata = {
   title: 'Play',
+  alternates: { canonical: '/play' },
   description:
     "The Arcade — small games and toys Jett Iverson has built, plus Gut Check, a daily test of marketing instinct.",
   openGraph: {

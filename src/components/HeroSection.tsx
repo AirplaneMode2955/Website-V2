@@ -54,10 +54,10 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/15 via-background/70 to-background" />
       </div>
 
-      <div className="max-w-screen-2xl mx-auto grid grid-cols-12 gap-8 items-center relative z-10 w-full">
+      <div className="max-w-screen-2xl mx-auto grid grid-cols-12 gap-y-8 md:gap-x-8 items-center relative z-10 w-full">
         {/* Left: staggered copy reveal */}
         <motion.div
-          className="col-span-12 md:col-span-7"
+          className="col-span-12 md:col-span-7 min-w-0"
           variants={container}
           initial="hidden"
           animate="show"
@@ -84,7 +84,7 @@ export default function HeroSection() {
           <div className="overflow-hidden">
             <motion.p
               variants={line}
-              className="text-on-surface-variant font-headline italic mb-8 leading-snug whitespace-nowrap"
+              className="text-on-surface-variant font-headline italic mb-8 leading-snug sm:whitespace-nowrap"
               style={{ fontSize: 'clamp(0.75rem, 3.5vw, 1.5rem)' }}
             >
               Marketer. Husband. <RotatingWord words={TAGLINE_WORDS} className="text-primary" />
@@ -93,10 +93,10 @@ export default function HeroSection() {
 
           <motion.div variants={line} className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="/projects"
+              href="/case-studies"
               className="bg-primary text-on-primary px-8 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 flex items-center justify-center gap-3 shadow-soft hover:shadow-premium hover:scale-[1.03] active:scale-[0.97]"
             >
-              View Projects
+              See the Results
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
             <Link
@@ -110,7 +110,7 @@ export default function HeroSection() {
 
         {/* Right: portrait */}
         <motion.div
-          className="col-span-12 md:col-span-5 relative mt-12 md:mt-0"
+          className="col-span-12 md:col-span-5 relative mt-12 md:mt-0 min-w-0"
           initial={{ opacity: 0, y: reduce ? 0 : 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.3 : 0.9, delay: reduce ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}

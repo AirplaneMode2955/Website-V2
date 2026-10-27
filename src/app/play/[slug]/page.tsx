@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!game) return {};
   return {
     title: game.title,
+    alternates: { canonical: `/play/${slug}` },
     description: game.blurb,
   };
 }
