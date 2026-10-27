@@ -97,6 +97,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        {/* Scroll-reveal content starts at opacity 0; without JS it must stay visible. */}
+        <noscript>
+          <style>{`[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
       <body
         className={`${newsreader.variable} ${manrope.variable} bg-background text-on-surface selection:bg-primary selection:text-on-primary`}

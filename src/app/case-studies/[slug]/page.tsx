@@ -175,7 +175,39 @@ export default async function CaseStudyPage({ params }: Props) {
         </section>
       )}
 
+      {/* ── Free-form sections ── */}
+      {study.sections?.map((sec) => (
+        <section key={sec.heading} className="py-16 px-8 bg-background">
+          <div className="max-w-3xl mx-auto">
+            <FadeIn>
+              <h2 className="font-headline italic text-2xl md:text-3xl text-primary mb-5">
+                {sec.heading}
+              </h2>
+              {sec.paragraphs?.map((para, i) => (
+                <p key={i} className="text-on-surface-variant text-lg leading-relaxed mb-4">
+                  {para}
+                </p>
+              ))}
+              {sec.points && (
+                <ul className="space-y-3">
+                  {sec.points.map((point) => (
+                    <li
+                      key={point}
+                      className="flex items-start gap-3 text-on-surface-variant text-lg leading-relaxed"
+                    >
+                      <span className="text-primary/60 mt-1.5 flex-shrink-0 text-sm">—</span>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </FadeIn>
+          </div>
+        </section>
+      ))}
+
       {/* ── GEO ── */}
+      {study.geo && (
       <section className="py-20 px-8 bg-background">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
@@ -199,8 +231,10 @@ export default async function CaseStudyPage({ params }: Props) {
           </FadeIn>
         </div>
       </section>
+      )}
 
       {/* ── SearchLight ── */}
+      {study.searchlight && (
       <section className="px-8 bg-background">
         <div className="max-w-3xl mx-auto">
           <FadeIn>
@@ -223,6 +257,7 @@ export default async function CaseStudyPage({ params }: Props) {
           </FadeIn>
         </div>
       </section>
+      )}
 
       {/* ── Method & disclosures ── */}
       <section className="py-20 px-8 bg-background">

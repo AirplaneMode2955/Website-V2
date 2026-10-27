@@ -31,21 +31,24 @@ export default function RotatingWord({
   return (
     <span className={`relative inline-grid align-baseline ${className}`}>
       <span className="sr-only">{words[0]}</span>
-      <span aria-hidden="true" className="invisible [grid-area:1/1]">
-        {longest}
-      </span>
+      {/* Width spacer and visible word render via CSS content, so the text
+          exists once in the DOM (readers and scrapers don't see it 3 times). */}
+      <span
+        aria-hidden="true"
+        data-text={longest}
+        className="invisible [grid-area:1/1] after:content-[attr(data-text)]"
+      />
       <AnimatePresence initial={false} mode="popLayout">
         <motion.span
           key={words[i]}
           aria-hidden="true"
-          className="[grid-area:1/1]"
+          data-text={words[i]}
+          className="[grid-area:1/1] after:content-[attr(data-text)]"
           initial={{ opacity: 0, y: '60%', filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           exit={{ opacity: 0, y: '-60%', filter: 'blur(4px)' }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {words[i]}
-        </motion.span>
+        />
       </AnimatePresence>
     </span>
   );

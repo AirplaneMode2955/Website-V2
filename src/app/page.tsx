@@ -278,13 +278,22 @@ export default function Home() {
             <p className="text-on-surface-variant text-lg mb-6 max-w-xl">
               Real outcomes from real campaigns. These are the numbers behind the work at The Insurance Center.
             </p>
-            <Link
-              href="/case-studies/organic-search"
-              className="inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors mb-16"
-            >
-              Full case study: growing organic search 203%
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </Link>
+            <div className="flex flex-col gap-4 mb-16">
+              <Link
+                href="/case-studies/organic-search"
+                className="inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors"
+              >
+                Full case study: growing organic search 203%
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+              <Link
+                href="/case-studies"
+                className="inline-flex items-center gap-2 text-outline font-label uppercase tracking-luxe text-xs hover:text-primary transition-colors"
+              >
+                More: AI prospecting agent, marketing dashboard, YouTube growth
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+            </div>
           </FadeIn>
 
           {/* Feature case study — Google Ads */}
@@ -516,6 +525,15 @@ export default function Home() {
                 Get in Touch
               </Link>
             </div>
+            <p className="mt-6 text-on-primary-container/70 text-sm">
+              Or write directly:{' '}
+              <a
+                href="mailto:jett@insurancecenterut.com"
+                className="underline underline-offset-4 hover:text-on-primary-container transition-colors"
+              >
+                jett@insurancecenterut.com
+              </a>
+            </p>
           </FadeIn>
         </div>
       </section>
