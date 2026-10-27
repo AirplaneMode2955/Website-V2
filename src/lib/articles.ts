@@ -18,6 +18,46 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: 'your-ai-portfolio-will-matter-more-than-your-resume',
+    source: 'on-site',
+    readTime: '3 min read',
+    date: 'October 2026',
+    title: 'Your AI Portfolio Will Matter More Than Your Resume',
+    excerpt:
+      'Everyone is going to train a personal AI agent. The people who train theirs well enough to be useful on day one will get hired for the tool they bring, not just for who they are.',
+    status: 'published',
+    topics: ['AI', 'Career', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `Everyone is going to have their own AI agent. They'll train it, feed it context, and shape it around how they work. That's the bet behind [Companies Will Hire Your AI, not you](https://www.youtube.com/watch?v=ZG2GL24FwN8), and I keep coming back to it. I've made a few LinkedIn posts about it because I find it more interesting every time I think it through.
+
+I recorded it on the drive in. This is the written version.`,
+      },
+      {
+        heading: 'Hired for the tool you bring',
+        body: `Here's what I think happens. Companies stop hiring only the individual. They hire you because you've trained your personal model to the point where it's already useful to them. It's not so much that they're hiring you as a person. They're hiring you because of the tool you'll bring with you.
+
+A resume tells someone what you've done. A trained agent shows them how you work, and it can do some of that work on day one. That's why I think a portfolio of what you've built and trained is about to carry more weight than a list of past jobs.`,
+      },
+      {
+        heading: 'This is already how I work',
+        body: `I'm not guessing about this from the outside. At The Insurance Center I connected ZoomInfo to Claude through an MCP server that pulls the week's top prospects, ranks them, and drafts the outreach. Outreach volume went up 400%. The [full write-up is here](/case-studies/ai-prospecting-agent).
+
+The thing I'd want an employer to look at isn't my title. It's that system and the numbers it moved.`,
+      },
+      {
+        heading: 'A small version lives on this site',
+        body: `This site has an interactive AI assistant that answers questions about my work. [How to Build an Interactive AI Personal Website Portfolio](https://www.youtube.com/watch?v=qvdypYXBrSA) is the episode where I walk through building one. It's a small example of the same idea: instead of asking a recruiter to read about what I can do, I give them something that already does it.`,
+      },
+      {
+        heading: 'Start now',
+        body: `If you're a student or early in your career, the practical move is to start training something now and keep the receipts. Build an agent that does one real job. Write down what it did and what changed.
+
+The channel's on YouTube if you want the original: [Commute 2 Work](https://www.youtube.com/@Commute2Work).`,
+      },
+    ],
+  },
+  {
     slug: 'the-rejection-taught-me-more-than-the-interview-did',
     source: 'on-site',
     readTime: '3 min read',
