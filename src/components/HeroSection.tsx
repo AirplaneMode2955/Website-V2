@@ -93,10 +93,10 @@ export default function HeroSection() {
 
           <motion.div variants={line} className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="/projects"
+              href="/case-studies"
               className="bg-primary text-on-primary px-8 py-4 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 flex items-center justify-center gap-3 shadow-soft hover:shadow-premium hover:scale-[1.03] active:scale-[0.97]"
             >
-              View Projects
+              See the Results
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
             <Link

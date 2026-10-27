@@ -168,103 +168,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Projects Teaser ── */}
-      <section className="py-28 px-8 bg-background">
-        <div className="max-w-screen-2xl mx-auto">
-          <FadeIn>
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-                  Work
-                </span>
-                <h2 className="font-headline italic text-5xl text-primary">Projects</h2>
-              </div>
-              <Link
-                href="/projects"
-                className="hidden md:inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors"
-              >
-                All projects{' '}
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
-            </div>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {featuredProjects.map((project, i) => (
-              <FadeIn key={project.title} delay={i * 0.1} className="h-full">
-                <TiltCard className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 flex flex-col hover:border-primary/20">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {project.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="font-headline italic text-xl text-primary mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-on-surface-variant text-sm leading-relaxed flex-1 mb-4">
-                    {project.description}
-                  </p>
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-primary font-label uppercase tracking-[0.18em] text-xs hover:text-primary-fixed transition-colors"
-                    >
-                      Visit Site
-                      <span className="material-symbols-outlined text-sm">open_in_new</span>
-                    </a>
-                  )}
-                </TiltCard>
-              </FadeIn>
-            ))}
-          </div>
-
-          <FadeIn>
-            <div className="text-center">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
-              >
-                All Projects
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── Podcast Teaser ── */}
-      <section className="py-28 px-8 bg-background border-t border-white/5">
-        <div className="max-w-screen-2xl mx-auto">
-          <FadeIn>
-            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
-              Podcast
-            </span>
-            <h2 className="font-headline italic text-5xl text-primary mb-6">
-              Commute 2 <InkUnderline variant="flick">Work</InkUnderline>
-            </h2>
-            <p className="text-on-surface-variant text-lg mb-8 max-w-2xl leading-relaxed">
-              A podcast recorded from the driver&apos;s seat. I turned my commute into a place to
-              think out loud about AI, careers, and the algorithm, and I&apos;m automating the
-              whole channel along the way.
-            </p>
-            <Link
-              href="/podcast"
-              className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
-            >
-              Where to start
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </Link>
-          </FadeIn>
-        </div>
-      </section>
-
       {/* ── Case Studies ── */}
       <section className="py-28 px-8 bg-surface-container-low border-t border-white/5">
         <div className="max-w-screen-2xl mx-auto">
@@ -386,6 +289,103 @@ export default function Home() {
               </div>
             </FadeIn>
           </div>
+        </div>
+      </section>
+
+      {/* ── Projects Teaser ── */}
+      <section className="py-28 px-8 bg-background">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <div className="flex items-end justify-between mb-12">
+              <div>
+                <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+                  Work
+                </span>
+                <h2 className="font-headline italic text-5xl text-primary">Projects</h2>
+              </div>
+              <Link
+                href="/projects"
+                className="hidden md:inline-flex items-center gap-2 text-primary font-headline italic text-lg hover:text-primary-fixed transition-colors"
+              >
+                All projects{' '}
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {featuredProjects.map((project, i) => (
+              <FadeIn key={project.title} delay={i * 0.1} className="h-full">
+                <TiltCard className="bg-surface-container-highest rounded-[1.25rem] border border-white/[0.08] p-6 flex flex-col hover:border-primary/20">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {project.tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="font-headline italic text-xl text-primary mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed flex-1 mb-4">
+                    {project.description}
+                  </p>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-primary font-label uppercase tracking-[0.18em] text-xs hover:text-primary-fixed transition-colors"
+                    >
+                      Visit Site
+                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                    </a>
+                  )}
+                </TiltCard>
+              </FadeIn>
+            ))}
+          </div>
+
+          <FadeIn>
+            <div className="text-center">
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm hover:bg-primary hover:text-on-primary transition-all duration-200"
+              >
+                All Projects
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── Podcast Teaser ── */}
+      <section className="py-28 px-8 bg-background border-t border-white/5">
+        <div className="max-w-screen-2xl mx-auto">
+          <FadeIn>
+            <span className="font-label text-xs uppercase tracking-luxe text-outline mb-4 block">
+              Podcast
+            </span>
+            <h2 className="font-headline italic text-5xl text-primary mb-6">
+              Commute 2 <InkUnderline variant="flick">Work</InkUnderline>
+            </h2>
+            <p className="text-on-surface-variant text-lg mb-8 max-w-2xl leading-relaxed">
+              A podcast recorded from the driver&apos;s seat. I turned my commute into a place to
+              think out loud about AI, careers, and the algorithm, and I&apos;m automating the
+              whole channel along the way.
+            </p>
+            <Link
+              href="/podcast"
+              className="inline-flex items-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded-md font-label uppercase tracking-[0.18em] text-sm transition-all duration-200 hover:bg-primary hover:text-on-primary"
+            >
+              Where to start
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
+          </FadeIn>
         </div>
       </section>
 

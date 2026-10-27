@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import FadeIn from '@/components/FadeIn';
 import Image from 'next/image';
+import Link from 'next/link';
 import TiltCard from '@/components/motion/TiltCard';
 import InkUnderline from '@/components/motion/InkUnderline';
 
@@ -10,13 +11,22 @@ export const metadata: Metadata = {
     'A look at the systems, tools, and projects Jett Iverson has built. From analytics dashboards to AI automation workflows.',
 };
 
+type Group = 'business' | 'app' | 'tic';
+
 type Project = {
+  group: Group;
   title: string;
   description: string;
   longDescription: string;
   tags: string[];
   image: string;
   imageAlt: string;
+  /** Short result or fact shown on the card. Only add numbers that are backed up elsewhere on the site. */
+  proof?: string;
+  /** Real capture of the project, served from /public/projects. Falls back to `image` until it exists. */
+  screenshot?: string;
+  /** Slug of a matching write-up under /case-studies. */
+  caseStudy?: string;
   github?: string;
   link?: string;
   status: 'live' | 'in-progress' | 'completed';
@@ -24,6 +34,7 @@ type Project = {
 
 const projects: Project[] = [
   {
+    group: 'business',
     title: 'The Insurance Center: Company Website',
     description:
       'Led the full design, build, and ongoing management of theinsurancecenter.com, the agency\'s primary digital presence and lead generation engine.',
@@ -33,9 +44,12 @@ const projects: Project[] = [
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
     imageAlt: 'Website design on a laptop screen',
     link: 'https://www.theinsurancecenter.com',
+    proof: 'Organic search up 203% through the April 2026 site migration',
+    caseStudy: 'organic-search',
     status: 'live',
   },
   {
+    group: 'tic',
     title: 'Insurance Center Analytics Dashboard',
     description:
       'A custom dashboard that surfaces what\'s actually driving results. Marketing decisions come from real numbers instead of gut feelings.',
@@ -44,9 +58,13 @@ const projects: Project[] = [
     tags: ['React', 'Python', 'Data Visualization', 'SEO Analytics'],
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
     imageAlt: 'Analytics dashboard showing charts and KPIs',
+    proof:
+      "Built to answer \"what's working?\" in under 60 seconds",
+    caseStudy: 'marketing-dashboard',
     status: 'live',
   },
   {
+    group: 'business',
     title: 'SearchLight Digital',
     description:
       'An SEO and GEO agency built for the new era of search — where AI answers are the new page one and most businesses have no idea they\'re invisible.',
@@ -59,6 +77,7 @@ const projects: Project[] = [
     status: 'live',
   },
   {
+    group: 'app',
     title: 'Apple Watch Whoop Replacement',
     description:
       'A personal health algorithm that turns Apple Watch data into Whoop-style recovery and strain scores — without the subscription.',
@@ -67,9 +86,11 @@ const projects: Project[] = [
     tags: ['Python', 'Apple Health', 'Automation', 'Health Tech'],
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
     imageAlt: 'Health metrics and wearable data dashboard',
+    proof: 'Recovery, strain, and sleep scores from data already on the watch',
     status: 'in-progress',
   },
   {
+    group: 'app',
     title: 'Utah Golf Tinder',
     description:
       'Track every golf course you\'ve played in Utah and see how far through the state\'s full catalog you\'ve made it.',
@@ -83,6 +104,7 @@ const projects: Project[] = [
     status: 'completed',
   },
   {
+    group: 'app',
     title: 'Premier League Command Center',
     description:
       'A live, one-screen Premier League dashboard — fixtures, results, standings, and match detail, all visible without scrolling.',
@@ -93,9 +115,11 @@ const projects: Project[] = [
     imageAlt: 'Football stadium under floodlights',
     github: 'https://github.com/AirplaneMode2955/premier-league-command-center',
     link: 'https://plcc-live.vercel.app',
+    proof: '743 KB upstream payload trimmed to the 12 KB the screen renders',
     status: 'live',
   },
   {
+    group: 'tic',
     title: 'Google Reviews Workflow',
     description:
       'An internal workflow system that tracks Google Review performance across agents. Making getting reviews a competitive, trackable team activity.',
@@ -104,9 +128,15 @@ const projects: Project[] = [
     tags: ['Automation', 'CRM Integration', 'Local SEO'],
     image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80',
     imageAlt: 'Team performance dashboard with review metrics',
-    github: 'https://github.com/AirplaneMode2955',
+    proof: '95 → 306 Google reviews, rating holding at 4.9',
     status: 'live',
   },
+];
+
+const groups: { id: Group; label: string; blurb: string }[] = [
+  { id: 'business', label: 'Businesses', blurb: 'Sites and companies I built and run.' },
+  { id: 'app', label: 'Apps I shipped', blurb: 'Built for curiosity, deployed for real.' },
+  { id: 'tic', label: 'Work at The Insurance Center', blurb: 'Internal systems behind the results.' },
 ];
 
 const statusStyles = {
@@ -198,88 +228,116 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* ── Projects Grid ── */}
+      {/* ── Projects, grouped by type ── */}
       <section className="py-24 px-8 bg-surface-container-low">
-        <div className="max-w-screen-2xl mx-auto space-y-12">
-          {projects.map((project, i) => (
-            <FadeIn key={project.title} delay={i * 0.05}>
-              <TiltCard max={3} className="rounded-[1.25rem]">
-              <div className="bg-surface-container-highest rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft hover:shadow-premium transition-shadow duration-300">
-                <div className="grid grid-cols-1 md:grid-cols-5">
-                  {/* Image */}
-                  <div className="relative md:col-span-2 aspect-video md:aspect-auto min-h-[240px]">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 360px"
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container/20" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="md:col-span-3 p-8 md:p-10 flex flex-col justify-between">
-                    <div>
-                      {/* Tags + status */}
-                      <div className="flex flex-wrap items-center gap-2 mb-5">
-                        <span
-                          className={`font-label text-[10px] uppercase tracking-luxe px-3 py-1 rounded-full ${statusStyles[project.status].class}`}
-                        >
-                          {statusStyles[project.status].label}
-                        </span>
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <h2 className="font-headline italic text-3xl text-primary mb-3">
-                        {project.title}
-                      </h2>
-                      <p className="text-on-surface-variant/80 text-base mb-4 leading-relaxed">
-                        {project.description}
-                      </p>
-                      <p className="text-on-surface-variant text-sm leading-relaxed">
-                        {project.longDescription}
-                      </p>
-                    </div>
-
-                    {(project.link || project.github) && (
-                      <div className="mt-6 flex flex-wrap gap-3">
-                        {project.link && (
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
-                          >
-                            Visit Site
-                            <span className="material-symbols-outlined text-sm">open_in_new</span>
-                          </a>
-                        )}
-                        {project.github && (
-                          <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
-                          >
-                            View on GitHub
-                            <span className="material-symbols-outlined text-sm">open_in_new</span>
-                          </a>
-                        )}
-                      </div>
-                    )}
-                  </div>
+        <div className="max-w-screen-2xl mx-auto space-y-20">
+          {groups.map((group) => (
+            <div key={group.id}>
+              <FadeIn>
+                <div className="mb-8">
+                  <h2 className="font-headline italic text-4xl text-primary mb-2">{group.label}</h2>
+                  <p className="text-on-surface-variant">{group.blurb}</p>
                 </div>
+              </FadeIn>
+              <div className="space-y-12">
+                {projects
+                  .filter((project) => project.group === group.id)
+                  .map((project, i) => (
+                    <FadeIn key={project.title} delay={i * 0.05}>
+                      <TiltCard max={3} className="rounded-[1.25rem]">
+                        <div className="bg-surface-container-highest rounded-[1.25rem] overflow-hidden border border-white/[0.08] shadow-soft hover:shadow-premium transition-shadow duration-300">
+                          <div className="grid grid-cols-1 md:grid-cols-5">
+                            {/* Image */}
+                            <div className="relative md:col-span-2 aspect-video md:aspect-auto min-h-[240px]">
+                              <Image
+                                src={project.screenshot ?? project.image}
+                                alt={project.imageAlt}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 360px"
+                                className="object-cover object-top"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container/20" />
+                            </div>
+
+                            {/* Content */}
+                            <div className="md:col-span-3 p-8 md:p-10 flex flex-col justify-between">
+                              <div>
+                                {/* Tags + status */}
+                                <div className="flex flex-wrap items-center gap-2 mb-5">
+                                  <span
+                                    className={`font-label text-[10px] uppercase tracking-luxe px-3 py-1 rounded-full ${statusStyles[project.status].class}`}
+                                  >
+                                    {statusStyles[project.status].label}
+                                  </span>
+                                  {project.tags.map((tag) => (
+                                    <span
+                                      key={tag}
+                                      className="font-label text-[10px] uppercase tracking-luxe px-3 py-1 bg-primary-container text-on-primary-container rounded-full"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
+
+                                <h3 className="font-headline italic text-3xl text-primary mb-3">
+                                  {project.title}
+                                </h3>
+                                {project.proof && (
+                                  <p className="font-label text-xs uppercase tracking-luxe text-secondary mb-4">
+                                    {project.proof}
+                                  </p>
+                                )}
+                                <p className="text-on-surface-variant/80 text-base mb-4 leading-relaxed">
+                                  {project.description}
+                                </p>
+                                <p className="text-on-surface-variant text-sm leading-relaxed">
+                                  {project.longDescription}
+                                </p>
+                              </div>
+
+                              {(project.link || project.github || project.caseStudy) && (
+                                <div className="mt-6 flex flex-wrap gap-3">
+                                  {project.caseStudy && (
+                                    <Link
+                                      href={`/case-studies/${project.caseStudy}`}
+                                      className="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs transition-all duration-200 hover:shadow-premium"
+                                    >
+                                      Read the case study
+                                      <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </Link>
+                                  )}
+                                  {project.link && (
+                                    <a
+                                      href={project.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
+                                    >
+                                      Visit Site
+                                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                                    </a>
+                                  )}
+                                  {project.github && (
+                                    <a
+                                      href={project.github}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2 border border-primary/40 text-primary px-5 py-2.5 rounded-md font-label uppercase tracking-[0.18em] text-xs hover:bg-primary hover:text-on-primary transition-all duration-200"
+                                    >
+                                      View on GitHub
+                                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                                    </a>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </TiltCard>
+                    </FadeIn>
+                  ))}
               </div>
-              </TiltCard>
-            </FadeIn>
+            </div>
           ))}
         </div>
       </section>
