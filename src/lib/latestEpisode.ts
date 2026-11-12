@@ -32,8 +32,20 @@ export function parseLatestEpisode(xml: string): LatestEpisode | null {
   return null;
 }
 
-/** Returns null on any failure so the page can simply leave the card out. */
-export async function getLatestEpisode(): Promise<LatestEpisode | null> {
+/** Every long-form video id in the feed (Shorts skipped). The feed holds the ~15 newest uploads. */
+export function parseLongFormIds(xml: string): string[] {
+  const ids: string[] = [];
+  for (const entry of xml.split('<entry>').slice(1)) {
+    const link = entry.match(/<link rel="alternate" href="([^"]+)"/)?.[1] ?? '';
+    if (link.includes('/shorts/')) continue;
+    const id = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/)?.[1];
+    if (id) ids.push(id);
+  }
+  return ids;
+}
+
+/** The channel's RSS feed, or null on any failure. Fetches are cached and shared across callers. */
+export async function getFeedXml(): Promise<string | null> {
   try {
     const page = await fetch(CHANNEL_URL, { next: { revalidate: 86400 } });
     if (!page.ok) return null;
@@ -41,8 +53,14 @@ export async function getLatestEpisode(): Promise<LatestEpisode | null> {
     if (!channelId) return null;
     const feed = await fetch(FEED_URL + channelId, { next: { revalidate: 3600 } });
     if (!feed.ok) return null;
-    return parseLatestEpisode(await feed.text());
+    return await feed.text();
   } catch {
     return null;
   }
+}
+
+/** Returns null on any failure so the page can simply leave the card out. */
+export async function getLatestEpisode(): Promise<LatestEpisode | null> {
+  const xml = await getFeedXml();
+  return xml ? parseLatestEpisode(xml) : null;
 }

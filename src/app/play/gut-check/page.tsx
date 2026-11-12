@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import BeatJettReporter from '@/components/BeatJettReporter';
 import GutCheck from './GutCheck';
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function GutCheckPage() {
           Arcade
         </Link>
         <GutCheck />
+        <BeatJettReporter game="gut-check" />
       </div>
     </section>
   );
