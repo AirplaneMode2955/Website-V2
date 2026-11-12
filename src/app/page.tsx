@@ -3,6 +3,7 @@ import FadeIn from '@/components/FadeIn';
 import Link from 'next/link';
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
+import StatsStrip from '@/components/StatsStrip';
 import { getOnSiteArticles } from '@/lib/articles';
 import { getLatestEpisode } from '@/lib/latestEpisode';
 import InkUnderline from '@/components/motion/InkUnderline';
@@ -100,6 +101,9 @@ export default async function Home() {
     <>
       {/* ── Hero ── */}
       <HeroSection />
+
+      {/* ── Live stats + roast timer ── */}
+      <StatsStrip className="py-10" />
 
       {/* ── About Teaser ── */}
       <section className="py-28 px-8 bg-surface-container-low">

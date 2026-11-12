@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import BeatJettReporter from '@/components/BeatJettReporter';
 import { hostedGames, getHostedGame } from '@/lib/arcadeGames';
 import ArcadeFrame from '@/components/ArcadeFrame';
 
@@ -61,6 +62,7 @@ export default async function ArcadeGamePage({ params }: Props) {
           </a>
           .
         </p>
+        {game.slug === 'birthdle' && <BeatJettReporter game="birthdle" />}
       </div>
     </div>
   );

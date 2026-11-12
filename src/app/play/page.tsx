@@ -3,6 +3,11 @@ import Link from 'next/link';
 import FadeIn from '@/components/FadeIn';
 import { featuredGames, archivedGames } from '@/lib/arcadeGames';
 import { GameIcon } from '@/components/icons/ArcadeIcons';
+import StatsStrip from '@/components/StatsStrip';
+import BeatJettScoreboard from '@/components/BeatJettScoreboard';
+
+// Stats strip reads Chess.com + the YouTube feed; refresh hourly.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Play',
@@ -24,7 +29,7 @@ const ACCENT_TILES = [
   '#c9dbc3', '#8da68a',
 ];
 
-export default function PlayPage() {
+export default async function PlayPage() {
   return (
     <>
       {/* ── Page Banner ── */}
@@ -70,6 +75,12 @@ export default function PlayPage() {
           </FadeIn>
         </div>
       </section>
+
+      {/* ── Visitors vs. Jett ── */}
+      <BeatJettScoreboard />
+
+      {/* ── Live stats + roast timer ── */}
+      <StatsStrip className="pt-10" />
 
       {/* ── Gut Check — compact daily strip ── */}
       <section className="px-8 pt-10 bg-background">

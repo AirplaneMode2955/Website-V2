@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import BeatJettReporter from '@/components/BeatJettReporter';
 import TableTalk from './TableTalk';
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function TableTalkPage() {
           Arcade
         </Link>
         <TableTalk />
+        <BeatJettReporter game="table-talk" />
       </div>
     </section>
   );
