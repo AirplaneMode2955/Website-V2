@@ -18,6 +18,42 @@ export type Article = {
 
 export const articles: Article[] = [
   {
+    slug: 'youre-not-listening-youre-waiting-to-talk',
+    source: 'on-site',
+    readTime: '3 min read',
+    date: 'November 2026',
+    title: "You're Not Listening. You're Waiting to Talk.",
+    excerpt:
+      'The same failure mode kept showing up across a week of episodes: in a real disagreement, both people are rehearsing their next line instead of hearing the other one. Here is what I changed once I noticed it in myself.',
+    status: 'published',
+    topics: ['Communication', 'Personal Growth', 'Commute 2 Work'],
+    sections: [
+      {
+        body: `[In an argument, you're just waiting to talk](https://www.youtube.com/watch?v=iBustrcE2O8) is the moment I actually said this one out loud: while the other person is talking, I'm usually building my counter-argument instead of hearing what they're saying. That's not a debate skill. It's the opposite of one — you can win the exchange and still have missed the actual point.
+
+I'd like to say I noticed this in other people first. I noticed it in myself first, mid-argument, which is the only way anyone actually catches it.`,
+      },
+      {
+        heading: "The tell is where you stop listening",
+        body: `[Argue with the idea, not the person](https://www.youtube.com/watch?v=aCpqpgVkkUM) gets at the exact moment it happens: the best time to listen is right when you disagree, and that's exactly when most people stop. The second a statement lands as an attack on you instead of a claim about the topic, listening turns into defending, and defending isn't the same skill.
+
+Attack the person instead of the idea and you can feel like you won a conversation you actually just ended early.`,
+      },
+      {
+        heading: 'The other person can tell',
+        body: `[They're not listening. They're planning a reply.](https://www.youtube.com/watch?v=aBe-yHc1JKM) is the half of this I don't love admitting: the person across from you can usually tell which one you're doing. Picking out one phrase to rebut, while the rest of what they said goes past you, reads differently than actually hearing them — and it reads clearly, every time.
+
+That's the part that made me want to fix this instead of just note it.`,
+      },
+      {
+        heading: 'The fix is smaller than it sounds',
+        body: `Before responding to anything I actually disagree with, I try to say back what I heard first, in my own words, before adding mine. It feels slow. It is slow, on purpose — it's the one move that forces the planning-my-reply part of my brain to wait its turn.
+
+This is the same channel where I practice talking out loud on a commute because reps are the only thing that fixes talking badly. Listening badly gets fixed the same way: notice it happening, say the fix out loud, do it again tomorrow.`,
+      },
+    ],
+  },
+  {
     slug: 'your-ai-portfolio-will-matter-more-than-your-resume',
     source: 'on-site',
     readTime: '3 min read',
