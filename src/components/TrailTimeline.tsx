@@ -71,10 +71,18 @@ const FACE = -1;
 /** [time, armAngle, clubAngle, lean, easeFromPrevious] */
 type Key = [number, number, number, number, ((x: number) => number)?];
 
+/*
+ * Seen from where the ball is headed: a right-hander takes the club back to the
+ * viewer's left, comes down through the ball, extends out to the viewer's right
+ * and finishes with the club wrapped over his head. Angles are in the golfer's
+ * drawn frame (facing +x); FACE mirrors him at runtime.
+ */
 const ADDRESS: [number, number, number] = [-18, -12, 0];
-const TOP: [number, number, number] = [150, -42, -7];
-const FINISH: [number, number, number] = [-142, -104, -9];
+const TOP: [number, number, number] = [-150, -115, -4];
+const THRU: [number, number, number] = [75, 0, 3];
+const FINISH: [number, number, number] = [165, 130, 6];
 const CARRY: [number, number, number] = [-12, -125, 0];
+const linear = (x: number) => x;
 
 /** One clean shot: swing at the start, then walk after it. Ball launches at t = 0.09. */
 const SHOT_KEYS: Key[] = [
@@ -82,6 +90,7 @@ const SHOT_KEYS: Key[] = [
   [0.01, ...ADDRESS],
   [0.05, ...TOP, easeInOut],
   [0.09, ...ADDRESS, easeIn],
+  [0.12, ...THRU, linear],
   [0.17, ...FINISH, easeOut],
   [0.2, ...FINISH],
   [0.28, ...CARRY, easeInOut],
@@ -96,6 +105,7 @@ const MISS_KEYS: Key[] = [
   [0.01, ...ADDRESS],
   [0.035, ...TOP, easeInOut],
   [0.06, ...ADDRESS, easeIn],
+  [0.085, ...THRU, linear],
   [0.12, ...FINISH, easeOut],
   [0.15, ...FINISH],
   [0.2, ...CARRY, easeInOut],
@@ -104,6 +114,7 @@ const MISS_KEYS: Key[] = [
   [0.43, ...ADDRESS],
   [0.46, ...TOP, easeInOut],
   [0.5, ...ADDRESS, easeIn],
+  [0.53, ...THRU, linear],
   [0.57, ...FINISH, easeOut],
   [0.6, ...FINISH],
   [0.66, ...CARRY, easeInOut],
@@ -130,7 +141,9 @@ function pose(t: number, keys: Key[]): [number, number, number] {
     const [t0, a0, b0, c0] = keys[i - 1];
     if (t <= t1) {
       const k = ez((t - t0) / (t1 - t0));
-      return [lerp(a0, a1, k), lerp(b0, b1, k), lerp(c0, c1, k)];
+      // the club turns the short way round, so it wraps over his head at the finish
+      const db = ((((b1 - b0) % 360) + 540) % 360) - 180;
+      return [lerp(a0, a1, k), b0 + db * k, lerp(c0, c1, k)];
     }
   }
   const l = keys[keys.length - 1];
