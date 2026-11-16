@@ -65,6 +65,8 @@ type Stop = {
 
 const ARC_PEAK = 70;
 const REACH = 21; // ball sits this far in front of the golfer's feet (unscaled)
+/** The golfer stands to the right of the ball, facing left, so he reads as a right-hander hitting down the page. */
+const FACE = -1;
 
 /** [time, armAngle, clubAngle, lean, easeFromPrevious] */
 type Key = [number, number, number, number, ((x: number) => number)?];
@@ -189,7 +191,7 @@ function buildGeometry(w: number, n: number) {
     };
   });
 
-  const stand = (p: Pt): Pt => ({ x: p.x - reach, y: p.y });
+  const stand = (p: Pt): Pt => ({ x: p.x - FACE * reach, y: p.y });
 
   const segs: Seg[] = lens.map((len, i) => {
     const A = stops[i];
@@ -619,8 +621,9 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
         const t = clamp((y - last.y) / puttLen);
         const [a, c, lean] = pose(t, PUTT_KEYS);
         const hop = t > 0.82 ? -Math.abs(Math.sin(((t - 0.82) / 0.18) * Math.PI * 3)) * 7 * (1 - (t - 0.82) / 0.18) : 0;
-        const gx = last.x - reach;
-        setGolfer(gx, last.y + hop, 1, a, c, lean, 0);
+        // putt toward the cup, whichever side of the ball it's on
+        const puttFace = cup.x < last.x ? -1 : cup.x > last.x ? 1 : FACE;
+        setGolfer(last.x - puttFace * reach, last.y + hop, puttFace, a, c, lean, 0);
 
         const s = clamp((t - 0.16) / 0.46);
         const roll = 1 - Math.pow(1 - s, 2.2);
@@ -675,7 +678,7 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
         }
       }
       const [a, c, lean] = pose(t, seg.keys);
-      setGolfer(pos.x, pos.y, 1, a, c, lean, stride);
+      setGolfer(pos.x, pos.y, FACE, a, c, lean, stride);
 
       // sand / leaf burst where the miss lands, and a shout
       if (seg.miss) {
@@ -755,7 +758,7 @@ export default function TrailTimeline({ events }: { events: TimelineEvent[] }) {
                 ))}
               </g>
 
-              {/* golfer, facing +x with the ball in front of his feet */}
+              {/* golfer, drawn facing +x with the ball in front of his feet; mirrored by FACE at runtime */}
               <g ref={golferRef}>
                 <line ref={legARef} x1={0} y1={-24} x2={-6} y2={0} stroke="#cdbf9a" strokeWidth={4.5} strokeLinecap="round" />
                 <line ref={legBRef} x1={0} y1={-24} x2={7} y2={0} stroke="#cdbf9a" strokeWidth={4.5} strokeLinecap="round" />
